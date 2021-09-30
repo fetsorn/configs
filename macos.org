@@ -1,0 +1,95 @@
+#+TITLE: Macos
+
+* configure
+open system preferences (sp)
+ - "sp/mouse/primary mouse button" change to "right"
+ - "sp/desktop & screen saver/desktop/colors/" change to black
+ - "sp/general/accent color" set to graphite
+ - "sp/desktop & screen saver/screen saver/start after" set to "Never"
+ - "sp/sound" untoogle "Play user interface sound effects"
+ - "sp/keyboard/keyboard" toggle "use f1, f2 etc. keys as standart function keys"
+ - "sp/keyboard/shortcuts/mission control" toggle "Switch to Desktop 1", "Switch to Desktop 2" etc.
+ - "sp/spotlight/privacy" disable indexing for hard drives
+ - "sp/keyboard/dictation" rebind dictation to right CMD
+
+open desktop
+ - big icons with all info, enable stacks
+
+open mission control (touchpad swipe three fingers), add 9 Spaces
+
+
+open finder
+ - "Finder Preferences/General"
+   - "New Finder windows show" set to home directory
+   - "Open folders in tabs instead of new windows" untoggle
+ - "Finder Preferences/Sidebar" toogle only:
+   - Applications
+   - Desktop
+   - Documents
+   - Downloads
+   - home directory
+   - hard disks
+   - external disks
+   - CDs, DVDs, and iOS Devices
+   - Bonjour computers
+   - Connected servers
+ - in the menu choose "view/show view options"
+   - unset "always open in icons view" in all directories
+   - set "always open in list view", press "use as defaults"
+ - in the menu choose "view/customize toolbar", remove all items
+ - add toolbar items
+   - Back/Forward
+   - Path
+   - View
+   - New Folder
+   - Flexible Space
+   - Flexible Space
+   - Search
+ - create a new folder in ~/Desktop called " " for easy finder
+
+* secrets
+ - symlink ssh keys to ~/.ssh
+ - symlink aws keys to ~/.aws
+* dotfiles
+ - install nix
+ - install home-manager
+ - home-manager switch --flake ~/mm/0-dotfiles#
+* emacs
+# all apps should have been installed from Brewfile by now
+ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app
+git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom install
+* compatibility
+** ntfs for mac paragon driver
+** ishowu Instant
+* utility
+** karabiner
+https://karabiner-elements.pqrs.org
+ - swap caps and ctrl
+** activity-watch
+** amethyst
+** qbittorrent
+** firefox
+** google chrome
+** xcode
+** vlc
+** obs
+** parallels
+ drop nixos risc .pvm and win10 .pvm to ~/Parallels
+** CrossOver
+** UTM
+ drop nixos cisc .utm vm to ~/Documents
+** balenaEtcher
+** telegram
+** zoom
+* games
+** steam
+** df lazy mac pack
+** cataclysm
+*** soundpack ()
+*** graphics pack - Ultima (undead people is lame because of copyright)
+* art
+** inkscape
+** gimp
+** logic pro
+** blender

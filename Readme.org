@@ -1,0 +1,4 @@
+nix run . -- .#aws.system
+
+home-manager switch --flake ".#darwin"
+xrandr --output Virtual-1 --auto
