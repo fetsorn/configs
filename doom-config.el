@@ -29,7 +29,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/mm/0-agendas/")
+(setq org-directory "~/mm/0---words/0-agendas/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -122,11 +122,11 @@
 (setq org-journal-date-format "%A, %Y-%m-%d")
 
 (when (eq system-type 'cygwin)
-  (setq org-journal-dir "~/mm/0-journals/j-nt"))
+  (setq org-journal-dir "~/mm/0---words/0-journals/j-nt"))
 (when (eq system-type 'gnu/linux)
-  (setq org-journal-dir "~/mm/0-journals/j-gnu"))
+  (setq org-journal-dir "~/mm/0---words/0-journals/j-gnu"))
 (when (eq system-type 'darwin)
-  (setq org-journal-dir "~/mm/0-journals/j-darwin"))
+  (setq org-journal-dir "~/mm/0---words/0-journals/j-darwin"))
 
 
 
@@ -134,9 +134,9 @@
 
 ;; org-agenda
 (setq org-agenda-files
-      (quote ("~/mm/0-agendas/org-gtd.org"
-              "~/mm/0-agendas/org-anno.org"
-              "~/mm/0-agendas/org-pr.org")))
+      (quote ("~/mm/0---words/0-agendas/org-gtd.org"
+              "~/mm/0---words/0-agendas/org-anno.org"
+              "~/mm/0---words/0-agendas/org-pr.org")))
 ;; show agenda on startup
 (add-hook 'doom-init-ui-hook (lambda () (org-agenda nil "n")) 100)
 
@@ -146,7 +146,7 @@
 
 ;; org-roam
 
-(setq org-roam-directory "~/mm/0-insights/")
+(setq org-roam-directory "~/mm/0---words/0-insights/")
 (add-hook 'after-init-hook 'org-roam-mode)
 (map! :leader
       :prefix "n"
@@ -159,14 +159,14 @@
 
 
 ;; registers
-(set-register ?c (cons 'file "~/.doom.d/config.el"))
-(set-register ?p (cons 'file "~/.doom.d/packages.el"))
-(set-register ?i (cons 'file "~/.doom.d/init.el"))
-(set-register ?g (cons 'file "~/mm/0-agendas/org-gtd.org"))
-(set-register ?n (cons 'file "~/mm/0-agendas/org-note.org"))
-(set-register ?l (cons 'file "~/mm/0-agendas/org-gtp.org"))
-(set-register ?t (cons 'file "~/mm/0-agendas/org-tracking.org"))
-(set-register ?v (cons 'file "~/mm/0+yanfa/dev/roam/20210630161607-graviton_contracts.org"))
+(set-register ?c (cons 'file "~/mm/0-configs/doom-config.el"))
+(set-register ?p (cons 'file "~/mm/0-configs/doom-packages.el"))
+(set-register ?i (cons 'file "~/mm/0-configs/doom-init.el"))
+(set-register ?g (cons 'file "~/mm/0---words/0-agendas/org-gtd.org"))
+(set-register ?n (cons 'file "~/mm/0---words/0-agendas/org-note.org"))
+(set-register ?l (cons 'file "~/mm/0---words/0-agendas/org-gtp.org"))
+(set-register ?t (cons 'file "~/mm/0---words/0-agendas/org-tracking.org"))
+(set-register ?v (cons 'file "~/mm/0---words/yanfa/20210630161607-graviton_contracts.org"))
 
 
 
