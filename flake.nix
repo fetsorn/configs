@@ -47,6 +47,10 @@
                 enable = true;
                 userName  = "Anton Davydov";
                 userEmail = "fetsorn@gmail.com";
+                    extraConfig = {
+                      init = { defaultBranch = "main"; };
+                      pull = { rebase = true; };
+                    };
               };
 
               home.packages = with pkgs; [
