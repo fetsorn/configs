@@ -1,5 +1,8 @@
 #+TITLE: Macos
 
+# disable security for apps
+sudo spctl --master-disable
+
 * configure
 open system preferences (sp)
  - "sp/mouse/primary mouse button" change to "right"
@@ -82,6 +85,11 @@ https://karabiner-elements.pqrs.org
 ** balenaEtcher
 ** telegram
 ** zoom
+** gramps
+** iExplorer
+** Lens
+** Excel, Word, Powerpoint
+** Thunderbird
 * games
 ** steam
 ** df lazy mac pack

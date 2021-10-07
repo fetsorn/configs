@@ -36,30 +36,32 @@
 
           configuration = { pkgs, ... }:
             {
+              xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
 
-              # nix = {
-              #   package = pkgs.nixUnstable;
-              #   extraOptions = ''
-              #     experimental-features = nix-command flakes
-              #   '';
-              # };
-
+              home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
+              home.file.".doom.d/config.el".text = builtins.readFile ./doom-config.el;
+              home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
               programs.home-manager.enable = true;
 
-              # home.packages = with pkgs; [
-              #   # utilities
-              #   alacritty
-              #   bat
-              #   chessx
-              #   datamash
-              #   exa
-              #   fd
-              #   flac
-              #   flacon
-              #   gh
-              #   gitui
-              #   ...
-              # ];
+              programs.git = {
+                enable = true;
+                userName  = "Anton Davydov";
+                userEmail = "fetsorn@gmail.com";
+              };
+
+              home.packages = with pkgs; [
+                # utilities
+                alacritty
+                bat
+                cmake
+                coreutils
+                emacs
+                fd
+                ripgrep
+                jq
+                tmux
+                nixUnstable
+              ];
 
             }; # configuration
         };
