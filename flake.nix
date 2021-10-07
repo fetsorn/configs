@@ -31,11 +31,12 @@
         darwin = inputs.home-manager.lib.homeManagerConfiguration {
           stateVersion = "21.05";
           system = "aarch64-darwin";
-          homeDirectory = "/home/fetsorn";
+          homeDirectory = "/Users/fetsorn";
           username = "fetsorn";
 
           configuration = { pkgs, ... }:
             {
+
               xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
 
               home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
@@ -53,6 +54,14 @@
                     };
               };
 
+              programs.zsh = {
+                enable = true;
+                initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+              };
+
+              home.file.".zshrc".text = builtins.readFile ./zshrc;
+              home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+
               home.packages = with pkgs; [
                 # utilities
                 alacritty
@@ -65,6 +74,7 @@
                 jq
                 tmux
                 nixUnstable
+                zsh-powerlevel10k
               ];
 
             }; # configuration
