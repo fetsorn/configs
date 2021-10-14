@@ -62,8 +62,6 @@ export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
 
 export PATH=~/.npm-global/bin:$PATH
 
-export LEDGER_FILE=~/mm/0-ledgers/2021.journal
-
 # ulimit -n 65536 65536
 
 alias remix='nix-shell -p nodejs-16_x --run "npx remixd -s . --remix-ide https://remix.ethereum.org"'
