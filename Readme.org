@@ -1,4 +1,8 @@
+# deploy-rs
 nix run . -- .#aws.system
 
+# update macos
 home-manager switch --flake ".#darwin"
+
+# refresh vm screen
 xrandr --output Virtual-1 --auto
