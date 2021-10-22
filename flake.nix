@@ -270,7 +270,8 @@
 
               networking.firewall = {
                 enable = true;
-                allowedTCPPorts = [ 4000 ];
+                allowedTCPPorts = [ 80 4000 ];
+                allowedUDPPorts = [ 80 4000 ];
               };
 
               users = {
