@@ -268,11 +268,12 @@
 
               services.openssh.enable = true;
 
-              networking.firewall = {
-                enable = true;
-                allowedTCPPorts = [ 80 4000 ];
-                allowedUDPPorts = [ 80 4000 ];
-              };
+              networking.firewall.enable = false;
+              #networking.firewall = {
+              #  enable = true;
+              #  allowedTCPPorts = [ 80 4000 ];
+              #  allowedUDPPorts = [ 80 4000 ];
+              #};
 
               users = {
                 mutableUsers = false;
