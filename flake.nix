@@ -128,6 +128,11 @@
               networking.useDHCP = false;
               networking.interfaces.eth0.useDHCP = true;
 
+              networking.firewall = {
+                enable = true;
+                allowedTCPPorts = [ 3030 ];
+              };
+
               boot.loader.systemd-boot.enable = true;
               boot.loader.efi.canTouchEfiVariables = true;
 
