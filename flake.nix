@@ -77,6 +77,7 @@
                 tmux
                 nixUnstable
                 zsh-powerlevel10k
+                moreutils # for sponge
               ];
 
             }; # configuration

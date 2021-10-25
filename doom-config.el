@@ -105,11 +105,13 @@
 
 
 ;; hledger
-;; To open files with .journal extension in hledger-mode
-(add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+;; To open files with .journal extension in ledger-mode
+;; better formatting than hledger-mode
+(add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
 ;; Provide the path to you journal file.
 ;; The default location is too opinionated.
 (setq hledger-jfile "~/mm/0-ledgers/2021.journal")
+(setq ledger-master-file "~/mm/0-ledgers/2021.journal")
 ;;; Auto-completion for account names
 ;; For company-mode users,
 (add-to-list 'company-backends 'hledger-company)
