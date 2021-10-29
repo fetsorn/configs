@@ -78,6 +78,7 @@
                 nixUnstable
                 zsh-powerlevel10k
                 moreutils # for sponge
+                joshuto
               ];
 
             }; # configuration
