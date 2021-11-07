@@ -97,6 +97,14 @@
                 '';
               };
 
+              disabledModules = [ "virtualisation/parallels-guest.nix" ];
+              imports = [ ./parallels-unfree/parallels-guest.nix ];
+              nixpkgs.config.allowUnfree = true;
+              hardware.parallels = {
+                enable = true;
+                package = (config.boot.kernelPackages.callPackage ./parallels-unfree/prl-tools.nix {});
+              };
+
               boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "usbhid" "sd_mod" "sr_mod" ];
               boot.initrd.kernelModules = [ ];
               boot.kernelModules = [ ];
