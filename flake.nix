@@ -105,10 +105,7 @@
                 package = (config.boot.kernelPackages.callPackage ./parallels-unfree/prl-tools.nix {});
               };
 
-              boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "usbhid" "sd_mod" "sr_mod" ];
-              boot.initrd.kernelModules = [ ];
-              boot.kernelModules = [ ];
-              boot.extraModulePackages = [ ];
+              boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "sd_mod" "sr_mod" ];
 
               fileSystems."/" =
                 {
