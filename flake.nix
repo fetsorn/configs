@@ -21,6 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     hardwarepi.url = "github:nixos/nixos-hardware/master";
+    simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-20.09";
   };
 
 
@@ -581,6 +582,19 @@
         system = "x86_64-linux";
         modules =
           [
+            inputs.simple-nixos-mailserver.nixosModule
+            {
+              mailserver = {
+                enable = true;
+                fqdn = "mail.fetsorn.website";
+                domains = [ "fetsorn.website" ];
+              };
+              loginAccounts = {
+                "git@fetsorn.website" = {
+                  hashedPasswordFile = ./secrets/testmailpass;
+                };
+              };
+            }
             ({ pkgs, config, lib, modulesPath, ... }: {
 
               imports =
