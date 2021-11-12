@@ -581,25 +581,29 @@
       nixosConfigurations.linode = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules =
-          [
-            inputs.simple-nixos-mailserver.nixosModule
-            {
+          [ ({ pkgs, config, lib, modulesPath, ... }: {
+
+              imports = [
+                (modulesPath + "/profiles/qemu-guest.nix")
+                inputs.simple-nixos-mailserver.nixosModule
+              ];
+
+              security.acme = {
+                acceptTerms = true;
+                email = "anton@fetsorn.website";
+              };
+
               mailserver = {
                 enable = true;
                 fqdn = "mail.fetsorn.website";
                 domains = [ "fetsorn.website" ];
-              };
-              loginAccounts = {
-                "git@fetsorn.website" = {
-                  hashedPasswordFile = ./secrets/testmailpass;
+                loginAccounts = {
+                  "git@fetsorn.website" = { hashedPasswordFile = ./secrets/testmailpass; };
+                  "anton@fetsorn.website" = { hashedPasswordFile = ./secrets/testmailpass; };
                 };
+                certificateScheme = 3;
+                virusScanning = false; # breaks otherwise for some reason
               };
-            }
-            ({ pkgs, config, lib, modulesPath, ... }: {
-
-              imports =
-                [ (modulesPath + "/profiles/qemu-guest.nix")
-                ];
 
               boot.initrd.availableKernelModules = [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
               boot.initrd.kernelModules = [ ];
