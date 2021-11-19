@@ -22,6 +22,7 @@
     };
     hardwarepi.url = "github:nixos/nixos-hardware/master";
     simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
+    aw.url = "git+https://gist.github.com/aszenz/52425e2b644d1f5a674ac7fb0d2774ec";
   };
 
 
@@ -703,6 +704,7 @@
           powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
           nix = {
+            package = pkgs.nixUnstable;
             binaryCaches          = [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
             binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo=" ];
           };
@@ -761,7 +763,15 @@
             # networkmanager
             vim
             wget
-          ];
+          ] ++
+          (let aw = inputs.aw.packages."x86_64-linux"; in [
+            aw.aw-core
+            aw.aw-server-rust
+            aw.aw-qt
+            aw.aw-watcher-afk
+            aw.aw-watcher-window
+            aw.aw-webui
+          ]);
 
           services.xserver.windowManager.xmonad.enable = true;
           services.xserver.windowManager.i3.enable = true;
