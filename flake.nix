@@ -311,9 +311,7 @@
 
             nix = {
               package = pkgs.nixUnstable;
-              extraOptions = ''
-              experimental-features = nix-command flakes ca-references
-              '';
+              extraOptions = '' experimental-features = nix-command flakes ca-references '';
             };
             nixpkgs.config.allowUnfree = true;
 
@@ -669,7 +667,8 @@
     nixosConfigurations.sonicmaster = inputs.nixos-unstable.lib.nixosSystem {
       system = "x86_64-linux";
       modules =
-        [ ({ pkgs, config, lib, modulesPath, ... }: {
+        [ inputs.home-manager.nixosModules.home-manager
+          ({ pkgs, config, lib, modulesPath, ... }: {
 
           boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "sd_mod" "rtsx_usb_sdmmc" ];
           boot.initrd.kernelModules = [ ];
@@ -705,78 +704,39 @@
 
           nix = {
             package = pkgs.nixUnstable;
+            extraOptions = "experimental-features = nix-command flakes ca-references";
             binaryCaches          = [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
             binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo=" ];
           };
           nixpkgs.config.allowUnfree = true;
 
-          # Use the systemd-boot EFI boot loader.
-            boot.loader.systemd-boot.enable = true;
+            system.configurationRevision =
+              if self ? rev
+            then self.rev
+            else throw "Refusing to build from a dirty Git tree!";
+
+          boot.loader.systemd-boot.enable = true;
           boot.loader.efi.canTouchEfiVariables = true;
 
-           # CUSTOM: set grub
           boot.loader.grub.useOSProber = true;
 
           networking.hostName = "nixos"; # Define your hostname.
-            networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+          networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-           # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-           # Per-interface useDHCP will be mandatory in the future, so this generated config
-           # replicates the default behaviour.
-            networking.useDHCP = false;
+          networking.useDHCP = false;
           networking.interfaces.wlp1s0.useDHCP = true;
 
-          i18n = {
-            #consoleFont = "Lat2-Terminus16";
-            #consoleKeyMap = "us";
-            defaultLocale = "en_US.UTF-8";
-          };
+          i18n.defaultLocale = "en_US.UTF-8";
           console.font = "Lat2-Terminus16";
           console.keyMap = "us";
 
           time.timeZone = "Europe/Moscow";
 
           environment.systemPackages = with pkgs; [
-            cabal-install
-            clang
-            coreutils
-            fd
-            file
-            firefox
-            ghc
-            git
-            gnupg
-            man-pages
-            ripgrep
-            rsync
-            rxvt_unicode
-            termite
-            tmux
-            unzip
-            vlc
-            w3m
-            which
-            xclip
-            ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [
-              epkgs.vterm
-            ]))
-            # networkmanager
-            vim
-            wget
-          ] ++
-          (let aw = inputs.aw.packages."x86_64-linux"; in [
-            aw.aw-core
-            aw.aw-server-rust
-            aw.aw-qt
-            aw.aw-watcher-afk
-            aw.aw-watcher-window
-            aw.aw-webui
-          ]);
+          ];
 
           services.xserver.windowManager.xmonad.enable = true;
           services.xserver.windowManager.i3.enable = true;
-
-          # networking.networkmanager.enable = true;
 
           services.openssh.enable = true;
 
@@ -789,16 +749,86 @@
 
           services.xserver.libinput.enable = true;
 
-          services.redis.enable = true;
-
           users.users.fetsorn = {
             isNormalUser = true;
-            extraGroups = [ "wheel" "networkmanager" "docker"]; # Enable ‘sudo’ for the user.
+            extraGroups = [ "wheel" "docker"]; # Enable ‘sudo’ for the user.
           };
+
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.fetsorn = { pkgs, ... }: {
+              xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
+
+              home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
+              home.file.".doom.d/config.el".text = builtins.readFile ./doom-config.el;
+              home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
+              programs.home-manager.enable = true;
+
+              programs.git = {
+                enable = true;
+                userName  = "Anton Davydov";
+                userEmail = "fetsorn@gmail.com";
+                extraConfig = {
+                  init = { defaultBranch = "main"; };
+                  pull = { rebase = true; };
+                };
+              };
+
+              programs.zsh = {
+                enable = true;
+                initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+              };
+
+              home.file.".zshrc".text = builtins.readFile ./zshrc;
+              home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+
+              home.sessionVariables.LC_ALL = "C";
+
+              home.packages = with pkgs; [
+                ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+                alacritty
+                bat
+                cabal-install
+                clang
+                cmake
+                coreutils
+                fd
+                file
+                firefox
+                ghc
+                git
+                gnupg
+                joshuto
+                jq
+                man-pages
+                moreutils # for sponge
+                ripgrep
+                rsync
+                rxvt_unicode
+                termite
+                tmux
+                unzip
+                vim
+                vlc
+                w3m
+                wget
+                which
+                xclip
+                zsh-powerlevel10k
+              ];
+          # (let aw = inputs.aw.packages."x86_64-linux"; in [
+            # aw.aw-core
+            # aw.aw-server-rust
+            # aw.aw-qt
+            # aw.aw-watcher-afk
+            # aw.aw-watcher-window
+            # aw.aw-webui
+          # ]);
+            };
 
           system.stateVersion = "21.05"; # Did you read the comment?
 
-        })
+          })
         ];
     };
 
