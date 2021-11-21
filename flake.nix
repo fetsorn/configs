@@ -748,6 +748,7 @@
           services.xserver.xkbOptions = "ctrl:swapcaps,grp:alt_shift_toggle";
 
           services.xserver.libinput.enable = true;
+          services.xserver.libinput.mouse.leftHanded = true;
 
           users.users.fetsorn = {
             isNormalUser = true;
