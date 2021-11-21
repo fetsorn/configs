@@ -785,12 +785,15 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.fetsorn = { pkgs, ... }: {
+              programs.home-manager.enable = true;
+
               xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
 
               home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
               home.file.".doom.d/config.el".text = builtins.readFile ./doom-config.el;
               home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
-              programs.home-manager.enable = true;
+
+              home.file.".xmonad/xmonad.hs".text = builtins.readFile ./xmonad.hs;
 
               programs.git = {
                 enable = true;
