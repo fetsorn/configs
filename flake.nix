@@ -27,7 +27,6 @@
 
 
   outputs = inputs@{ self, ... }:
-
   {
     homeConfigurations = {
       darwin = inputs.home-manager.lib.homeManagerConfiguration {
@@ -37,6 +36,34 @@
         username = "fetsorn";
 
         configuration = { pkgs, ... }:
+          let
+            llines = (with pkgs; stdenv.mkDerivation rec {
+              pname = "lifelines";
+              version = "unstable-2021-11-22";
+
+              src = fetchFromGitHub {
+                owner = pname;
+                repo = pname;
+                rev = "a5a54e8";
+                sha256 = "tqggAcYRRxtPjTLc+YJphYWdqfWxMG8V/cBOpMTiZ9I=";
+              };
+
+              buildInputs = [
+                gettext
+                libiconv
+                ncurses
+                perl
+              ];
+              nativeBuildInputs = [ autoreconfHook bison ];
+
+              meta = with lib; {
+                description = "Genealogy tool with ncurses interface";
+                homepage = "https://lifelines.github.io/lifelines/";
+                license = licenses.mit;
+                platforms = platforms.darwin;
+              };
+            });
+      in
         {
 
           xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
@@ -67,11 +94,9 @@
           home.sessionVariables.LC_ALL = "C";
 
           home.packages = with pkgs; [
-# utilities
             alacritty
             bat
-            cmake
-            coreutils
+            exa
             emacs
             fd
             ripgrep
@@ -80,8 +105,10 @@
             nixUnstable
             zsh-powerlevel10k
             moreutils # for sponge
-                        joshuto
-                        ];
+            joshuto
+            nnn
+            llines
+          ];
 
         }; # configuration
       };
