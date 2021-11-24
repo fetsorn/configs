@@ -35,7 +35,7 @@
         homeDirectory = "/Users/fetsorn";
         username = "fetsorn";
 
-        configuration = { pkgs, ... }:
+        configuration = { pkgs, lib, ... }:
           let
             llines = (with pkgs; stdenv.mkDerivation rec {
               pname = "lifelines";
@@ -63,7 +63,38 @@
                 platforms = platforms.darwin;
               };
             });
-      in
+            noisegen = pkgs.writeShellScriptBin "noisegen" ''
+              set -u
+              set -e
+
+              minutes=''${1:-'59'}
+              repeats=$(( minutes - 1 ))
+              center=''${2:-'1786'}
+
+              wave=''${3:-'0.0333333'}
+
+              noise='brown'
+
+              len='01:00'
+
+              if [ $minutes -eq 1 ] ; then
+                   progress='--show-progress'
+              else
+                   progress='--no-show-progress'
+              fi
+
+              printf "%s\n" " ::  Please stand-by... sox will 'play' $noise noise for $minutes minute(s)."
+
+              ${pkgs.sox}/bin/play $progress  -c 2  --null  -t coreaudio  synth  $len  ''${noise}noise  \
+                   band -n $center 499               \
+                   tremolo $wave    43   reverb 19   \
+                   bass -11              treble -1   \
+                   vol     14dB                      \
+                   repeat  $repeats
+
+              exit 0
+            '';
+          in
         {
 
           xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
@@ -108,6 +139,7 @@
             joshuto
             nnn
             llines
+            noisegen
           ];
 
         }; # configuration
