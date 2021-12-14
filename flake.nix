@@ -122,7 +122,8 @@
           home.file.".zshrc".text = builtins.readFile ./zshrc;
           home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
 
-          home.sessionVariables.LC_ALL = "C";
+          home.sessionVariables.LC_ALL = "en_US.utf-8";
+          home.sessionVariables.LANG = "en_US.utf-8";
 
           home.packages = with pkgs; [
             alacritty
