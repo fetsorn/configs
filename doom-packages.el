@@ -66,3 +66,5 @@
 (package! hledger-mode)
 
 (package! flycheck-hledger)
+
+(package! fountain-mode)
