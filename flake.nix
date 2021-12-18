@@ -339,6 +339,7 @@
 
             services.openssh.enable = true;
 
+            networking.hostName = "pi";
             networking.firewall = {
               enable = true;
               allowedTCPPorts = [ 4000 ];
@@ -779,7 +780,7 @@
 
           boot.loader.grub.useOSProber = true;
 
-          networking.hostName = "nixos"; # Define your hostname.
+          networking.hostName = "sonicmaster"; # Define your hostname.
           networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
           networking.useDHCP = false;
