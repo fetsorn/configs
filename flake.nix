@@ -335,7 +335,7 @@
             then self.rev
             else throw "Refusing to build from a dirty Git tree!";
 
-            environment.systemPackages = with pkgs; [ vim ];
+            environment.systemPackages = with pkgs; [ vim rsync tmux git ntfs3g ];
 
             services.openssh.enable = true;
 
