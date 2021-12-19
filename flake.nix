@@ -63,7 +63,6 @@
                 platforms = platforms.darwin;
               };
             });
-            home.file.".hammerspoon/init.lua".text = builtins.readFile ./doom-init.el;
             noisegen = pkgs.writeShellScriptBin "noisegen" ''
               set -u
               set -e
@@ -103,6 +102,9 @@
           home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
           home.file.".doom.d/config.el".text = builtins.readFile ./doom-config.el;
           home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
+
+          home.file.".hammerspoon/init.lua".text = builtins.readFile ./init.lua;
+
           programs.home-manager.enable = true;
 
           programs.git = {
