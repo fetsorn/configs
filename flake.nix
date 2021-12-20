@@ -733,34 +733,26 @@
         [ inputs.home-manager.nixosModules.home-manager
           ({ pkgs, config, lib, modulesPath, ... }: {
 
-          boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "sd_mod" "rtsx_usb_sdmmc" ];
-          boot.initrd.kernelModules = [ ];
-          boot.kernelModules = [ "kvm-intel" ];
-          boot.extraModulePackages = [ ];
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
-          fileSystems."/" =
-            { device = "/dev/disk/by-uuid/d30c51e8-9c2e-4bc0-84b0-b3c79e89c774";
-              fsType = "ext4";
-            };
 
-          fileSystems."/boot" =
-            { device = "/dev/disk/by-uuid/3CD3-3934";
-              fsType = "vfat";
-            };
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e"; }
+    ];
 
-          fileSystems."/mnt/storage" =
-            { device = "/dev/disk/by-uuid/CA320CFC320CEEEF";
-              fsType = "ntfs";
-            };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/52e503cb-0e91-40e7-9c94-2d4b9e60e6d2";
+      fsType = "ext4";
+    };
 
-          fileSystems."/mnt/win10" =
-            { device = "/dev/disk/by-uuid/E6B04BB8B04B8E4D";
-              fsType = "ntfs";
-            };
-
-          swapDevices =
-            [ { device = "/dev/disk/by-uuid/9229c778-6c60-429c-8980-72b0849db711"; }
-            ];
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/C6BD-7AE8";
+      fsType = "vfat";
+    };
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
           nix.maxJobs = lib.mkDefault 4;
           powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
