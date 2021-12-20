@@ -738,7 +738,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e"; }
     ];
@@ -752,6 +751,7 @@
     { device = "/dev/disk/by-uuid/C6BD-7AE8";
       fsType = "vfat";
     };
+
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
           nix.maxJobs = lib.mkDefault 4;
