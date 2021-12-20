@@ -788,6 +788,7 @@
           time.timeZone = "Europe/Moscow";
 
           environment.systemPackages = with pkgs; [
+            git
           ];
 
           services.xserver.windowManager.xmonad.enable = true;
