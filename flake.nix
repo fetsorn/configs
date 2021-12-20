@@ -22,7 +22,7 @@
     };
     hardwarepi.url = "github:nixos/nixos-hardware/master";
     simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
-    aw.url = "git+https://gist.github.com/aszenz/52425e2b644d1f5a674ac7fb0d2774ec";
+    #aw.url = "git+https://gist.github.com/aszenz/52425e2b644d1f5a674ac7fb0d2774ec";
   };
 
 
