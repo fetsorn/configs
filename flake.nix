@@ -800,7 +800,12 @@
 
           users.users.fetsorn = {
             isNormalUser = true;
-            extraGroups = [ "wheel" "docker"]; # Enable ‘sudo’ for the user.
+            extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+          };
+
+          users.users.tapir = {
+            isNormalUser = true;
+            extraGroups = [ ];
           };
 
           home-manager.useGlobalPkgs = true;
