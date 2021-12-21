@@ -491,3 +491,16 @@
   (interactive (insert-char 103 1 t)))
 
 (map! "C-c k" 'fetsorn-insert-g)
+
+
+;; Set our nickname & real-name as constant variables
+(setq
+ erc-nick "fetsorn"     ; Our IRC nick
+ erc-user-full-name "fetsorn") ; Our /whois name
+
+;; Define a function to connect to a server
+(defun erc-oftc ()
+  (lambda ()
+  (interactive)
+  (erc-tls :server "irc.oftc.net"
+           :port   "6697")))

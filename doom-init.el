@@ -171,7 +171,7 @@
        ;;zig               ; C, but simpler
 
        :email
-       ;;(mu4e +gmail)
+       家(mu4e +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
 
