@@ -113,7 +113,6 @@
             userEmail = "fetsorn@gmail.com";
             extraConfig = {
               init = { defaultBranch = "main"; };
-              pull = { rebase = true; };
             };
           };
 
@@ -827,7 +826,6 @@
                 userEmail = "fetsorn@gmail.com";
                 extraConfig = {
                   init = { defaultBranch = "main"; };
-                  pull = { rebase = true; };
                 };
               };
 
