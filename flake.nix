@@ -158,9 +158,7 @@
           ({ pkgs, config, lib, modulesPath, ... }: {
             nix = {
               package = pkgs.nixUnstable;
-              extraOptions = ''
-              experimental-features = nix-command flakes ca-references
-              '';
+              extraOptions = "experimental-features = nix-command flakes";
             };
 
             boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "usbhid" "sd_mod" "sr_mod" ];
@@ -245,9 +243,7 @@
           ({ pkgs, config, lib, modulesPath, ... }: {
             nix = {
               package = pkgs.nixUnstable;
-              extraOptions = ''
-              experimental-features = nix-command flakes
-              '';
+              extraOptions = "experimental-features = nix-command flakes";
             };
 
             boot.initrd.availableKernelModules = [ "ehci_pci" "uhci_hcd" "ahci" "usb_storage" "usbhid" "sd_mod" "sr_mod" ];
@@ -317,9 +313,7 @@
 
             nix = {
               package = pkgs.nixUnstable;
-              extraOptions = ''
-              experimental-features = nix-command flakes
-              '';
+              extraOptions = "experimental-features = nix-command flakes";
             };
 
             fileSystems = {
@@ -374,7 +368,7 @@
 
             nix = {
               package = pkgs.nixUnstable;
-              extraOptions = '' experimental-features = nix-command flakes ca-references '';
+              extraOptions = "experimental-features = nix-command flakes";
             };
             nixpkgs.config.allowUnfree = true;
 
@@ -418,9 +412,7 @@
 
              nix = {
                package = pkgs.nixUnstable;
-               extraOptions = ''
-               experimental-features = nix-command flakes ca-references
-               '';
+               extraOptions = "experimental-features = nix-command flakes";
              };
              nixpkgs.config.allowUnfree = true;
 
@@ -703,7 +695,7 @@
 
           nix = {
             package = pkgs.nixUnstable;
-            extraOptions = ''experimental-features = nix-command flakes ca-references'';
+            extraOptions = "experimental-features = nix-command flakes";
           };
           nixpkgs.config.allowUnfree = true;
 
@@ -759,7 +751,7 @@
 
           nix = {
             package = pkgs.nixUnstable;
-            extraOptions = "experimental-features = nix-command flakes ca-references";
+            extraOptions = "experimental-features = nix-command flakes";
             binaryCaches          = [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
             binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo=" ];
           };
