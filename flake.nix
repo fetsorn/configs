@@ -885,6 +885,10 @@
           # ]);
             };
 
+          home-manager.users.tapir = { pkgs, ... }: {
+              programs.home-manager.enable = true;
+            };
+
           system.stateVersion = "21.05"; # Did you read the comment?
 
           })
