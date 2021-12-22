@@ -782,8 +782,12 @@
             git
           ];
 
+          services.xserver.displayManager.defaultSession = "none+xmonad";
           services.xserver.windowManager.xmonad.enable = true;
-          services.xserver.windowManager.i3.enable = true;
+          services.xserver.windowManager.i3 = {
+            enable = true;
+            extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
+          };
 
           services.openssh.enable = true;
 
