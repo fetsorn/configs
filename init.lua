@@ -1,5 +1,5 @@
 -- a snippet to break out of inifinite loops
-require("loopstop.lua")
+require("loopstop")
 
 --- FUNCTIONS
 -- jumps super high immediately after rolling
