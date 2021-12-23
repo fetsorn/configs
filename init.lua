@@ -1,3 +1,6 @@
+-- a snippet to break out of inifinite loops
+require("loopstop.lua")
+
 --- FUNCTIONS
 -- jumps super high immediately after rolling
 function rolljump(interval)
@@ -23,13 +26,13 @@ function rolljump(interval)
      end)
 end
 
--- sends "Zzzzz..." to local chat
-function snore()
+-- sends message to local chat
+function say(message)
      -- open chat
      -- high level "RETURN" here for concision
      hs.eventtap.keyStroke({}, "RETURN")
      -- type "Zzzzz...", "/s" for local chat
-     hs.eventtap.keyStrokes("/s Zzzzz...")
+     hs.eventtap.keyStrokes("/s " .. message)
      -- send the message after a delay
      -- low level "RETURN" here for hs.timer to work properly
      hs.timer.doAfter(1, function()
@@ -40,12 +43,39 @@ function snore()
      end)
 end
 
+function toggle_timer(timer)
+     if (timer:running())
+     then timer.stop()
+          timer:setDelay(1)
+     else timer.start()
+     end
+end
+
+---QUOTES
+
+tanner_quotes = { "Leather! Fresh leather! You bring me hides and I tan them for you!",
+                  "Best tanner in Veloren will tan hides for you! Discount for rumors!",
+                  "Come north of Elden to the tanning racks! Will give leather for hides! ",
+                  "Thick leather! Light leather! Bring hides and I will tan them for you!"
+}
+
+--- LOGGERS
+logger_delay = hs.logger.new("delay", "info")
+
 --- TIMERS
+
 -- calls snore() every 10-30 seconds
 snoring = hs.timer.delayed.new(1, function()
-     snore()
+     say("Zzzzz...")
      snoring:setDelay(math.random(10, 30))
      snoring.start()
+end)
+
+tanner = hs.timer.delayed.new(1, function()
+     say(tanner_quotes[math.random(1,#(tanner_quotes))])
+     tanner:setDelay(math.random(20, 40))
+     tanner.start()
+     logger_delay:i(tanner:nextTrigger())
 end)
 
 --- BINDINGS
@@ -53,11 +83,7 @@ end)
 -- 0.55-0.58 is around roll end for superjump on 0 roll skill
 hs.hotkey.bind({"cmd"}, "`", function() rolljump(0.56) end)
 
--- toogles the "snoring" timer
-hs.hotkey.bind({"cmd"}, "l", function()
-          if (snoring:running())
-          then snoring.stop()
-               snoring:setDelay(1)
-          else snoring.start()
-          end
-end)
+-- toogles "snoring"
+hs.hotkey.bind({"cmd"}, "l", function() toggle_timer(snoring) end)
+-- toogles "tanner" quotes
+hs.hotkey.bind({"cmd"}, "k", function() toggle_timer(tanner) end)

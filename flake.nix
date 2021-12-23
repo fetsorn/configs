@@ -104,6 +104,7 @@
           home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
 
           home.file.".hammerspoon/init.lua".text = builtins.readFile ./init.lua;
+          home.file.".hammerspoon/loopstop.lua".text = builtins.readFile ./loopstop.lua;
 
           programs.home-manager.enable = true;
 
