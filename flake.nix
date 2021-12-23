@@ -787,7 +787,7 @@
           services.xserver.windowManager.xmonad.enable = true;
           services.xserver.windowManager.i3 = {
             enable = true;
-            extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks i3gaps ];
+            extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks i3-gaps ];
           };
 
           services.openssh.enable = true;
