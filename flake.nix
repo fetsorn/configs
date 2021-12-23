@@ -785,7 +785,11 @@
 
           services.xserver.displayManager.defaultSession = "none+xmonad";
           services.xserver.windowManager.xmonad.enable = true;
-          services.xserver.windowManager.i3-gaps.enable = true;
+          services.xserver.windowManager.i3 = {
+            enable = true;
+            extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
+            package = pkgs.i3-gaps;
+          };
 
           services.openssh.enable = true;
 
