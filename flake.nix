@@ -25,16 +25,13 @@
     #aw.url = "git+https://gist.github.com/aszenz/52425e2b644d1f5a674ac7fb0d2774ec";
   };
 
-
-  outputs = inputs@{ self, ... }:
-  {
+  outputs = inputs@{ self, ... }: {
     homeConfigurations = {
       darwin = inputs.home-manager.lib.homeManagerConfiguration {
-        stateVersion = "21.05";
+        stateVersion = "21.11";
         system = "aarch64-darwin";
         homeDirectory = "/Users/fetsorn";
         username = "fetsorn";
-
         configuration = { pkgs, lib, ... }:
           let
             llines = (with pkgs; stdenv.mkDerivation rec {
@@ -144,12 +141,86 @@
             llines
             noisegen
           ];
-
         }; # configuration
       };
+      fetsorn = inputs.home-manager.lib.homeManagerConfiguration {
+        stateVersion = "21.11";
+        system = "x86_64-linux";
+        homeDirectory = "/home/fetsorn";
+        username = "fetsorn";
+        configuration = { pkgs, ... }: {
+          programs.home-manager.enable = true;
+
+          xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
+
+          home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
+          home.file.".doom.d/config.el".text = builtins.readFile ./doom-config.el;
+          home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
+
+          home.file.".xmonad/xmonad.hs".text = builtins.readFile ./xmonad.hs;
+
+          programs.git = {
+            enable = true;
+            userName  = "Anton Davydov";
+            userEmail = "fetsorn@gmail.com";
+            extraConfig = {
+              init = { defaultBranch = "main"; };
+            };
+          };
+
+          programs.zsh = {
+            enable = true;
+            initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+          };
+
+          home.file.".zshrc".text = builtins.readFile ./zshrc;
+          home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+
+          home.sessionVariables.LC_ALL = "C";
+
+          home.packages = with pkgs; [
+            ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+            alacritty
+            bat
+            cabal-install
+            clang
+            cmake
+            coreutils
+            fd
+            file
+            firefox
+            ghc
+            git
+            gnupg
+            joshuto
+            jq
+            man-pages
+            moreutils # for sponge
+            ripgrep
+            rsync
+            rxvt_unicode
+            termite
+            tmux
+            unzip
+            vim
+            vlc
+            w3m
+            wget
+            which
+            xclip
+            zsh-powerlevel10k
+          ];
+          # (let aw = inputs.aw.packages."x86_64-linux"; in [
+            # aw.aw-core
+            # aw.aw-server-rust
+            # aw.aw-qt
+            # aw.aw-watcher-afk
+            # aw.aw-watcher-window
+            # aw.aw-webui
+          # ]);
+        };
+      };
     }; # homeConfigurations
-# fetsorn = self.homeConfigurations.darwin.activationPackage;
-# defaultPackage.x86_64-linux = self.fetsorn;
 
     nixosConfigurations.vm-arm = inputs.nixos-unstable.lib.nixosSystem {
       system = "aarch64-linux";
@@ -236,6 +307,7 @@
           })
         ];
     };
+
     nixosConfigurations.vm-x86 = inputs.nixos-unstable.lib.nixosSystem {
       system = "x86_64-linux";
       modules =
@@ -291,11 +363,11 @@
                 wget
             ];
 
-            system.stateVersion = "21.05"; # Did you read the comment?
+            system.stateVersion = "21.11"; # Did you read the comment?
 
-# Let 'nixos-version --json' know about the Git revision
-# of this flake.
-# system.configurationRevision = inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
+            # Let 'nixos-version --json' know about the Git revision
+            # of this flake.
+            # system.configurationRevision = inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
             system.configurationRevision =
               if self ? rev
             then self.rev
@@ -306,330 +378,329 @@
     };
     nixosConfigurations.pi = inputs.nixos-unstable.lib.nixosSystem {
       system = "aarch64-linux";
-      modules =
-        [
-          inputs.hardwarepi.nixosModules.raspberry-pi-4
-          ({ pkgs, config, lib, modulesPath, ... }: {
+      modules = [
+        inputs.hardwarepi.nixosModules.raspberry-pi-4
+        ({ pkgs, config, lib, modulesPath, ... }: {
 
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
+          nix = {
+            package = pkgs.nixUnstable;
+            extraOptions = "experimental-features = nix-command flakes";
+          };
+
+          fileSystems = {
+            "/" = {
+              device = "/dev/disk/by-label/NIXOS_SD";
+              fsType = "ext4";
+              options = [ "noatime" ];
             };
+          };
 
-            fileSystems = {
-              "/" = {
-                device = "/dev/disk/by-label/NIXOS_SD";
-                fsType = "ext4";
-                options = [ "noatime" ];
-              };
-            };
+          # Let 'nixos-version --json' know about the Git revision
+          # of this flake.
+          # system.configurationRevision = inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
+          system.configurationRevision =
+            if self ? rev
+          then self.rev
+          else throw "Refusing to build from a dirty Git tree!";
 
-# Let 'nixos-version --json' know about the Git revision
-# of this flake.
-# system.configurationRevision = inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
-            system.configurationRevision =
-              if self ? rev
-            then self.rev
-            else throw "Refusing to build from a dirty Git tree!";
+          environment.systemPackages = with pkgs; [ vim rsync tmux git ntfs3g ];
 
-            environment.systemPackages = with pkgs; [ vim rsync tmux git ntfs3g ];
+          services.openssh.enable = true;
 
-            services.openssh.enable = true;
+          networking.hostName = "pi";
+          networking.firewall = {
+            enable = true;
+            allowedTCPPorts = [ 4000 ];
+          };
 
-            networking.hostName = "pi";
-            networking.firewall = {
-              enable = true;
-              allowedTCPPorts = [ 4000 ];
-            };
-
-            users = {
-              mutableUsers = false;
-              users.nixos = {
-                isNormalUser = true;
-                password = "1234";
-                extraGroups = [ "wheel" ];
-              };
-            };
-
-            hardware.pulseaudio.enable = true;
-
-          })
-        ];
-    };
-    nixosConfigurations.aws-arm-simple = inputs.nixos-unstable.lib.nixosSystem {
-      system = "aarch64-linux";
-      modules =
-        [
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
-            ec2.hvm = true;
-            ec2.efi = true;
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            system.configurationRevision =
-              if self ? rev
-            then self.rev
-            else throw "Refusing to build from a dirty Git tree!";
-
-            services.openssh.enable = true;
-
-            users.users.fetsorn = {
+          users = {
+            mutableUsers = false;
+            users.nixos = {
               isNormalUser = true;
+              password = "1234";
               extraGroups = [ "wheel" ];
             };
-            users.mutableUsers = false;
+          };
 
-            environment.systemPackages = with pkgs; [
-              wget
-              vim
-              ripgrep
-            ];
-
-            system.stateVersion = "21.05";
-
-          })
-        ];
+          hardware.pulseaudio.enable = true;
+        })
+      ];
     };
+
+    nixosConfigurations.aws-arm-simple = inputs.nixos-unstable.lib.nixosSystem {
+      system = "aarch64-linux";
+      modules = [
+        ({ pkgs, config, lib, modulesPath, ... }: {
+
+          imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+          ec2.hvm = true;
+          ec2.efi = true;
+
+          nix = {
+            package = pkgs.nixUnstable;
+            extraOptions = "experimental-features = nix-command flakes";
+          };
+          nixpkgs.config.allowUnfree = true;
+
+          system.configurationRevision =
+            if self ? rev
+          then self.rev
+          else throw "Refusing to build from a dirty Git tree!";
+
+          services.openssh.enable = true;
+
+          users.users.fetsorn = {
+            isNormalUser = true;
+            extraGroups = [ "wheel" ];
+          };
+          users.mutableUsers = false;
+
+          environment.systemPackages = with pkgs; [
+            wget
+            vim
+            ripgrep
+          ];
+
+          system.stateVersion = "21.11";
+
+        })
+      ];
+    };
+
     nixosConfigurations.aws-arm-fesite = inputs.nixos-unstable.lib.nixosSystem {
       system = "aarch64-linux";
-      modules =
-        [
-          inputs.agenix.nixosModules.age
-          ({ pkgs, config, lib, modulesPath, ... }:
-           let
-           overlays = [ (final: prev: { fesite = inputs.fesite.packages.aarch64-linux.fesite; }) ];
-           in
-           {
-             imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
-             ec2.hvm = true;
-             ec2.efi = true;
+      modules =  [
+        inputs.agenix.nixosModules.age
+        ({ pkgs, config, lib, modulesPath, ... }:
+         let
+         overlays = [ (final: prev: { fesite = inputs.fesite.packages.aarch64-linux.fesite; }) ];
+         in
+         {
+           imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+           ec2.hvm = true;
+           ec2.efi = true;
 
-             nix = {
-               package = pkgs.nixUnstable;
-               extraOptions = "experimental-features = nix-command flakes";
-             };
-             nixpkgs.config.allowUnfree = true;
+           nix = {
+             package = pkgs.nixUnstable;
+             extraOptions = "experimental-features = nix-command flakes";
+           };
+           nixpkgs.config.allowUnfree = true;
 
-             system.configurationRevision =
-               if self ? rev
-             then self.rev
-             else throw "Refusing to build from a dirty Git tree!";
+           system.configurationRevision =
+             if self ? rev
+           then self.rev
+           else throw "Refusing to build from a dirty Git tree!";
 
-             services.openssh.enable = true;
+           services.openssh.enable = true;
 
-             users.users.fetsorn = {
-               isNormalUser = true;
-               extraGroups = [ "wheel" ];
-             };
+           users.users.fetsorn = {
+             isNormalUser = true;
+             extraGroups = [ "wheel" ];
+           };
 
-             nixpkgs.overlays = overlays;
-             environment.systemPackages = with pkgs; [
-               wget
-               vim
-               fesite
-             ];
-             system.stateVersion = "21.05";
-# acme.nix
-             security.acme.email = "me@fetsorn.website";
-             security.acme.acceptTerms = true;
+           nixpkgs.overlays = overlays;
+           environment.systemPackages = with pkgs; [
+             wget
+             vim
+             fesite
+           ];
+           system.stateVersion = "21.11";
+           # acme.nix
+           security.acme.email = "me@fetsorn.website";
+           security.acme.acceptTerms = true;
 
-             age = {
-               secrets = {
-                 acme-cf = {
-                   file = ./secrets/acme-cf.age;
-                   owner = "fetsorn";
-                 };
-                 site = {
-                   file = ./secrets/site.age;
-                   path = "/srv/within/fesite/.env";
-                   owner = "fesite";
-                   group = "within";
-                   mode = "0400";
-                 };
+           age = {
+             secrets = {
+               acme-cf = {
+                 file = ./secrets/acme-cf.age;
+                 owner = "fetsorn";
+               };
+               site = {
+                 file = ./secrets/site.age;
+                 path = "/srv/within/fesite/.env";
+                 owner = "fesite";
+                 group = "within";
+                 mode = "0400";
                };
              };
+           };
 
-             security.acme.certs."fetsorn.website" = {
-               group = "nginx";
-               email = "me@fetsorn.website";
-               dnsProvider = "cloudflare";
-               credentialsFile = "/run/secrets/acme-cf";
-               extraDomainNames = [ "*.fetsorn.website" ];
-               extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
-             };
+           security.acme.certs."fetsorn.website" = {
+             group = "nginx";
+             email = "me@fetsorn.website";
+             dnsProvider = "cloudflare";
+             credentialsFile = "/run/secrets/acme-cf";
+             extraDomainNames = [ "*.fetsorn.website" ];
+             extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
+           };
 
-# site.nix
-             users.users.fesite = {
-               createHome = true;
-               description = "github.com/fetsorn/site";
-               isSystemUser = true;
-               group = "within";
-               home = "/srv/within/fesite";
-               extraGroups = [ "keys" ];
-             };
+           # site.nix
+           users.users.fesite = {
+             createHome = true;
+             description = "github.com/fetsorn/site";
+             isSystemUser = true;
+             group = "within";
+             home = "/srv/within/fesite";
+             extraGroups = [ "keys" ];
+           };
 
-             systemd.services.fesite = {
-               wantedBy = [ "multi-user.target" ];
+           systemd.services.fesite = {
+             wantedBy = [ "multi-user.target" ];
 
-               serviceConfig = {
-                 User = "fesite";
-                 Group = "within";
-                 Restart = "on-failure";
-                 WorkingDirectory = "/srv/within/fesite";
-                 RestartSec = "30s";
-                 Type = "notify";
+             serviceConfig = {
+               User = "fesite";
+               Group = "within";
+               Restart = "on-failure";
+               WorkingDirectory = "/srv/within/fesite";
+               RestartSec = "30s";
+               Type = "notify";
 
-# Security
-                 CapabilityBoundingSet = "";
-                 DeviceAllow = [ ];
-                 NoNewPrivileges = "true";
-                 ProtectControlGroups = "true";
-                 ProtectClock = "true";
-                 PrivateDevices = "true";
-                 PrivateUsers = "true";
-                 ProtectHome = "true";
-                 ProtectHostname = "true";
-                 ProtectKernelLogs = "true";
-                 ProtectKernelModules = "true";
-                 ProtectKernelTunables = "true";
-                 ProtectSystem = "true";
-                 ProtectProc = "invisible";
-                 RemoveIPC = "true";
-                 RestrictSUIDSGID = "true";
-                 RestrictRealtime = "true";
-                 SystemCallArchitectures = "native";
-                 SystemCallFilter = [
-                   "~@reboot"
-                   "~@module"
-                   "~@mount"
-                   "~@swap"
-                   "~@resources"
-                   "~@cpu-emulation"
-                   "~@obsolete"
-                   "~@debug"
-                   "~@privileged"
-                 ];
-                 UMask = "007";
-               };
-
-               script =
-                 ''
-               export $(cat /srv/within/fesite/.env | xargs)
-               export SOCKPATH="/srv/within/run/fesite.sock"
-               export PORT=32837
-               export DOMAIN="fetsorn.website"
-               cd ${pkgs.fesite}
-               exec ${pkgs.fesite}/bin/fesite
-               '';
-             };
-
-             services.nginx.virtualHosts."fesite" = {
-               serverName = "fetsorn.website";
-               locations."/" = {
-                 proxyPass = "http://unix:/srv/within/run/fesite.sock";
-                 proxyWebsockets = true;
-               };
-               forceSSL = true;
-               useACMEHost = "fetsorn.website";
-               extraConfig = ''
-               access_log /var/log/nginx/fesite.access.log;
-               '';
-             };
-
-             networking.hostName = "lufta";
-
-             networking.usePredictableInterfaceNames = false;
-
-             nix = {
-               autoOptimiseStore = true;
-               useSandbox = true;
-               binaryCaches = [
-                 "https://hydra.iohk.io"
-                 "https://iohk.cachix.org"
-                 "https://nix-community.cachix.org"
+           # Security
+               CapabilityBoundingSet = "";
+               DeviceAllow = [ ];
+               NoNewPrivileges = "true";
+               ProtectControlGroups = "true";
+               ProtectClock = "true";
+               PrivateDevices = "true";
+               PrivateUsers = "true";
+               ProtectHome = "true";
+               ProtectHostname = "true";
+               ProtectKernelLogs = "true";
+               ProtectKernelModules = "true";
+               ProtectKernelTunables = "true";
+               ProtectSystem = "true";
+               ProtectProc = "invisible";
+               RemoveIPC = "true";
+               RestrictSUIDSGID = "true";
+               RestrictRealtime = "true";
+               SystemCallArchitectures = "native";
+               SystemCallFilter = [
+                 "~@reboot"
+                 "~@module"
+                 "~@mount"
+                 "~@swap"
+                 "~@resources"
+                 "~@cpu-emulation"
+                 "~@obsolete"
+                 "~@debug"
+                 "~@privileged"
                ];
-               binaryCachePublicKeys = [
-                 "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                 "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-                 "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-               ];
-               trustedUsers = [ "root" "fetsorn" ];
+               UMask = "007";
              };
 
-             security.pam.loginLimits = [{
-               domain = "*";
-               type = "soft";
-               item = "nofile";
-               value = "unlimited";
-             }];
-             systemd.services.within-homedir-setup = {
-               description = "Creates homedirs for /srv/within services";
-               wantedBy = [ "multi-user.target" ];
-
-               serviceConfig.Type = "oneshot";
-
-               script = with pkgs; ''
-               ${coreutils}/bin/mkdir -p /srv/within
-               ${coreutils}/bin/chown root:within /srv/within
-               ${coreutils}/bin/chmod 775 /srv/within
-               ${coreutils}/bin/mkdir -p /srv/within/run
-               ${coreutils}/bin/chown root:within /srv/within/run
-               ${coreutils}/bin/chmod 770 /srv/within/run
-               '';
-             };
-             services.journald.extraConfig = ''
-             SystemMaxUse=100M
-             MaxFileSec=7day
+             script =
+               ''
+             export $(cat /srv/within/fesite/.env | xargs)
+             export SOCKPATH="/srv/within/run/fesite.sock"
+             export PORT=32837
+             export DOMAIN="fetsorn.website"
+             cd ${pkgs.fesite}
+             exec ${pkgs.fesite}/bin/fesite
              '';
+           };
 
-             services.resolved = {
-               enable = true;
-               dnssec = "false";
+           services.nginx.virtualHosts."fesite" = {
+             serverName = "fetsorn.website";
+             locations."/" = {
+               proxyPass = "http://unix:/srv/within/run/fesite.sock";
+               proxyWebsockets = true;
              };
+             forceSSL = true;
+             useACMEHost = "fetsorn.website";
+             extraConfig = ''
+             access_log /var/log/nginx/fesite.access.log;
+             '';
+           };
 
-             services.lorri.enable = true;
-             systemd.network = {
-               enable = true;
-             };
+           networking.hostName = "lufta";
 
-             users.groups.within = { };
+           networking.usePredictableInterfaceNames = false;
 
-             systemd.services.nginx.serviceConfig.SupplementaryGroups = "within";
-             services.nginx = {
-               enable = true;
-               recommendedGzipSettings = true;
-               recommendedOptimisation = true;
-               recommendedProxySettings = true;
-               recommendedTlsSettings = true;
-               statusPage = true;
-               enableReload = true;
-             };
+           nix = {
+             autoOptimiseStore = true;
+             useSandbox = true;
+             binaryCaches = [
+               "https://hydra.iohk.io"
+               "https://iohk.cachix.org"
+               "https://nix-community.cachix.org"
+             ];
+             binaryCachePublicKeys = [
+               "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+               "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+               "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+             ];
+             trustedUsers = [ "root" "fetsorn" ];
+           };
 
-             services.mysql = {
-               enable = true;
-               package = pkgs.mariadb;
-               bind = "127.0.0.1";
-             };
+           security.pam.loginLimits = [{
+             domain = "*";
+             type = "soft";
+             item = "nofile";
+             value = "unlimited";
+           }];
+           systemd.services.within-homedir-setup = {
+             description = "Creates homedirs for /srv/within services";
+             wantedBy = [ "multi-user.target" ];
 
-             networking.firewall = {
-               enable = true;
-               allowedTCPPorts = [ 22 80 443 1965 6667 6697 8009 8000 8080 3030 ];
-               allowedUDPPorts = [ 80 443 41641 51822 51820 ];
+             serviceConfig.Type = "oneshot";
 
-               allowedUDPPortRanges = [{
-                 from = 32768;
-                 to = 65535;
-               }];
-             };
-           })
-        ];
+             script = with pkgs; ''
+             ${coreutils}/bin/mkdir -p /srv/within
+             ${coreutils}/bin/chown root:within /srv/within
+             ${coreutils}/bin/chmod 775 /srv/within
+             ${coreutils}/bin/mkdir -p /srv/within/run
+             ${coreutils}/bin/chown root:within /srv/within/run
+             ${coreutils}/bin/chmod 770 /srv/within/run
+             '';
+           };
+           services.journald.extraConfig = ''
+           SystemMaxUse=100M
+           MaxFileSec=7day
+           '';
+
+           services.resolved = {
+             enable = true;
+             dnssec = "false";
+           };
+
+           services.lorri.enable = true;
+           systemd.network = {
+             enable = true;
+           };
+
+           users.groups.within = { };
+
+           systemd.services.nginx.serviceConfig.SupplementaryGroups = "within";
+           services.nginx = {
+             enable = true;
+             recommendedGzipSettings = true;
+             recommendedOptimisation = true;
+             recommendedProxySettings = true;
+             recommendedTlsSettings = true;
+             statusPage = true;
+             enableReload = true;
+           };
+
+           services.mysql = {
+             enable = true;
+             package = pkgs.mariadb;
+             bind = "127.0.0.1";
+           };
+
+           networking.firewall = {
+             enable = true;
+             allowedTCPPorts = [ 22 80 443 1965 6667 6697 8009 8000 8080 3030 ];
+             allowedUDPPorts = [ 80 443 41641 51822 51820 ];
+
+             allowedUDPPortRanges = [{
+               from = 32768;
+               to = 65535;
+             }];
+           };
+         })
+       ];
     };
+
     nixosConfigurations.linode = inputs.nixos-unstable.lib.nixosSystem {
       system = "x86_64-linux";
       modules =
@@ -714,10 +785,10 @@
           };
           users.mutableUsers = true;
 
-          system.stateVersion = "21.05";
+          system.stateVersion = "21.11";
 
         })
-        ];
+      ];
     };
     nixosConfigurations.sonicmaster = inputs.nixos-unstable.lib.nixosSystem {
       system = "x86_64-linux";
@@ -725,26 +796,26 @@
         [ inputs.home-manager.nixosModules.home-manager
           ({ pkgs, config, lib, modulesPath, ... }: {
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+          boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
+          boot.initrd.kernelModules = [ ];
+          boot.kernelModules = [ "kvm-intel" ];
+          boot.extraModulePackages = [ ];
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e"; }
-    ];
+          swapDevices =
+            [ { device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e"; }
+            ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/52e503cb-0e91-40e7-9c94-2d4b9e60e6d2";
-      fsType = "ext4";
-    };
+          fileSystems."/" =
+            { device = "/dev/disk/by-uuid/52e503cb-0e91-40e7-9c94-2d4b9e60e6d2";
+              fsType = "ext4";
+            };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/C6BD-7AE8";
-      fsType = "vfat";
-    };
+          fileSystems."/boot" =
+            { device = "/dev/disk/by-uuid/C6BD-7AE8";
+              fsType = "vfat";
+            };
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+          hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
           nix.maxJobs = lib.mkDefault 4;
           powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -813,85 +884,7 @@
             extraGroups = [ ];
           };
 
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.fetsorn = { pkgs, ... }: {
-              programs.home-manager.enable = true;
-
-              xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
-
-              home.file.".doom.d/init.el".text = builtins.readFile ./doom-init.el;
-              home.file.".doom.d/config.el".text = builtins.readFile ./doom-config.el;
-              home.file.".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
-
-              home.file.".xmonad/xmonad.hs".text = builtins.readFile ./xmonad.hs;
-
-              programs.git = {
-                enable = true;
-                userName  = "Anton Davydov";
-                userEmail = "fetsorn@gmail.com";
-                extraConfig = {
-                  init = { defaultBranch = "main"; };
-                };
-              };
-
-              programs.zsh = {
-                enable = true;
-                initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-              };
-
-              home.file.".zshrc".text = builtins.readFile ./zshrc;
-              home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
-
-              home.sessionVariables.LC_ALL = "C";
-
-              home.packages = with pkgs; [
-                ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [ epkgs.vterm ]))
-                alacritty
-                bat
-                cabal-install
-                clang
-                cmake
-                coreutils
-                fd
-                file
-                firefox
-                ghc
-                git
-                gnupg
-                joshuto
-                jq
-                man-pages
-                moreutils # for sponge
-                ripgrep
-                rsync
-                rxvt_unicode
-                termite
-                tmux
-                unzip
-                vim
-                vlc
-                w3m
-                wget
-                which
-                xclip
-                zsh-powerlevel10k
-              ];
-          # (let aw = inputs.aw.packages."x86_64-linux"; in [
-            # aw.aw-core
-            # aw.aw-server-rust
-            # aw.aw-qt
-            # aw.aw-watcher-afk
-            # aw.aw-watcher-window
-            # aw.aw-webui
-          # ]);
-            };
-
-          home-manager.users.tapir = { pkgs, ... }: {
-              programs.home-manager.enable = true;
-            };
-
-          system.stateVersion = "21.05"; # Did you read the comment?
+          system.stateVersion = "21.11"; # Did you read the comment?
 
           })
         ];
