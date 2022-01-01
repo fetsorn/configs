@@ -90,11 +90,52 @@
 
               exit 0
             '';
+            maildir = "/Users/fetsorn/Maildir";
           in
         {
+          accounts.email = {
+            maildirBasePath = "${maildir}";
+            accounts = let
+              mailaccount = { name, primary ? false }: {
+                address = "${name}@fetsorn.website";
+                userName = "${name}@fetsorn.website";
+                passwordCommand = "${pkgs.pass}/bin/pass email";
+                primary = primary;
+                mu.enable = true;
+                mbsync = {
+                  enable = true;
+                  create = "both";
+                  expunge = "both";
+                  patterns = [ "*" ];
+                  extraConfig.account = {
+                    CertificateFile = "${./ca-certificate}";
+                  };
+                };
+                imap = {
+                  host = "mail.fetsorn.website";
+                  port = 993;
+                  tls.enable = true;
+                };
+                realName = "Anton Davydov";
+                msmtp = {
+                  enable = true;
+                  tls.fingerprint = "C3:16:EC:6E:6D:91:D5:2F:E1:F7:C9:54:5F:24:44:2B:BA:A5:AD:18:CA:FD:B9:24:8A:D9:E0:A6:56:8C:D4:92";
+                };
+                smtp = {
+                  host = "mail.fetsorn.website";
+                  port = 587;
+                  tls.useStartTls = true;
+                };
+              };
+            in {
+              anton = mailaccount {name = "anton"; primary = true;};
+              git = mailaccount {name = "git";};
+              fetsorn = mailaccount {name = "fetsorn";};
+            };
+          };
 
-          home = {
-            file = {
+        home = {
+          file = {
               ".p10k.zsh".text = builtins.readFile ./p10k.zsh;
               ".doom.d/init.el".text = builtins.readFile ./doom-init.el;
               ".doom.d/config.el".text = builtins.readFile ./doom-config.el;
@@ -104,20 +145,19 @@
             };
 
             packages = with pkgs; [
-              alacritty
-              bat
+              ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+              coreutils
               exa
-              emacs
               fd
-              ripgrep
+              ffmpeg
               jq
-              tmux
-              nixUnstable
-              zsh-powerlevel10k
-              joshuto
-              nnn
               llines
+              nixUnstable
               noisegen
+              ripgrep
+              rsync
+              tmux
+              zsh-powerlevel10k
             ];
 
             sessionVariables = {
@@ -139,11 +179,20 @@
               };
             };
 
+            gpg.enable = true;
+
+            mbsync.enable = true;
+            msmtp.enable = true;
+            mu.enable = true;
+
+            password-store.enable = true;
+
             zsh = {
               enable = true;
               initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
               initExtra = builtins.readFile ./zshrc;
             };
+
           };
         }; # configuration
       }; # darwin

@@ -504,3 +504,37 @@
   (interactive)
   (erc-tls :server "irc.oftc.net"
            :port   "6697")))
+
+;; mu4e
+(after! mu4e
+  (setq sendmail-program (executable-find "msmtp")
+        send-mail-function #'smtpmail-send-it
+        message-sendmail-f-is-evil t
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function #'message-send-mail-with-sendmail))
+
+(set-email-account! "anton@fetsorn.website"
+  '((mu4e-sent-folder       . "/anton/Sent")
+    (mu4e-drafts-folder     . "/anton/Drafts")
+    (mu4e-trash-folder      . "/anton/Junk")
+    (mu4e-refile-folder     . "/anton/All")
+    (smtpmail-smtp-user     . "anton@fetsorn.website")
+    (mu4e-compose-signature . "---\nYours truly"))
+  t)
+(set-email-account! "git@fetsorn.website"
+  '((mu4e-sent-folder       . "/git/Sent")
+    (mu4e-drafts-folder     . "/git/Drafts")
+    (mu4e-trash-folder      . "/git/Junk")
+    (mu4e-refile-folder     . "/git/All")
+    (smtpmail-smtp-user     . "anton@fetsorn.website")
+    (mu4e-compose-signature . "---\nYours truly"))
+  t)
+(set-email-account! "fetsorn@fetsorn.website"
+  '((mu4e-sent-folder       . "/fetsorn/Sent")
+    (mu4e-drafts-folder     . "/fetsorn/Drafts")
+    (mu4e-trash-folder      . "/fetsorn/Junk")
+    (mu4e-refile-folder     . "/fetsorn/All")
+    (smtpmail-smtp-user     . "anton@fetsorn.website")
+    (mu4e-compose-signature . "---\nYours truly"))
+  t)
+
