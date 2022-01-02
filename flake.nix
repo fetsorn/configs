@@ -108,7 +108,7 @@
                   expunge = "both";
                   patterns = [ "*" ];
                   extraConfig.account = {
-                    CertificateFile = "${./ca-certificate}";
+                    CertificateFile = "${./secrets/ca-certificate}";
                   };
                 };
                 imap = {
@@ -136,12 +136,12 @@
 
         home = {
           file = {
-              ".p10k.zsh".text = builtins.readFile ./p10k.zsh;
-              ".doom.d/init.el".text = builtins.readFile ./doom-init.el;
-              ".doom.d/config.el".text = builtins.readFile ./doom-config.el;
-              ".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
-              ".hammerspoon/init.lua".text = builtins.readFile ./init.lua;
-              ".hammerspoon/loopstop.lua".text = builtins.readFile ./loopstop.lua;
+              ".p10k.zsh".text = builtins.readFile ./dotfiles/p10k.zsh;
+              ".doom.d/init.el".text = builtins.readFile ./dotfiles/doom-init.el;
+              ".doom.d/config.el".text = builtins.readFile ./dotfiles/doom-config.el;
+              ".doom.d/packages.el".text = builtins.readFile ./dotfiles/doom-packages.el;
+              ".hammerspoon/init.lua".text = builtins.readFile ./dotfiles/init.lua;
+              ".hammerspoon/loopstop.lua".text = builtins.readFile ./dotfiles/loopstop.lua;
             };
 
             packages = with pkgs; [
@@ -190,7 +190,7 @@
             zsh = {
               enable = true;
               initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-              initExtra = builtins.readFile ./zshrc;
+              initExtra = builtins.readFile ./dotfiles/zshrc;
             };
 
           };
@@ -204,15 +204,15 @@
         username = "fetsorn";
         configuration = { pkgs, ... }: {
 
-          xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./nix.conf;
+          xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./dotfiles/nix.conf;
 
           home = {
             file = {
-              ".p10k.zsh".text = builtins.readFile ./p10k.zsh;
-              ".doom.d/init.el".text = builtins.readFile ./doom-init.el;
-              ".doom.d/config.el".text = builtins.readFile ./doom-config.el;
-              ".doom.d/packages.el".text = builtins.readFile ./doom-packages.el;
-              ".xmonad/xmonad.hs".text = builtins.readFile ./xmonad.hs;
+              ".p10k.zsh".text = builtins.readFile ./dotfiles/p10k.zsh;
+              ".doom.d/init.el".text = builtins.readFile ./dotfiles/doom-init.el;
+              ".doom.d/config.el".text = builtins.readFile ./dotfiles/doom-config.el;
+              ".doom.d/packages.el".text = builtins.readFile ./dotfiles/doom-packages.el;
+              ".xmonad/xmonad.hs".text = builtins.readFile ./dotfiles/xmonad.hs;
             };
 
             packages = with pkgs; [
@@ -270,7 +270,7 @@
             zsh = {
               enable = true;
               initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-              initExtra = builtins.readFile ./zshrc;
+              initExtra = builtins.readFile ./dotfiles/zshrc;
             };
           };
         }; # configuration
@@ -805,7 +805,8 @@
       linode = inputs. nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules =
-          [ ({ pkgs, config, lib, modulesPath, ... }: {
+          [ inputs.agenix.nixosModules.age
+            ({ pkgs, config, lib, modulesPath, ... }: {
 
             imports = [
               (modulesPath + "/profiles/qemu-guest.nix")
@@ -853,14 +854,23 @@
               email = "anton@fetsorn.website";
             };
 
+            age = {
+              secrets = {
+                testmailpass = {
+                  file = ./secrets/testmailpass.age;
+                  owner = "fetsorn";
+                };
+              };
+            };
+
             mailserver = {
               enable = true;
               fqdn = "mail.fetsorn.website";
               domains = [ "fetsorn.website" ];
               # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
-                "git@fetsorn.website" = { hashedPasswordFile = ./secrets/testmailpass; };
-                "anton@fetsorn.website" = { hashedPasswordFile = ./secrets/testmailpass; };
+                "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
+                "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
               };
               certificateScheme = 3;
               virusScanning = false; # breaks otherwise for some reason
