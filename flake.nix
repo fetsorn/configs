@@ -871,6 +871,7 @@
               loginAccounts = {
                 "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
                 "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
+                "fetsorn@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
               };
               certificateScheme = 3;
               virusScanning = false; # breaks otherwise for some reason
