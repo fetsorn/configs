@@ -857,6 +857,7 @@
               enable = true;
               fqdn = "mail.fetsorn.website";
               domains = [ "fetsorn.website" ];
+              # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
                 "git@fetsorn.website" = { hashedPasswordFile = ./secrets/testmailpass; };
                 "anton@fetsorn.website" = { hashedPasswordFile = ./secrets/testmailpass; };
