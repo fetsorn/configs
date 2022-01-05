@@ -99,7 +99,7 @@
               mailaccount = { name, primary ? false }: {
                 address = "${name}@fetsorn.website";
                 userName = "${name}@fetsorn.website";
-                passwordCommand = "${pkgs.pass}/bin/pass email";
+                passwordCommand = "${pkgs.pass}/bin/pass mail-${name}";
                 primary = primary;
                 mu.enable = true;
                 mbsync = {
@@ -867,8 +867,16 @@
 
             age = {
               secrets = {
-                testmailpass = {
-                  file = ./secrets/testmailpass.age;
+                mail-git = {
+                  file = ./secrets/mail-git.age;
+                  owner = "fetsorn";
+                };
+                mail-anton = {
+                  file = ./secrets/mail-anton.age;
+                  owner = "fetsorn";
+                };
+                mail-fetsorn = {
+                  file = ./secrets/mail-fetsorn.age;
                   owner = "fetsorn";
                 };
               };
@@ -880,9 +888,9 @@
               domains = [ "fetsorn.website" ];
               # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
-                "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
-                "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
-                "fetsorn@fetsorn.website" = { hashedPasswordFile = "/run/agenix/testmailpass"; };
+                "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-git"; };
+                "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-anton"; };
+                "fetsorn@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-fetsorn"; };
               };
               certificateScheme = 3;
               virusScanning = false; # breaks otherwise for some reason
