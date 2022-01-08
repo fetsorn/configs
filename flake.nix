@@ -154,6 +154,7 @@
               ffmpeg
               jq
               llines
+              nixfmt
               nixUnstable
               noisegen
               ripgrep
