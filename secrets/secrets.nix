@@ -5,8 +5,9 @@ let
 in {
   "site.age".publicKeys = [ id_rsa_agenix ];
   "acme-cf.age".publicKeys = [ id_rsa_agenix ];
-  "mail-git.age".publicKeys = [ id_rsa_agenix linode_mail ];
   "mail-anton.age".publicKeys = [ id_rsa_agenix linode_mail ];
+  "mail-auth.age".publicKeys = [ id_rsa_agenix linode_mail ];
+  "mail-git.age".publicKeys = [ id_rsa_agenix linode_mail ];
   "mail-fetsorn.age".publicKeys = [ id_rsa_agenix linode_mail ];
 }
 

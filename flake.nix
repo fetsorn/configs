@@ -870,16 +870,20 @@
 
             age = {
               secrets = {
-                mail-git = {
-                  file = ./secrets/mail-git.age;
-                  owner = "fetsorn";
-                };
                 mail-anton = {
                   file = ./secrets/mail-anton.age;
                   owner = "fetsorn";
                 };
+                mail-auth = {
+                  file = ./secrets/mail-auth.age;
+                  owner = "fetsorn";
+                };
                 mail-fetsorn = {
                   file = ./secrets/mail-fetsorn.age;
+                  owner = "fetsorn";
+                };
+                mail-git = {
+                  file = ./secrets/mail-git.age;
                   owner = "fetsorn";
                 };
               };
@@ -891,10 +895,10 @@
               domains = [ "fetsorn.website" ];
               # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
-                "auth@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-auth"; };
-                "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-git"; };
                 "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-anton"; };
+                "auth@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-auth"; };
                 "fetsorn@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-fetsorn"; };
+                "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-git"; };
               };
               certificateScheme = 3;
               virusScanning = false; # breaks otherwise for some reason
