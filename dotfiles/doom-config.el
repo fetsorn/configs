@@ -161,9 +161,9 @@
 
 
 ;; registers
-(set-register ?c (cons 'file "~/mm/0---modes/0-configs/doom-config.el"))
-(set-register ?p (cons 'file "~/mm/0---modes/0-configs/doom-packages.el"))
-(set-register ?i (cons 'file "~/mm/0---modes/0-configs/doom-init.el"))
+(set-register ?c (cons 'file "~/mm/0---modes/0-configs/dotfiles/doom-config.el"))
+(set-register ?p (cons 'file "~/mm/0---modes/0-configs/dotfiles/doom-packages.el"))
+(set-register ?i (cons 'file "~/mm/0---modes/0-configs/dotfiles/doom-init.el"))
 (set-register ?g (cons 'file "~/mm/0---modes/0-agendas/org-gtd.org"))
 (set-register ?n (cons 'file "~/mm/0---modes/0-agendas/org-note.org"))
 (set-register ?l (cons 'file "~/mm/0---modes/0-agendas/org-gtp.org"))
