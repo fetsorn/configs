@@ -119,7 +119,8 @@
                 realName = "Anton Davydov";
                 msmtp = {
                   enable = true;
-                  tls.fingerprint = "C3:16:EC:6E:6D:91:D5:2F:E1:F7:C9:54:5F:24:44:2B:BA:A5:AD:18:CA:FD:B9:24:8A:D9:E0:A6:56:8C:D4:92";
+                  # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
+                  tls.fingerprint = "74:A3:AD:1A:55:E9:A7:80:25:A5:E7:36:65:CE:C1:AB:8C:FC:AF:89";
                 };
                 smtp = {
                   host = "mail.fetsorn.website";
@@ -129,6 +130,7 @@
               };
             in {
               anton = mailaccount {name = "anton"; primary = true;};
+              auth = mailaccount {name = "auth";};
               git = mailaccount {name = "git";};
               fetsorn = mailaccount {name = "fetsorn";};
             };
@@ -888,6 +890,7 @@
               domains = [ "fetsorn.website" ];
               # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
+                "auth@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-auth"; };
                 "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-git"; };
                 "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-anton"; };
                 "fetsorn@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-fetsorn"; };
