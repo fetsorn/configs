@@ -21,7 +21,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     hardwarepi.url = "github:nixos/nixos-hardware/master";
-    simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
+    simple-nixos-mailserver.url =
+      "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
   };
 
   outputs = inputs@{ self, ... }: {
@@ -33,32 +34,28 @@
         username = "fetsorn";
         configuration = { pkgs, lib, ... }:
           let
-            llines = (with pkgs; stdenv.mkDerivation rec {
-              pname = "lifelines";
-              version = "unstable-2021-11-22";
+            llines = (with pkgs;
+              stdenv.mkDerivation rec {
+                pname = "lifelines";
+                version = "unstable-2021-11-22";
 
-              src = fetchFromGitHub {
-                owner = pname;
-                repo = pname;
-                rev = "a5a54e8";
-                sha256 = "tqggAcYRRxtPjTLc+YJphYWdqfWxMG8V/cBOpMTiZ9I=";
-              };
+                src = fetchFromGitHub {
+                  owner = pname;
+                  repo = pname;
+                  rev = "a5a54e8";
+                  sha256 = "tqggAcYRRxtPjTLc+YJphYWdqfWxMG8V/cBOpMTiZ9I=";
+                };
 
-              buildInputs = [
-                gettext
-                libiconv
-                ncurses
-                perl
-              ];
-              nativeBuildInputs = [ autoreconfHook bison ];
+                buildInputs = [ gettext libiconv ncurses perl ];
+                nativeBuildInputs = [ autoreconfHook bison ];
 
-              meta = with lib; {
-                description = "Genealogy tool with ncurses interface";
-                homepage = "https://lifelines.github.io/lifelines/";
-                license = licenses.mit;
-                platforms = platforms.darwin;
-              };
-            });
+                meta = with lib; {
+                  description = "Genealogy tool with ncurses interface";
+                  homepage = "https://lifelines.github.io/lifelines/";
+                  license = licenses.mit;
+                  platforms = platforms.darwin;
+                };
+              });
             noisegen = pkgs.writeShellScriptBin "noisegen" ''
               set -u
               set -e
@@ -91,113 +88,118 @@
               exit 0
             '';
             maildir = "/Users/fetsorn/Maildir";
-          in
-        {
-          accounts.email = {
-            maildirBasePath = "${maildir}";
-            accounts = let
-              mailaccount = { name, primary ? false }: {
-                address = "${name}@fetsorn.website";
-                userName = "${name}@fetsorn.website";
-                passwordCommand = "${pkgs.pass}/bin/pass mail-${name}";
-                primary = primary;
-                mu.enable = true;
-                mbsync = {
-                  enable = true;
-                  create = "both";
-                  expunge = "both";
-                  patterns = [ "*" ];
-                  extraConfig.account = {
-                    CertificateFile = "${./secrets/ca-certificate}";
+          in {
+            accounts.email = {
+              maildirBasePath = "${maildir}";
+              accounts = let
+                mailaccount = { name, primary ? false }: {
+                  address = "${name}@fetsorn.website";
+                  userName = "${name}@fetsorn.website";
+                  passwordCommand = "${pkgs.pass}/bin/pass mail-${name}";
+                  primary = primary;
+                  mu.enable = true;
+                  mbsync = {
+                    enable = true;
+                    create = "both";
+                    expunge = "both";
+                    patterns = [ "*" ];
+                    extraConfig.account = {
+                      CertificateFile = "${./secrets/ca-certificate}";
+                    };
+                  };
+                  imap = {
+                    host = "mail.fetsorn.website";
+                    port = 993;
+                    tls.enable = true;
+                  };
+                  realName = "Anton Davydov";
+                  msmtp = {
+                    enable = true;
+                    # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
+                    tls.fingerprint =
+                      "74:A3:AD:1A:55:E9:A7:80:25:A5:E7:36:65:CE:C1:AB:8C:FC:AF:89";
+                  };
+                  smtp = {
+                    host = "mail.fetsorn.website";
+                    port = 587;
+                    tls.useStartTls = true;
                   };
                 };
-                imap = {
-                  host = "mail.fetsorn.website";
-                  port = 993;
-                  tls.enable = true;
+              in {
+                anton = mailaccount {
+                  name = "anton";
+                  primary = true;
                 };
-                realName = "Anton Davydov";
-                msmtp = {
-                  enable = true;
-                  # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
-                  tls.fingerprint = "74:A3:AD:1A:55:E9:A7:80:25:A5:E7:36:65:CE:C1:AB:8C:FC:AF:89";
-                };
-                smtp = {
-                  host = "mail.fetsorn.website";
-                  port = 587;
-                  tls.useStartTls = true;
-                };
-              };
-            in {
-              anton = mailaccount {name = "anton"; primary = true;};
-              auth = mailaccount {name = "auth";};
-              git = mailaccount {name = "git";};
-              fetsorn = mailaccount {name = "fetsorn";};
-            };
-          };
-
-        home = {
-          file = {
-              ".p10k.zsh".source = ./dotfiles/p10k.zsh;
-              ".doom.d/init.el".source = ./dotfiles/doom-init.el;
-              ".doom.d/config.el".source = ./dotfiles/doom-config.el;
-              ".doom.d/packages.el".source = ./dotfiles/doom-packages.el;
-              ".hammerspoon/init.lua".source = ./dotfiles/init.lua;
-              ".hammerspoon/loopstop.lua".source = ./dotfiles/loopstop.lua;
-            };
-
-            packages = with pkgs; [
-              ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [ epkgs.vterm ]))
-              coreutils
-              exa
-              fd
-              ffmpeg
-              jq
-              llines
-              nixfmt
-              nixUnstable
-              noisegen
-              ripgrep
-              rsync
-              tmux
-              zsh-powerlevel10k
-            ];
-
-            sessionVariables = {
-              LC_ALL = "en_US.utf-8";
-              LANG = "en_US.utf-8";
-            };
-          };
-
-          programs = {
-            home-manager.enable = true;
-
-            git = {
-              enable = true;
-              userName  = "Anton Davydov";
-              userEmail = "fetsorn@gmail.com";
-              extraConfig = {
-                init = { defaultBranch = "main"; };
-                pull = { rebase = false; };
+                auth = mailaccount { name = "auth"; };
+                git = mailaccount { name = "git"; };
+                fetsorn = mailaccount { name = "fetsorn"; };
               };
             };
 
-            gpg.enable = true;
+            home = {
+              file = {
+                ".p10k.zsh".source = ./dotfiles/p10k.zsh;
+                ".doom.d/init.el".source = ./dotfiles/doom-init.el;
+                ".doom.d/config.el".source = ./dotfiles/doom-config.el;
+                ".doom.d/packages.el".source = ./dotfiles/doom-packages.el;
+                ".hammerspoon/init.lua".source = ./dotfiles/init.lua;
+                ".hammerspoon/loopstop.lua".source = ./dotfiles/loopstop.lua;
+              };
 
-            mbsync.enable = true;
-            msmtp.enable = true;
-            mu.enable = true;
+              packages = with pkgs; [
+                ((emacsPackagesNgGen emacs).emacsWithPackages
+                  (epkgs: [ epkgs.vterm ]))
+                coreutils
+                exa
+                fd
+                ffmpeg
+                jq
+                llines
+                nixfmt
+                nixUnstable
+                noisegen
+                ripgrep
+                rsync
+                tmux
+                zsh-powerlevel10k
+              ];
 
-            password-store.enable = true;
-
-            zsh = {
-              enable = true;
-              initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-              initExtra = builtins.readFile ./dotfiles/zshrc;
+              sessionVariables = {
+                LC_ALL = "en_US.utf-8";
+                LANG = "en_US.utf-8";
+              };
             };
 
-          };
-        }; # configuration
+            programs = {
+              home-manager.enable = true;
+
+              git = {
+                enable = true;
+                userName = "Anton Davydov";
+                userEmail = "fetsorn@gmail.com";
+                extraConfig = {
+                  init = { defaultBranch = "main"; };
+                  pull = { rebase = false; };
+                };
+              };
+
+              gpg.enable = true;
+
+              mbsync.enable = true;
+              msmtp.enable = true;
+              mu.enable = true;
+
+              password-store.enable = true;
+
+              zsh = {
+                enable = true;
+                initExtraFirst =
+                  "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+                initExtra = builtins.readFile ./dotfiles/zshrc;
+              };
+
+            };
+          }; # configuration
       }; # darwin
 
       fetsorn = inputs.home-manager.lib.homeManagerConfiguration {
@@ -207,19 +209,24 @@
         username = "fetsorn";
         configuration = { pkgs, ... }: {
 
-          xdg.configFile."nixpkgs/nix.conf".text = builtins.readFile ./dotfiles/nix.conf;
+          xdg.configFile."nixpkgs/nix.conf".text =
+            builtins.readFile ./dotfiles/nix.conf;
 
           home = {
             file = {
               ".p10k.zsh".text = builtins.readFile ./dotfiles/p10k.zsh;
-              ".doom.d/init.el".text = builtins.readFile ./dotfiles/doom-init.el;
-              ".doom.d/config.el".text = builtins.readFile ./dotfiles/doom-config.el;
-              ".doom.d/packages.el".text = builtins.readFile ./dotfiles/doom-packages.el;
+              ".doom.d/init.el".text =
+                builtins.readFile ./dotfiles/doom-init.el;
+              ".doom.d/config.el".text =
+                builtins.readFile ./dotfiles/doom-config.el;
+              ".doom.d/packages.el".text =
+                builtins.readFile ./dotfiles/doom-packages.el;
               ".xmonad/xmonad.hs".text = builtins.readFile ./dotfiles/xmonad.hs;
             };
 
             packages = with pkgs; [
-              ((emacsPackagesNgGen emacs).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+              ((emacsPackagesNgGen emacs).emacsWithPackages
+                (epkgs: [ epkgs.vterm ]))
               alacritty
               bat
               cabal-install
@@ -262,7 +269,7 @@
 
             git = {
               enable = true;
-              userName  = "Anton Davydov";
+              userName = "Anton Davydov";
               userEmail = "fetsorn@gmail.com";
               extraConfig = {
                 init = { defaultBranch = "main"; };
@@ -272,7 +279,8 @@
 
             zsh = {
               enable = true;
-              initExtraFirst = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+              initExtraFirst =
+                "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
               initExtra = builtins.readFile ./dotfiles/zshrc;
             };
           };
@@ -293,13 +301,8 @@
 
             boot = {
               initrd = {
-                availableKernelModules = [
-                  "ehci_pci"
-                  "xhci_pci"
-                  "usbhid"
-                  "sd_mod"
-                  "sr_mod"
-                ];
+                availableKernelModules =
+                  [ "ehci_pci" "xhci_pci" "usbhid" "sd_mod" "sr_mod" ];
                 kernelModules = [ ];
               };
               kernelModules = [ ];
@@ -316,12 +319,14 @@
             imports = [ ./parallels-unfree/parallels-guest.nix ];
             hardware.parallels = {
               enable = true;
-              package = (config.boot.kernelPackages.callPackage ./parallels-unfree/prl-tools.nix {});
+              package = (config.boot.kernelPackages.callPackage
+                ./parallels-unfree/prl-tools.nix { });
             };
 
             fileSystems = {
               "/" = {
-                device = "/dev/disk/by-uuid/4653506c-3bff-4fbf-bdc6-af7e3f04721a";
+                device =
+                  "/dev/disk/by-uuid/4653506c-3bff-4fbf-bdc6-af7e3f04721a";
                 fsType = "ext4";
               };
 
@@ -375,10 +380,10 @@
 
             system = {
               stateVersion = "21.11"; # Did you read the comment?
-              configurationRevision =
-                if self ? rev
-                then self.rev
-                else throw "Refusing to build from a dirty Git tree!";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
             };
 
           })
@@ -427,7 +432,8 @@
 
             fileSystems = {
               "/" = {
-                device = "/dev/disk/by-uuid/b907ec30-f267-4d35-8f61-2951a5203418";
+                device =
+                  "/dev/disk/by-uuid/b907ec30-f267-4d35-8f61-2951a5203418";
                 fsType = "ext4";
               };
               "/boot" = {
@@ -436,12 +442,11 @@
               };
             };
 
-            swapDevices = [{ device = "/dev/disk/by-uuid/caac48dd-00c5-4cf7-b7f9-11561882e417"; }];
+            swapDevices = [{
+              device = "/dev/disk/by-uuid/caac48dd-00c5-4cf7-b7f9-11561882e417";
+            }];
 
-            environment.systemPackages = with pkgs; [
-              vim
-              wget
-            ];
+            environment.systemPackages = with pkgs; [ vim wget ];
 
             networking = {
               useDHCP = false;
@@ -469,10 +474,10 @@
 
             system = {
               stateVersion = "21.11"; # Did you read the comment?
-              configurationRevision =
-                if self ? rev
-                then self.rev
-                else throw "Refusing to build from a dirty Git tree!";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
             };
 
           })
@@ -501,10 +506,10 @@
 
             system = {
               stateVersion = "21.11"; # Did you read the comment?
-              configurationRevision =
-                if self ? rev
-                then self.rev
-                else throw "Refusing to build from a dirty Git tree!";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
             };
 
             environment.systemPackages = with pkgs; [
@@ -564,18 +569,14 @@
               mutableUsers = false;
             };
 
-            environment.systemPackages = with pkgs; [
-              ripgrep
-              vim
-              wget
-            ];
+            environment.systemPackages = with pkgs; [ ripgrep vim wget ];
 
             system = {
               stateVersion = "21.11";
-              configurationRevision =
-                if self ? rev
-                then self.rev
-                else throw "Refusing to build from a dirty Git tree!";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
             };
           })
         ];
@@ -583,11 +584,15 @@
 
       aws-arm-fesite = inputs.nixos-unstable.lib.nixosSystem {
         system = "aarch64-linux";
-        modules =  [
+        modules = [
           inputs.agenix.nixosModules.age
           ({ pkgs, config, lib, modulesPath, ... }:
             let
-              overlays = [ (final: prev: { fesite = inputs.fesite.packages.aarch64-linux.fesite; }) ];
+              overlays = [
+                (final: prev: {
+                  fesite = inputs.fesite.packages.aarch64-linux.fesite;
+                })
+              ];
             in {
               imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
               ec2 = {
@@ -615,20 +620,16 @@
               nixpkgs.config.allowUnfree = true;
 
               system = {
-                configurationRevision =
-                  if self ? rev
-                  then self.rev
-                  else throw "Refusing to build from a dirty Git tree!";
+                configurationRevision = if self ? rev then
+                  self.rev
+                else
+                  throw "Refusing to build from a dirty Git tree!";
                 stateVersion = "21.11";
               };
 
               nixpkgs.overlays = overlays;
 
-              environment.systemPackages = with pkgs; [
-                fesite
-                vim
-                wget
-              ];
+              environment.systemPackages = with pkgs; [ fesite vim wget ];
 
               age = {
                 secrets = {
@@ -803,7 +804,8 @@
                 usePredictableInterfaceNames = false;
                 firewall = {
                   enable = true;
-                  allowedTCPPorts = [ 22 80 443 1965 6667 6697 8009 8000 8080 3030 ];
+                  allowedTCPPorts =
+                    [ 22 80 443 1965 6667 6697 8009 8000 8080 3030 ];
                   allowedUDPPorts = [ 80 443 41641 51822 51820 ];
 
                   allowedUDPPortRanges = [{
@@ -816,11 +818,11 @@
         ]; # modules
       }; # aws-arm-fesite
 
-      linode = inputs. nixos-unstable.lib.nixosSystem {
+      linode = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
-        modules =
-          [ inputs.agenix.nixosModules.age
-            ({ pkgs, config, lib, modulesPath, ... }: {
+        modules = [
+          inputs.agenix.nixosModules.age
+          ({ pkgs, config, lib, modulesPath, ... }: {
 
             imports = [
               (modulesPath + "/profiles/qemu-guest.nix")
@@ -829,12 +831,8 @@
 
             boot = {
               initrd = {
-                availableKernelModules = [
-                  "virtio_pci"
-                  "virtio_scsi"
-                  "ahci"
-                  "sd_mod"
-                ];
+                availableKernelModules =
+                  [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
                 kernelModules = [ ];
               };
               extraModulePackages = [ ];
@@ -847,7 +845,7 @@
                     serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
                     terminal_input serial;
                     terminal_input serial
-                    '';
+                  '';
                   forceInstall = true;
                   device = "nodev";
                 };
@@ -861,7 +859,7 @@
               fsType = "ext4";
             };
 
-            swapDevices = [ { device = "/dev/sdb"; } ];
+            swapDevices = [{ device = "/dev/sdb"; }];
 
             security.acme = {
               acceptTerms = true;
@@ -895,10 +893,18 @@
               domains = [ "fetsorn.website" ];
               # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
-                "anton@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-anton"; };
-                "auth@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-auth"; };
-                "fetsorn@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-fetsorn"; };
-                "git@fetsorn.website" = { hashedPasswordFile = "/run/agenix/mail-git"; };
+                "anton@fetsorn.website" = {
+                  hashedPasswordFile = "/run/agenix/mail-anton";
+                };
+                "auth@fetsorn.website" = {
+                  hashedPasswordFile = "/run/agenix/mail-auth";
+                };
+                "fetsorn@fetsorn.website" = {
+                  hashedPasswordFile = "/run/agenix/mail-fetsorn";
+                };
+                "git@fetsorn.website" = {
+                  hashedPasswordFile = "/run/agenix/mail-git";
+                };
               };
               certificateScheme = 3;
               virusScanning = false; # breaks otherwise for some reason
@@ -922,10 +928,10 @@
             nixpkgs.config.allowUnfree = true;
 
             system = {
-              configurationRevision =
-                if self ? rev
-                then self.rev
-                else throw "Refusing to build from a dirty Git tree!";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
               stateVersion = "21.11";
             };
 
@@ -959,13 +965,8 @@
 
             boot = {
               initrd = {
-                availableKernelModules = [
-                  "ahci"
-                  "xhci_pci"
-                  "usb_storage"
-                  "sd_mod"
-                  "rtsx_usb_sdmmc"
-                ];
+                availableKernelModules =
+                  [ "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
                 kernelModules = [ ];
               };
               kernelModules = [ "kvm-intel" ];
@@ -979,7 +980,8 @@
 
             fileSystems = {
               "/" = {
-                device = "/dev/disk/by-uuid/52e503cb-0e91-40e7-9c94-2d4b9e60e6d2";
+                device =
+                  "/dev/disk/by-uuid/52e503cb-0e91-40e7-9c94-2d4b9e60e6d2";
                 fsType = "ext4";
               };
 
@@ -989,10 +991,13 @@
               };
             };
 
-            swapDevices = [ { device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e"; } ];
+            swapDevices = [{
+              device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e";
+            }];
 
             hardware = {
-              cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+              cpu.intel.updateMicrocode =
+                lib.mkDefault config.hardware.enableRedistributableFirmware;
               pulseaudio.enable = true;
             };
 
@@ -1001,23 +1006,28 @@
             nix = {
               package = pkgs.nixUnstable;
               extraOptions = "experimental-features = nix-command flakes";
-              binaryCaches          = [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
-              binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo=" ];
+              binaryCaches =
+                [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
+              binaryCachePublicKeys = [
+                "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+                "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+              ];
               maxJobs = lib.mkDefault 4;
             };
             nixpkgs.config.allowUnfree = true;
 
             system = {
-              configurationRevision =
-                if self ? rev
-                then self.rev
-                else throw "Refusing to build from a dirty Git tree!";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
               stateVersion = "21.11"; # Did you read the comment?
             };
 
-            networking =  {
+            networking = {
               hostName = "sonicmaster"; # Define your hostname.
-              wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+              wireless.enable =
+                true; # Enables wireless support via wpa_supplicant.
               useDHCP = false;
               interfaces.wlp1s0.useDHCP = true;
             };
@@ -1030,9 +1040,7 @@
 
             time.timeZone = "Europe/Moscow";
 
-            environment.systemPackages = with pkgs; [
-              git
-            ];
+            environment.systemPackages = with pkgs; [ git ];
 
             services = {
               openssh.enable = true;
@@ -1049,7 +1057,12 @@
                   xmonad.enable = true;
                   i3 = {
                     enable = true;
-                    extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
+                    extraPackages = with pkgs; [
+                      dmenu
+                      i3status
+                      i3lock
+                      i3blocks
+                    ];
                     package = pkgs.i3-gaps;
                   };
                 };
@@ -1083,17 +1096,21 @@
       sshOpts = [ "-i" "~/.ssh/nixos.pem" ];
       profiles.system = {
         user = "root";
-        path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.aws-arm-simple;
+        path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos
+          self.nixosConfigurations.aws-arm-simple;
       };
     };
 
-    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
+    checks =
+      builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
+      inputs.deploy-rs.lib;
 
     apps.aarch64-linux.deployApp = {
       type = "app";
-      program = "${inputs.deploy-rs.packages.aarch64-linux.deploy-rs}/bin/deploy";
+      program =
+        "${inputs.deploy-rs.packages.aarch64-linux.deploy-rs}/bin/deploy";
     };
     defaultApp.aarch64-linux = self.apps.aarch64-linux.deployApp;
 
-  }; #outputs
+  }; # outputs
 }
