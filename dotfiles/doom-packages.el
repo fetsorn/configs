@@ -68,3 +68,5 @@
 (package! flycheck-hledger)
 
 (package! fountain-mode)
+
+(package! extempore-mode)

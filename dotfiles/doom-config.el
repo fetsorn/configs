@@ -526,7 +526,7 @@
     (mu4e-drafts-folder     . "/git/Drafts")
     (mu4e-trash-folder      . "/git/Junk")
     (mu4e-refile-folder     . "/git/All")
-    (smtpmail-smtp-user     . "anton@fetsorn.website")
+    (smtpmail-smtp-user     . "git@fetsorn.website")
     (mu4e-compose-signature . "---\nYours truly"))
   t)
 (set-email-account! "fetsorn@fetsorn.website"
@@ -534,7 +534,14 @@
     (mu4e-drafts-folder     . "/fetsorn/Drafts")
     (mu4e-trash-folder      . "/fetsorn/Junk")
     (mu4e-refile-folder     . "/fetsorn/All")
-    (smtpmail-smtp-user     . "anton@fetsorn.website")
+    (smtpmail-smtp-user     . "fetsorn@fetsorn.website")
     (mu4e-compose-signature . "---\nYours truly"))
   t)
-
+(set-email-account! "auth@fetsorn.website"
+  '((mu4e-sent-folder       . "/auth/Sent")
+    (mu4e-drafts-folder     . "/auth/Drafts")
+    (mu4e-trash-folder      . "/auth/Junk")
+    (mu4e-refile-folder     . "/auth/All")
+    (smtpmail-smtp-user     . "auth@fetsorn.website")
+    (mu4e-compose-signature . "---\nYours truly"))
+  t)

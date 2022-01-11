@@ -138,12 +138,12 @@
 
         home = {
           file = {
-              ".p10k.zsh".text = builtins.readFile ./dotfiles/p10k.zsh;
-              ".doom.d/init.el".text = builtins.readFile ./dotfiles/doom-init.el;
-              ".doom.d/config.el".text = builtins.readFile ./dotfiles/doom-config.el;
-              ".doom.d/packages.el".text = builtins.readFile ./dotfiles/doom-packages.el;
-              ".hammerspoon/init.lua".text = builtins.readFile ./dotfiles/init.lua;
-              ".hammerspoon/loopstop.lua".text = builtins.readFile ./dotfiles/loopstop.lua;
+              ".p10k.zsh".source = ./dotfiles/p10k.zsh;
+              ".doom.d/init.el".source = ./dotfiles/doom-init.el;
+              ".doom.d/config.el".source = ./dotfiles/doom-config.el;
+              ".doom.d/packages.el".source = ./dotfiles/doom-packages.el;
+              ".hammerspoon/init.lua".source = ./dotfiles/init.lua;
+              ".hammerspoon/loopstop.lua".source = ./dotfiles/loopstop.lua;
             };
 
             packages = with pkgs; [
