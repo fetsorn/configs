@@ -158,6 +158,7 @@
                 nixfmt
                 nixUnstable
                 noisegen
+                parallel
                 ripgrep
                 rsync
                 tmux
