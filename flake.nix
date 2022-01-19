@@ -819,7 +819,7 @@
         ]; # modules
       }; # aws-arm-fesite
 
-      linode = inputs.nixos-unstable.lib.nixosSystem {
+      linode-mail = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           inputs.agenix.nixosModules.age
@@ -919,7 +919,7 @@
 
             services.openssh = {
               enable = true;
-              permitRootLogin = "yes";
+              permitRootLogin = "no";
             };
 
             nix = {
@@ -956,7 +956,151 @@
             };
           })
         ];
-      }; # linode
+      }; # linode-mail
+
+      linode-gitea = inputs.nixos-unstable.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          inputs.agenix.nixosModules.age
+          ({ pkgs, config, lib, modulesPath, ... }: {
+
+            imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
+
+            boot = {
+              initrd = {
+                availableKernelModules =
+                  [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
+                kernelModules = [ ];
+              };
+              extraModulePackages = [ ];
+              loader = {
+                timeout = 10;
+                grub = {
+                  enable = true;
+                  version = 2;
+                  extraConfig = ''
+                    serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
+                    terminal_input serial;
+                    terminal_input serial
+                  '';
+                  forceInstall = true;
+                  device = "nodev";
+                };
+              };
+              kernelModules = [ ];
+              kernelParams = [ "console=ttyS0,19200n8" ];
+            };
+
+            fileSystems."/" = {
+              device = "/dev/sda";
+              fsType = "ext4";
+            };
+
+            swapDevices = [{ device = "/dev/sdb"; }];
+
+            security.acme = {
+              acceptTerms = true;
+              email = "anton@fetsorn.website";
+            };
+
+            age = {
+              secrets = {
+                gitea-dbpass = {
+                  file = ./secrets/gitea-dbpass.age;
+                  owner = "fetsorn";
+                  group = "gitea";
+                };
+              };
+            };
+
+            services.gitea = {
+              enable = true;
+              database = {
+                type = "postgres";
+                passwordFile = "/run/agenix/gitea-dbpass";
+              };
+              domain = "source.fetsorn.website";
+              rootUrl = "https://source.fetsorn.website/";
+              httpPort = 3001;
+              settings = {
+                mailer = {
+                  ENABLED = true;
+                  FROM = "gitea@fetsorn.website";
+                };
+                service = { REGISTER_EMAIL_CONFIRM = true; };
+              };
+            };
+
+            services.postgresql = {
+              enable = true;
+              authentication = ''
+                local gitea all ident map=gitea-users
+              '';
+              identMap = ''
+                gitea-users gitea gitea
+              '';
+            };
+
+            services.nginx = {
+              enable = true;
+              recommendedGzipSettings = true;
+              recommendedOptimisation = true;
+              recommendedProxySettings = true;
+              recommendedTlsSettings = true;
+              virtualHosts."source.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".proxyPass = "http://localhost:3001/";
+              };
+            };
+
+            networking = {
+              usePredictableInterfaceNames = false;
+              useDHCP = false;
+              interfaces.eth0.useDHCP = true;
+              firewall = {
+                enable = true;
+                allowedTCPPorts = [ 80 443 ];
+              };
+            };
+
+            services.openssh = {
+              enable = true;
+              permitRootLogin = "no";
+            };
+
+            nix = {
+              package = pkgs.nixUnstable;
+              extraOptions = "experimental-features = nix-command flakes";
+            };
+            nixpkgs.config.allowUnfree = true;
+
+            system = {
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
+              stateVersion = "21.11";
+            };
+
+            environment.systemPackages = with pkgs; [
+              git
+              ripgrep
+              rsync
+              vim
+              wget
+            ];
+
+            users = {
+              users.fetsorn = {
+                isNormalUser = true;
+                extraGroups = [ "wheel" ];
+              };
+              mutableUsers = true;
+            };
+          })
+        ];
+      }; # linode-gitea
 
       sonicmaster = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
