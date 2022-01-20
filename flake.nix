@@ -1050,6 +1050,7 @@
                 type = "postgres";
                 passwordFile = "/run/agenix/gitea-dbpass";
               };
+              lfs.enable = true;
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
