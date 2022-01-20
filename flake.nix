@@ -488,6 +488,7 @@
       pi = inputs.nixos-unstable.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          inputs.agenix.nixosModules.age
           inputs.hardwarepi.nixosModules.raspberry-pi-4
           ({ pkgs, config, lib, modulesPath, ... }: {
 
