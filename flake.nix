@@ -527,8 +527,37 @@
               hostName = "pi";
               firewall = {
                 enable = true;
-                allowedTCPPorts = [ 4000 ];
+                allowedTCPPorts = [ 4000 3000 ];
               };
+            };
+
+            age = {
+              secrets = {
+                gitea-dbpass = {
+                  file = ./secrets/gitea-dbpass.age;
+                  owner = "fetsorn";
+                  mode = "0444";
+                  group = "gitea";
+                };
+              };
+            };
+
+            services.gitea = {
+              enable = true;
+              database = {
+                type = "postgres";
+                passwordFile = "/run/agenix/gitea-dbpass";
+              };
+            };
+
+            services.postgresql = {
+              enable = true;
+              authentication = ''
+                local gitea all ident map=gitea-users
+              '';
+              identMap = ''
+                gitea-users gitea gitea
+              '';
             };
 
             users = {
@@ -1023,13 +1052,6 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
-              settings = {
-                mailer = {
-                  ENABLED = true;
-                  FROM = "gitea@fetsorn.website";
-                };
-                service = { REGISTER_EMAIL_CONFIRM = true; };
-              };
             };
 
             services.postgresql = {
@@ -1207,7 +1229,7 @@
             };
           })
         ];
-      }; # linode-gitea
+      }; # linode-stars
 
       sonicmaster = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
