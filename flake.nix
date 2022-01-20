@@ -536,7 +536,7 @@
               secrets = {
                 gitea-dbpass = {
                   file = ./secrets/gitea-dbpass.age;
-                  owner = "fetsorn";
+                  owner = "nixos";
                   mode = "0444";
                   group = "gitea";
                 };
