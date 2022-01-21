@@ -151,6 +151,7 @@
                   (epkgs: [ epkgs.vterm ]))
                 coreutils
                 exa
+                git-lfs
                 fd
                 ffmpeg
                 jq
@@ -1182,6 +1183,11 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".root = "/var/www/stars.fetsorn.website/";
+              };
+              virtualHosts."antea.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".root = "/var/www/antea.fetsorn.website/";
               };
             };
 
