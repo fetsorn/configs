@@ -1190,7 +1190,7 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".root = "/var/www/antea.fetsorn.website/";
-                locations."/".tryFiles = "/index.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
               };
             };
 
