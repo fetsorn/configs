@@ -1182,7 +1182,9 @@
               virtualHosts."stars.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                locations."/".root = "/var/www/stars.fetsorn.website/";
+                root = "/var/www/stars.fetsorn.website/antea";
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
               };
               virtualHosts."antea.fetsorn.website" = {
                 enableACME = true;
