@@ -1219,6 +1219,12 @@
                 locations."/".root = "/var/www/antea.fetsorn.website/";
                 locations."/".tryFiles = "$uri /index.html";
               };
+              virtualHosts."genea.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".root = "/var/www/genea.fetsorn.website/";
+                locations."/".tryFiles = "$uri /index.html";
+              };
             };
 
             networking = {
