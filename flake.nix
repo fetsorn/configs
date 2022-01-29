@@ -1184,7 +1184,7 @@
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
-                unitConfig = { Type = "oneshot"; };
+                serviceConfig = { Type = "oneshot"; };
                 startAt = "*:0/5";
                 wantedBy = [ "multi-user.target" ];
                 path = [ pkgs.nix pkgs.jq pkgs.git ];
