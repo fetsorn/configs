@@ -163,6 +163,7 @@
                 ripgrep
                 rsync
                 tmux
+                tree
                 zsh-powerlevel10k
               ];
 
