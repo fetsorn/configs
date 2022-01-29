@@ -1176,7 +1176,8 @@
 
             systemd = let
               antea.f.w = "antea.fetsorn.website";
-              antea.git = "git+https://source.fetsorn.website/fetsorn/antea";
+              antea.git =
+                "git+https://source.fetsorn.website/fetsorn/antea#timeline-frontend";
               genea.f.w = "genea.fetsorn.website";
               genea.git =
                 "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
