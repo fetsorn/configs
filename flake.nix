@@ -1178,14 +1178,15 @@
               antea.f.w = "antea.fetsorn.website";
               antea.git = "git+https://source.fetsorn.website/fetsorn/antea";
               genea.f.w = "genea.fetsorn.website";
-              genea.git = "git+https://source.fetsorn.website/fetsorn/genea";
+              genea.git =
+                "git+https://source.fetsorn.website/fetsorn/genea:fetsorn";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
                 unitConfig = { Type = "oneshot"; };
                 startAt = "*:0/5";
                 wantedBy = [ "multi-user.target" ];
-                path = [ pkgs.nix pkgs.jq ];
+                path = [ pkgs.nix pkgs.jq pkgs.git ];
                 script = ''
                   set -ex
 
