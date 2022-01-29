@@ -1173,6 +1173,31 @@
               email = "anton@fetsorn.website";
             };
 
+            systemd = let
+              antea.f.w = "antea.fetsorn.website";
+              antea.git = "git+https://source.fetsorn.website/fetsorn/antea";
+              genea.f.w = "genea.fetsorn.website";
+              genea.git = "git+https://source.fetsorn.website/fetsorn/genea";
+              mkService = webRoot: sourceUrl: {
+                enable = true;
+                description = webRoot;
+                unitConfig = { Type = "oneshot"; };
+                startAt = "*:0/5";
+                wantedBy = [ "multi-user.target" ];
+                path = [ pkgs.nix pkgs.jq ];
+                script = ''
+                  set -ex
+
+                  result=$(nix build --no-link --json ${sourceUrl} | jq -r '.[0]."outputs"."out"')
+
+                  ln -sfT $result /var/www/${webRoot}
+                '';
+              };
+            in {
+              services.${antea.f.w} = mkService antea.f.w antea.git;
+              services.${genea.f.w} = mkService genea.f.w genea.git;
+            };
+
             services.nginx = {
               enable = true;
               recommendedGzipSettings = true;
