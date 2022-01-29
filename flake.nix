@@ -1179,7 +1179,7 @@
               antea.git = "git+https://source.fetsorn.website/fetsorn/antea";
               genea.f.w = "genea.fetsorn.website";
               genea.git =
-                "git+https://source.fetsorn.website/fetsorn/genea:fetsorn";
+                "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
