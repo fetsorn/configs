@@ -1191,9 +1191,7 @@
                 script = ''
                   set -ex
 
-                  result=$(nix build --no-link --json ${sourceUrl} | jq -r '.[0]."outputs"."out"')
-
-                  ln -sfT $result /var/www/${webRoot}
+                  ln -sfT $(nix build --json --no-link --rebuild ${sourceUrl} | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
                 '';
               };
             in {
@@ -1255,6 +1253,18 @@
               else
                 throw "Refusing to build from a dirty Git tree!";
               stateVersion = "21.11";
+            };
+
+            programs.git = {
+              enable = true;
+              config = {
+                init = { defaultBranch = "main"; };
+                pull = { rebase = false; };
+                user = {
+                  name = "Anton Davydov";
+                  email = "fetsorn@gmail.com";
+                };
+              };
             };
 
             environment.systemPackages = with pkgs; [
