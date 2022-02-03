@@ -1191,7 +1191,7 @@
                 script = ''
                   set -ex
 
-                  ln -sfT $(nix build --json --no-link --rebuild ${sourceUrl} | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
+                  ln -sfT $(nix build --json --no-link ${sourceUrl} | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
                 '';
               };
             in {
