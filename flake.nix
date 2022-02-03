@@ -1074,6 +1074,7 @@
               recommendedOptimisation = true;
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
+              clientMaxBodySize = "100m";
               virtualHosts."source.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
