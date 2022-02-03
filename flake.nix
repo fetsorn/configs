@@ -534,43 +534,6 @@
               };
             };
 
-            age = {
-              secrets = {
-                gitea-dbpass = {
-                  file = ./secrets/gitea-dbpass.age;
-                  owner = "nixos";
-                  mode = "0444";
-                  group = "gitea";
-                };
-              };
-            };
-
-            services.gitea = {
-              enable = true;
-              database = {
-                type = "postgres";
-                passwordFile = "/run/agenix/gitea-dbpass";
-              };
-              extraConfig = ''
-                [repository]
-                ACCESS_CONTROL_ALLOW_ORIGIN = *
-
-                [cors]
-                ENABLED = true
-                ALLOW_CREDENTIALS = true
-              '';
-            };
-
-            services.postgresql = {
-              enable = true;
-              authentication = ''
-                local gitea all ident map=gitea-users
-              '';
-              identMap = ''
-                gitea-users gitea gitea
-              '';
-            };
-
             users = {
               mutableUsers = false;
               users.nixos = {
@@ -1064,6 +1027,14 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
+              extraConfig = ''
+                [repository]
+                ACCESS_CONTROL_ALLOW_ORIGIN = *
+
+                [cors]
+                ENABLED = true
+                ALLOW_CREDENTIALS = true
+              '';
             };
 
             services.postgresql = {
