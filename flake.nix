@@ -1029,7 +1029,7 @@
               httpPort = 3001;
               settings = {
                 repository = {
-                  ACCESS_CONTROL_ALLOW_ORIGIN = "antea.fetsorn.website";
+                  ACCESS_CONTROL_ALLOW_ORIGIN = "https://antea.fetsorn.website";
                 };
                 cors = {
                   ENABLED = true;
@@ -1061,7 +1061,7 @@
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
                   if ($request_method = 'OPTIONS') {
-                      add_header 'Access-Control-Allow-Origin' 'antea.fetsorn.website';
+                      add_header 'Access-Control-Allow-Origin' 'https://antea.fetsorn.website';
 
                       add_header 'Access-Control-Allow-Credentials' 'true';
                       add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
@@ -1074,13 +1074,13 @@
                       return 204;
                    }
                    if ($request_method = 'POST') {
-                      add_header 'Access-Control-Allow-Origin' 'antea.fetsorn.website';
+                      add_header 'Access-Control-Allow-Origin' 'https://antea.fetsorn.website';
                       add_header 'Access-Control-Allow-Credentials' 'true';
                       add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
                       add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
                    }
                    if ($request_method = 'GET') {
-                      add_header 'Access-Control-Allow-Origin' 'antea.fetsorn.website';
+                      add_header 'Access-Control-Allow-Origin' 'https://antea.fetsorn.website';
                       add_header 'Access-Control-Allow-Credentials' 'true';
                       add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
                       add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
