@@ -551,6 +551,14 @@
                 type = "postgres";
                 passwordFile = "/run/agenix/gitea-dbpass";
               };
+              extraConfig = ''
+                [repository]
+                ACCESS_CONTROL_ALLOW_ORIGIN = *
+
+                [cors]
+                ENABLED = true
+                ALLOW_CREDENTIALS = true
+              '';
             };
 
             services.postgresql = {
