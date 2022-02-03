@@ -1027,14 +1027,13 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
-              extraConfig = ''
-                [repository]
-                ACCESS_CONTROL_ALLOW_ORIGIN = *
-
-                [cors]
-                ENABLED = true
-                ALLOW_CREDENTIALS = true
-              '';
+              settings = {
+                repository = { ACCESS_CONTROL_ALLOW_ORIGIN = "*"; };
+                cors = {
+                  ENABLED = true;
+                  ALLOW_CREDENTIALS = true;
+                };
+              };
             };
 
             services.postgresql = {
@@ -1058,7 +1057,7 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
-                extraConfig = ''
+                locations."/".extraConfig = ''
                   if ($request_method = 'OPTIONS') {
                       add_header 'Access-Control-Allow-Origin' '*';
 
