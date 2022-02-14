@@ -167,9 +167,10 @@
                 zsh-powerlevel10k
               ];
 
+              # jq requires ru_RU or C to process cyrillics
               sessionVariables = {
-                LC_ALL = "en_US.utf-8";
-                LANG = "en_US.utf-8";
+                LC_ALL = "ru_RU.utf-8";
+                LANG = "ru_RU.utf-8";
               };
             };
 
