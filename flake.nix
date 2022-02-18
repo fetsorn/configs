@@ -155,7 +155,6 @@
                 fd
                 ffmpeg
                 jq
-                llines
                 nixfmt
                 nixUnstable
                 noisegen
@@ -920,9 +919,15 @@
               interfaces.eth0.useDHCP = true;
             };
 
-            services.openssh = {
-              enable = true;
-              permitRootLogin = "no";
+            services = {
+              openssh = {
+                enable = true;
+                permitRootLogin = "no";
+              };
+              roundcube = {
+                enable = true;
+                hostname = "inbox.fetsorn.website";
+              };
             };
 
             nix = {
