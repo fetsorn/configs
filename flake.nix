@@ -654,7 +654,7 @@
 
               security = {
                 acme = {
-                  email = "me@fetsorn.website";
+                  defaults.email = "me@fetsorn.website";
                   acceptTerms = true;
                   certs."fetsorn.website" = {
                     group = "nginx";
@@ -899,6 +899,9 @@
               # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
               loginAccounts = {
                 "anton@fetsorn.website" = {
+                  hashedPasswordFile = "/run/agenix/mail-anton";
+                };
+                "anton1@fetsorn.website" = {
                   hashedPasswordFile = "/run/agenix/mail-anton";
                 };
                 "randomname@fetsorn.website" = {
