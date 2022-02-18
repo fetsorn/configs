@@ -165,7 +165,6 @@
                 tmux
                 tree
                 zsh-powerlevel10k
-                profanity
               ];
 
               sessionVariables = {
@@ -1180,7 +1179,7 @@
 
             security.acme = {
               acceptTerms = true;
-              email = "anton@fetsorn.website";
+              defaults.email = "anton@fetsorn.website";
             };
 
             systemd = let
