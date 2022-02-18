@@ -901,7 +901,7 @@
                 "anton@fetsorn.website" = {
                   hashedPasswordFile = "/run/agenix/mail-anton";
                 };
-                "auth@fetsorn.website" = {
+                "randomname@fetsorn.website" = {
                   hashedPasswordFile = "/run/agenix/mail-auth";
                 };
                 "fetsorn@fetsorn.website" = {
