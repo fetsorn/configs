@@ -901,11 +901,8 @@
                 "anton@fetsorn.website" = {
                   hashedPasswordFile = "/run/agenix/mail-anton";
                 };
-                "anton1@fetsorn.website" = {
+                "auth@fetsorn.website" = {
                   hashedPasswordFile = "/run/agenix/mail-anton";
-                };
-                "randomname@fetsorn.website" = {
-                  hashedPasswordFile = "/run/agenix/mail-auth";
                 };
                 "fetsorn@fetsorn.website" = {
                   hashedPasswordFile = "/run/agenix/mail-fetsorn";
@@ -1007,7 +1004,7 @@
 
             security.acme = {
               acceptTerms = true;
-              email = "anton@fetsorn.website";
+              defaults.email = "anton@fetsorn.website";
             };
 
             age = {
