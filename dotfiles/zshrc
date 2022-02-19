@@ -65,3 +65,5 @@ export PATH=~/.npm-global/bin:$PATH
 # ulimit -n 65536 65536
 
 alias remix='nix-shell -p nodejs-16_x --run "npx remixd -s . --remix-ide https://remix.ethereum.org"'
+
+eval "$(/opt/homebrew/bin/brew shellenv)"

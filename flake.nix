@@ -150,15 +150,11 @@
                 ((emacsPackagesNgGen emacs).emacsWithPackages
                   (epkgs: [ epkgs.vterm ]))
                 coreutils
-                exa
                 git-lfs
-                fd
                 ffmpeg
-                jq
                 nixfmt
                 nixUnstable
                 noisegen
-                parallel
                 ripgrep
                 rsync
                 tmux
