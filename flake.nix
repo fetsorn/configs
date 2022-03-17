@@ -864,7 +864,7 @@
 
             security.acme = {
               acceptTerms = true;
-              email = "anton@fetsorn.website";
+              defaults.email = "anton@fetsorn.website";
             };
 
             age = {
