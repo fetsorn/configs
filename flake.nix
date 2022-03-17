@@ -117,7 +117,7 @@
                     enable = true;
                     # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
                     tls.fingerprint =
-                      "74:A3:AD:1A:55:E9:A7:80:25:A5:E7:36:65:CE:C1:AB:8C:FC:AF:89";
+                      "38:6C:0E:75:A3:B1:FF:DE:AD:1D:44:61:36:83:8B:2E:83:05:48:7C";
                   };
                   smtp = {
                     host = "mail.fetsorn.website";
@@ -915,6 +915,10 @@
               usePredictableInterfaceNames = false;
               useDHCP = false;
               interfaces.eth0.useDHCP = true;
+              firewall = {
+                enable = true;
+                allowedTCPPorts = [ 80 443 ];
+              };
             };
 
             services = {
@@ -925,7 +929,15 @@
               roundcube = {
                 enable = true;
                 hostname = "inbox.fetsorn.website";
+                extraConfig = ''
+                  # starttls needed for authentication, so the fqdn required to match
+                  # the certificate
+                  $config['smtp_server'] = "tls://${config.mailserver.fqdn}";
+                  $config['smtp_user'] = "%u";
+                  $config['smtp_pass'] = "%p";
+                '';
               };
+              nginx.enable = true;
             };
 
             nix = {
