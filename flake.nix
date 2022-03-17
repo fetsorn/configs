@@ -928,7 +928,7 @@
               };
               roundcube = {
                 enable = true;
-                hostname = "inbox.fetsorn.website";
+                hostName = "inbox.fetsorn.website";
                 extraConfig = ''
                   # starttls needed for authentication, so the fqdn required to match
                   # the certificate
