@@ -137,7 +137,7 @@
 ;; org-agenda
 (setq org-agenda-files
       (quote ("~/mm/0---modes/0-agendas/org-gtd.org"
-              "~/mm/0---modes/0-trees/anno.org"
+              "~/mm/0---yodes/folks/anno.org"
               "~/mm/0---modes/0-agendas/org-pr.org")))
 ;; show agenda on startup
 (add-hook 'doom-init-ui-hook (lambda () (org-agenda nil "n")) 100)
