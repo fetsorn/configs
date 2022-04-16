@@ -151,7 +151,6 @@
                   (epkgs: [ epkgs.vterm ]))
                 coreutils
                 git-lfs
-                ffmpeg
                 nixfmt
                 nixUnstable
                 noisegen
