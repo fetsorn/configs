@@ -1045,7 +1045,7 @@
               httpPort = 3001;
               settings = {
                 repository = {
-                  ACCESS_CONTROL_ALLOW_ORIGIN = "https://antea.fetsorn.website";
+                  ACCESS_CONTROL_ALLOW_ORIGIN = "https://*.fetsorn.website";
                 };
               };
               # extraConfig = ''
@@ -1205,6 +1205,9 @@
               antea.f.w = "antea.fetsorn.website";
               antea.git =
                 "git+https://source.fetsorn.website/fetsorn/antea#timeline-frontend";
+              antea-dev.f.w = "antea-dev.fetsorn.website";
+              antea-dev.git =
+                "git+https://source.fetsorn.website/fetsorn/antea?ref=dev#timeline-frontend";
               genea.f.w = "genea.fetsorn.website";
               genea.git =
                 "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
@@ -1223,6 +1226,7 @@
               };
             in {
               services.${antea.f.w} = mkService antea.f.w antea.git;
+              services.${antea.f.w} = mkService antea-dev.f.w antea-dev.git;
               services.${genea.f.w} = mkService genea.f.w genea.git;
             };
 
@@ -1243,6 +1247,12 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".root = "/var/www/antea.fetsorn.website/";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."antea-dev.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".root = "/var/www/antea-dev.fetsorn.website/";
                 locations."/".tryFiles = "$uri /index.html";
               };
               virtualHosts."genea.fetsorn.website" = {
