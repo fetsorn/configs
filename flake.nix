@@ -1043,18 +1043,19 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
-              settings = {
-                repository = {
-                  ACCESS_CONTROL_ALLOW_ORIGIN = "https://*.fetsorn.website";
-                };
-              };
-              # extraConfig = ''
-              #   [cors]
-              #                   ENABLED = true
-              #                   ALLOW_DOMAIN = *
-              #                   ALLOW_SUBDOMAIN = true
-              #                   ALLOW_CREDENTIALS = true
-              #                   '';
+              # settings = {
+              #   repository = {
+              #     ACCESS_CONTROL_ALLOW_ORIGIN = "https://*.fetsorn.website";
+              #   };
+              # };
+              extraConfig = ''
+                [cors]
+                ENABLED=true
+                SCHEME=https
+                ALLOW_DOMAIN=fetsorn.website
+                ALLOW_SUBDOMAIN=true
+                ALLOW_CREDENTIALS=true
+              '';
             };
 
             services.postgresql = {
