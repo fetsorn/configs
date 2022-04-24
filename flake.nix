@@ -1048,14 +1048,14 @@
               #     ACCESS_CONTROL_ALLOW_ORIGIN = "https://*.fetsorn.website";
               #   };
               # };
-              extraConfig = ''
+              settings = ''
                 [cors]
                 ENABLED=true
                 SCHEME=https
                 ALLOW_DOMAIN=fetsorn.website
                 ALLOW_SUBDOMAIN=true
                 ALLOW_CREDENTIALS=true
-              '';
+                              '';
             };
 
             services.postgresql = {
