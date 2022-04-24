@@ -1044,18 +1044,15 @@
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
               settings = {
-                repository = {
-                  ACCESS_CONTROL_ALLOW_ORIGIN = "https://antea.fetsorn.website";
+                repository = { ACCESS_CONTROL_ALLOW_ORIGIN = "*"; };
+                cors = {
+                  ENABLED = "true";
+                  SCHEME = "https";
+                  ALLOW_DOMAIN = "fetsorn.website";
+                  ALLOW_SUBDOMAIN = "true";
+                  ALLOW_CREDENTIALS = "true";
                 };
               };
-              # settings = ''
-              #   [cors]
-              #   ENABLED=true
-              #   SCHEME=https
-              #   ALLOW_DOMAIN=fetsorn.website
-              #   ALLOW_SUBDOMAIN=true
-              #   ALLOW_CREDENTIALS=true
-              #                 '';
             };
 
             services.postgresql = {
