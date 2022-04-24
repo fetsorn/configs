@@ -144,6 +144,7 @@
                 ".doom.d/packages.el".source = ./dotfiles/doom-packages.el;
                 ".hammerspoon/init.lua".source = ./dotfiles/init.lua;
                 ".hammerspoon/loopstop.lua".source = ./dotfiles/loopstop.lua;
+                ".pijulconfig".source = ./dotfiles/pijulconfig;
               };
 
               packages = with pkgs; [
@@ -158,6 +159,7 @@
                 rsync
                 tmux
                 tree
+                wget
                 zsh-powerlevel10k
               ];
 
