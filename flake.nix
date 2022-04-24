@@ -1226,7 +1226,7 @@
               };
             in {
               services.${antea.f.w} = mkService antea.f.w antea.git;
-              services.${antea.f.w} = mkService antea-dev.f.w antea-dev.git;
+              services.${antea-dev.f.w} = mkService antea-dev.f.w antea-dev.git;
               services.${genea.f.w} = mkService genea.f.w genea.git;
             };
 
