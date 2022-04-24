@@ -1044,7 +1044,9 @@
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
               settings = {
-                repository = { ACCESS_CONTROL_ALLOW_ORIGIN = "*"; };
+                repository = {
+                  ACCESS_CONTROL_ALLOW_ORIGIN = "https://antea.fetsorn.website";
+                };
               };
               # settings = ''
               #   [cors]
