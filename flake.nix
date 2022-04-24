@@ -1048,7 +1048,7 @@
                 cors = {
                   ENABLED = "true";
                   SCHEME = "https";
-                  ALLOW_DOMAIN = "fetsorn.website";
+                  ALLOW_DOMAIN = "*";
                   METHODS = "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS";
                   ALLOW_SUBDOMAIN = "true";
                   ALLOW_CREDENTIALS = "true";
