@@ -1072,32 +1072,32 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
-              # commonHttpConfig = ''
-              #   map $http_origin $allow_origin {
-              #       ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
-              #       default "";
-              #   }
-              # '';
+              commonHttpConfig = ''
+                map $http_origin $allow_origin {
+                    ~^https?://(.*\.)?fetsorn.website(:\d+)?(/?)$ $http_origin;
+                    default "";
+                }
+              '';
               virtualHosts."source.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
                   if ($request_method = 'OPTIONS') {
-                     add_header 'Access-Control-Allow-Origin' "https://antea.fetsorn.website";
+                     add_header 'Access-Control-Allow-Origin' $allow_origin;
                      add_header 'Access-Control-Allow-Credentials' 'true';
                      add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
                      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization';
                      return 204;
                   }
                   if ($request_method = 'POST') {
-                     add_header 'Access-Control-Allow-Origin' "https://antea.fetsorn.website";
+                     add_header 'Access-Control-Allow-Origin' $allow_origin;
                      add_header 'Access-Control-Allow-Credentials' 'true';
                      add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
                      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization';
                   }
                   if ($request_method = 'GET') {
-                     add_header 'Access-Control-Allow-Origin' "https://antea.fetsorn.website";
+                     add_header 'Access-Control-Allow-Origin' $allow_origin;
                      add_header 'Access-Control-Allow-Credentials' 'true';
                      add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
                      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization';
