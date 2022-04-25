@@ -1072,15 +1072,22 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
+              commonHttpConfig = ''
+                map $http_origin $allow_origin {
+                    ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
+                    default "";
+                }
+              '';
               virtualHosts."source.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
-                  if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website$)|(^https://antea\.fetsorn\.website$))) {
-                      add_header Access-Control-Allow-Origin "$http_origin";
-                  }
+                  add_header 'Access-Control-Allow-Origin' $allow_origin;
                 '';
+                # if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website$)|(^https://antea\.fetsorn\.website$))) {
+                #     add_header Access-Control-Allow-Origin "$http_origin";
+                # }
                 # map $http_origin $allow_origin {
                 #     ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
                 #     default "";
