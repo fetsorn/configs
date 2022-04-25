@@ -1077,12 +1077,15 @@
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
-                  map $http_origin $allow_origin {
-                      ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
-                      default "";
+                  if ($http_origin ~* "^https?://(website.com|www.website.com)$") {
+                      add_header Access-Control-Allow-Origin "$http_origin";
                   }
-                  add_header 'Access-Control-Allow-Origin' $allow_origin;
                 '';
+                # map $http_origin $allow_origin {
+                #     ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
+                #     default "";
+                # }
+                # add_header 'Access-Control-Allow-Origin' $allow_origin;
                 # if ($request_method = 'OPTIONS') {
 
                 #     add_header 'Access-Control-Allow-Credentials' 'true';
