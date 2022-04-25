@@ -1077,7 +1077,7 @@
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
-                  if ($http_origin ~* "^https?://(website.com|www.website.com)$") {
+                  if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website)|(^https://antea\.fetsorn\.website)$)) {
                       add_header Access-Control-Allow-Origin "$http_origin";
                   }
                 '';
