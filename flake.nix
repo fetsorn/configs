@@ -1083,8 +1083,8 @@
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
-                  add_header 'Access-Control-Allow-Origin' "https://antea.fetsorn.website";
-                  add_header 'Access-Control-Allow-Methods' '*';
+                  add_header 'Access-Control-Allow-Origin' "antea.fetsorn.website";
+                  add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
                 '';
                 # if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website$)|(^https://antea\.fetsorn\.website$))) {
                 #     add_header Access-Control-Allow-Origin "$http_origin";
