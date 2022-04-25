@@ -1084,23 +1084,26 @@
                 locations."/".proxyPass = "http://localhost:3001/";
                 locations."/".extraConfig = ''
                   if ($request_method = 'OPTIONS') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin;
-                     add_header 'Access-Control-Allow-Credentials' 'true';
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization';
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
                      return 204;
                   }
                   if ($request_method = 'POST') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin;
-                     add_header 'Access-Control-Allow-Credentials' 'true';
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization';
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
                   }
                   if ($request_method = 'GET') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin;
-                     add_header 'Access-Control-Allow-Credentials' 'true';
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS';
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization';
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
                   }
                 '';
                 # if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website$)|(^https://antea\.fetsorn\.website$))) {
