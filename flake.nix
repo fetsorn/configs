@@ -1043,16 +1043,16 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
-              settings = {
-                cors = {
-                  ENABLED = "true";
-                  SCHEME = "https";
-                  ALLOW_DOMAIN = "fetsorn.website";
-                  # METHODS = "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS";
-                  ALLOW_SUBDOMAIN = "true";
-                  ALLOW_CREDENTIALS = "true";
-                };
-              };
+              # settings = {
+              #   cors = {
+              #     ENABLED = "true";
+              #     SCHEME = "https";
+              #     ALLOW_DOMAIN = "fetsorn.website";
+              #     METHODS = "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS";
+              #     ALLOW_SUBDOMAIN = "true";
+              #     ALLOW_CREDENTIALS = "true";
+              #   };
+              # };
             };
 
             services.postgresql = {
@@ -1072,19 +1072,19 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
-              commonHttpConfig = ''
-                map $http_origin $allow_origin {
-                    ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
-                    default "";
-                }
-              '';
+              # commonHttpConfig = ''
+              #   map $http_origin $allow_origin {
+              #       ~^https?://(.*\.)?fetsorn.website(:\d+)?$ $http_origin;
+              #       default "";
+              #   }
+              # '';
               virtualHosts."source.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
-                # locations."/".extraConfig = ''
-                #   add_header 'Access-Control-Allow-Origin' $allow_origin;
-                # '';
+                locations."/".extraConfig = ''
+                  add_header 'Access-Control-Allow-Origin' "https://antea.fetsorn.website/";
+                '';
                 # if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website$)|(^https://antea\.fetsorn\.website$))) {
                 #     add_header Access-Control-Allow-Origin "$http_origin";
                 # }
