@@ -1048,7 +1048,7 @@
                   ENABLED = "true";
                   SCHEME = "https";
                   ALLOW_DOMAIN = "fetsorn.website";
-                  METHODS = "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS";
+                  # METHODS = "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS";
                   ALLOW_SUBDOMAIN = "true";
                   ALLOW_CREDENTIALS = "true";
                 };
@@ -1082,9 +1082,9 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
-                locations."/".extraConfig = ''
-                  add_header 'Access-Control-Allow-Origin' $allow_origin;
-                '';
+                # locations."/".extraConfig = ''
+                #   add_header 'Access-Control-Allow-Origin' $allow_origin;
+                # '';
                 # if ($http_origin ~* ((^https://antea-dev\.fetsorn\.website$)|(^https://antea\.fetsorn\.website$))) {
                 #     add_header Access-Control-Allow-Origin "$http_origin";
                 # }
