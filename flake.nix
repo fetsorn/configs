@@ -1195,10 +1195,10 @@
             systemd = let
               antea.f.w = "antea.fetsorn.website";
               antea.git =
-                "git+https://source.fetsorn.website/fetsorn/antea#timeline-frontend";
+                "git+https://source.fetsorn.website/fetsorn/csvs-ui#csvs-ui-frontend-remote";
               antea-dev.f.w = "antea-dev.fetsorn.website";
               antea-dev.git =
-                "git+https://source.fetsorn.website/fetsorn/antea?ref=dev#timeline-frontend";
+                "git+https://source.fetsorn.website/fetsorn/csvs-ui?ref=dev#csvs-ui-frontend-remote";
               genea.f.w = "genea.fetsorn.website";
               genea.git =
                 "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
