@@ -148,7 +148,7 @@
               };
 
               packages = with pkgs; [
-                ((emacsPackagesNgGen emacs).emacsWithPackages
+                ((emacsPackagesFor emacs).emacsWithPackages
                   (epkgs: [ epkgs.vterm ]))
                 coreutils
                 git-lfs
@@ -226,7 +226,7 @@
             };
 
             packages = with pkgs; [
-              ((emacsPackagesNgGen emacs).emacsWithPackages
+              ((emacsPackagesFor emacs).emacsWithPackages
                 (epkgs: [ epkgs.vterm ]))
               alacritty
               bat
