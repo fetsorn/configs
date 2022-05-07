@@ -117,7 +117,7 @@
                     enable = true;
                     # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
                     tls.fingerprint =
-                      "38:6C:0E:75:A3:B1:FF:DE:AD:1D:44:61:36:83:8B:2E:83:05:48:7C";
+                      "D1:DC:4F:C2:43:BA:15:B8:3B:38:A3:80:C8:61:6F:8E:BE:D8:93:F4";
                   };
                   smtp = {
                     host = "mail.fetsorn.website";
@@ -134,6 +134,11 @@
                 git = mailaccount { name = "git"; };
                 fetsorn = mailaccount { name = "fetsorn"; };
               };
+            };
+
+            nix = {
+              package = pkgs.nixUnstable;
+              extraOptions = "experimental-features = nix-command flakes";
             };
 
             home = {
@@ -782,7 +787,7 @@
                     useACMEHost = "fetsorn.website";
                     extraConfig = ''
                       access_log /var/log/nginx/fesite.access.log;
-                        '';
+                    '';
                   };
                 };
                 journald.extraConfig = ''

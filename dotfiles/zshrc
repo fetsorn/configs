@@ -20,7 +20,7 @@ setopt EXTENDED_HISTORY
 setopt HIST_FIND_NO_DUPS
 
 # color ls output
-# alias ls='ls --color'
+alias ls='ls --color'
 
 # boilerplate for emacs-libvterm
 # vterm_printf(){
@@ -66,4 +66,7 @@ setopt HIST_FIND_NO_DUPS
 
 # alias remix='nix-shell -p nodejs-16_x --run "npx remixd -s . --remix-ide https://remix.ethereum.org"'
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# load brew
+if [ -f /opt/homebrew/bin/brew ]; then
+eval "$(/opt/homebrew/bin/brew shellenv)";
+fi
