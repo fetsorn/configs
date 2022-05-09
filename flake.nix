@@ -1053,7 +1053,7 @@
             services.nextcloud = {
               enable = true;
               hostName = "cloud.fetsorn.website";
-              package = "nextcloud23";
+              package = pkgs.nextcloud23;
               config = {
                 dbtype = "pgsql";
                 dbuser = "nextcloud";
