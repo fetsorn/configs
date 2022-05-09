@@ -1050,6 +1050,20 @@
               httpPort = 3001;
             };
 
+            services.nextcloud = {
+              enable = true;
+              hostName = "cloud.fetsorn.website";
+              config = {
+                dbtype = "pgsql";
+                dbuser = "nextcloud";
+                dbhost =
+                  "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
+                dbname = "nextcloud";
+                adminpassFile = "/run/agenix/gitea-dbpass";
+                adminuser = "root";
+              };
+            };
+
             services.postgresql = {
               enable = true;
               authentication = ''
@@ -1058,6 +1072,11 @@
               identMap = ''
                 gitea-users gitea gitea
               '';
+              ensureDatabases = [ "nextcloud" ];
+              ensureUsers = [{
+                name = "nextcloud";
+                ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
+              }];
             };
 
             services.nginx = {
@@ -1102,6 +1121,10 @@
                   }
                 '';
               };
+              virtualHosts."cloud.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+              };
             };
 
             networking = {
@@ -1112,6 +1135,11 @@
                 enable = true;
                 allowedTCPPorts = [ 80 443 ];
               };
+            };
+
+            systemd.services."nextcloud-setup" = {
+              requires = [ "postgresql.service" ];
+              after = [ "postgresql.service" ];
             };
 
             services.openssh = {
