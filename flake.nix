@@ -1175,6 +1175,8 @@
             };
 
             environment.systemPackages = with pkgs; [
+              fontconfig
+              fuse
               git
               ripgrep
               rsync
