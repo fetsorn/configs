@@ -1125,32 +1125,6 @@
               virtualHosts."cloud.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                locations."~ .php(?:$|/)" = ''
-                  # Required for legacy support
-                  rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
-
-                  fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-                  set $path_info $fastcgi_path_info;
-
-                  try_files $fastcgi_script_name =404;
-
-                  include fastcgi_params;
-                  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                  fastcgi_param PATH_INFO $path_info;
-                  fastcgi_param HTTPS on;
-
-                  fastcgi_param modHeadersAvailable true;         # Avoid sending the security headers twice
-                  fastcgi_param front_controller_active true;     # Enable pretty urls
-                  fastcgi_pass php-handler;
-
-                  fastcgi_intercept_errors on;
-                  fastcgi_request_buffering off;
-
-                  fastcgi_max_temp_file_size 0;                '';
-                locations."/".extraConfig = ''
-                  'Content-Security-Policy' "frame-ancestors https://cloud.fetsorn.website https://cloud.fetsorn.website/store-apps/richdocumentscode"
-                  'Content-Security-Policy' "frame-src https://cloud.fetsorn.website/store-apps/richdocumentscode https://cloud.fetsorn.website blob:;"
-                '';
               };
             };
 
@@ -1189,8 +1163,6 @@
             };
 
             environment.systemPackages = with pkgs; [
-              fontconfig
-              fuse
               git
               ripgrep
               rsync
