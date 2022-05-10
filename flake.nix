@@ -1125,6 +1125,18 @@
               virtualHosts."cloud.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
+                locations."~ ^/(?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|oc[ms]-provider/.+|.+/richdocumentscode/proxy).php(?:$|/)" =
+                  ''
+                    fastcgi_split_path_info ^(.+?.php)(\/.*|)$;
+                    set $path_info $fastcgi_path_info;
+                    try_files $fastcgi_script_name =404;
+                    include fastcgi_params;
+                    include php_optimization.conf;
+                  '';
+                locations."/".extraConfig = ''
+                  'Content-Security-Policy' "frame-ancestors https://cloud.fetsorn.website https://cloud.fetsorn.website/store-apps/richdocumentscode"
+                  'Content-Security-Policy' "frame-src https://cloud.fetsorn.website/store-apps/richdocumentscode https://cloud.fetsorn.website blob:;"
+                '';
               };
             };
 
