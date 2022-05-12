@@ -1125,6 +1125,9 @@
               virtualHosts."cloud.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                'M
               };
             };
 
