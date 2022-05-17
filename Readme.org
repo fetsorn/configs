@@ -8,3 +8,5 @@ home-manager switch --flake ".#darwin"
 xrandr --output Virtual-1 --auto
 
 LC_ALL=en_US.utf-8 LANG=en_US.utf-8 open -a 'ActivityWatch'
+
+sudo git config --global --add safe.directory /home/fetsorn/configs
