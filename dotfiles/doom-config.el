@@ -136,7 +136,8 @@
 
 ;; org-agenda
 (setq org-agenda-files
-      (quote ("~/mm/modes/agendas/org-gtd.org"
+      (quote ("~/mm/modes/agendas/gtd.org"
+              "~/mm/modes/agendas/tbn.org"
               "~/mm/yodes/axles/folks/anno.org"
               "~/mm/modes/agendas/org-pr.org")))
 ;; show agenda on startup
