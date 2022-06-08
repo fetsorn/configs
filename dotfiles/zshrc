@@ -70,3 +70,7 @@ alias ls='ls --color'
 if [ -f /opt/homebrew/bin/brew ]; then
 eval "$(/opt/homebrew/bin/brew shellenv)";
 fi
+
+export EXTEMPORE_RUNTIME="/Users/fetsorn/Downloads/extempore/"
+export EXTEMPORE_EXTENSIONS="/Users/fetsorn/mm/codes/extempore-extensions/"
+alias xtm-plus="cd $EXTEMPORE_RUNTIME;./extempore --frames 256 --run '$EXTEMPORE_EXTENSIONS'LOAD_ALL.xtm"

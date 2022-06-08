@@ -4,10 +4,7 @@
   inputs = {
     nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    deploy-rs = { url = "github:serokell/deploy-rs"; };
     fesite = {
       url = "gitlab:/fetsorn/site/main";
       inputs.nixpkgs.follows = "nixos-unstable";
@@ -23,6 +20,10 @@
     hardwarepi.url = "github:nixos/nixos-hardware/master";
     simple-nixos-mailserver.url =
       "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -34,6 +35,10 @@
         username = "fetsorn";
         configuration = { pkgs, lib, ... }:
           let
+            pkgs-x86_64 = import inputs.nixpkgs-unstable {
+              system = "x86_64-darwin";
+              overlays = [ inputs.rust-overlay.overlay ];
+            };
             llines = (with pkgs;
               stdenv.mkDerivation rec {
                 pname = "lifelines";
@@ -166,6 +171,16 @@
                 tree
                 wget
                 zsh-powerlevel10k
+                (pkgs.texlive.combine {
+                  inherit (pkgs.texlive) scheme-small dvipng latexmk;
+                })
+                swiProlog
+                (pkgs-x86_64.agda.withPackages
+                  [ pkgs-x86_64.agdaPackages.standard-library ])
+                coq
+                idris
+                # pkgs-x86_64.cargo
+                pkgs-x86_64.rust-bin.nightly.latest.default
               ];
 
               sessionVariables = {

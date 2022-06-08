@@ -70,3 +70,12 @@
 (package! fountain-mode)
 
 (package! extempore-mode)
+
+;; pin agda-mode to latest release instead of unstable
+;; to match the nix release
+(package! agda2-mode
+  :recipe (:host github :repo "agda/agda"
+           :files ("src/data/emacs-mode/*.el"
+                   (:exclude "agda-input.el"))
+           :nonrecursive t)
+  :pin "442c76badc353d1b621243c43293106f60f7d746")

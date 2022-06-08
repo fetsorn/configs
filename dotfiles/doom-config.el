@@ -546,3 +546,16 @@
     (smtpmail-smtp-user     . "auth@fetsorn.website")
     (mu4e-compose-signature . "---\nYours truly"))
   t)
+
+(defun fetsorn-insert-rightarrow ()
+  (interactive)
+  (insert "\\Rightarrow"))
+
+(map! "C-c f" 'fetsorn-insert-rightarrow)
+
+(defun fetsorn-insert-leftrightarrow ()
+  (interactive)
+  (insert "\\Leftrightarrow"))
+
+(map! "C-c e" 'fetsorn-insert-leftrightarrow)
+
