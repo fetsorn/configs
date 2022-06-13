@@ -1412,6 +1412,15 @@
               tmux
             ];
 
+            networking = {
+              useDHCP = false;
+              interfaces.eth0.useDHCP = true;
+              firewall = {
+                enable = true;
+                allowedTCPPorts = [ 1234 5000 8000 80 443 ];
+              };
+            };
+
             system = {
               stateVersion = "22.05";
               configurationRevision = if self ? rev then
