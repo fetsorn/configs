@@ -1390,7 +1390,14 @@
               mutableUsers = true;
             };
 
-            environment.systemPackages = with pkgs; [ ripgrep vim wget ];
+            environment.systemPackages = with pkgs; [
+              ripgrep
+              vim
+              wget
+              git
+              rsync
+              tmux
+            ];
 
             system = {
               stateVersion = "22.05";
