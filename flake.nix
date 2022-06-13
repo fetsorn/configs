@@ -117,7 +117,7 @@
                     port = 993;
                     tls.enable = true;
                   };
-                  realName = "Anton Davydov";
+                  realName = "fetsorn";
                   msmtp = {
                     enable = true;
                     # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
@@ -194,7 +194,7 @@
 
               git = {
                 enable = true;
-                userName = "Anton Davydov";
+                userName = "fetsorn";
                 userEmail = "fetsorn@gmail.com";
                 extraConfig = {
                   init = { defaultBranch = "main"; };
@@ -290,7 +290,7 @@
 
             git = {
               enable = true;
-              userName = "Anton Davydov";
+              userName = "fetsorn";
               userEmail = "fetsorn@gmail.com";
               extraConfig = {
                 init = { defaultBranch = "main"; };
@@ -1341,7 +1341,7 @@
                 init = { defaultBranch = "main"; };
                 pull = { rebase = false; };
                 user = {
-                  name = "Anton Davydov";
+                  name = "fetsorn";
                   email = "fetsorn@gmail.com";
                 };
               };
