@@ -1388,7 +1388,7 @@
                 isNormalUser = true;
                 extraGroups = [ "wheel" ];
               };
-              mutableUsers = false;
+              mutableUsers = true;
             };
 
             environment.systemPackages = with pkgs; [ ripgrep vim wget ];
