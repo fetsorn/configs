@@ -1358,7 +1358,7 @@
             users = {
               users.fetsorn = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" ];
+                extraGroups = [ "wheel" "docker" ];
               };
               mutableUsers = true;
             };
