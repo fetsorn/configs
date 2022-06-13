@@ -1366,6 +1366,44 @@
         ];
       }; # linode-stars
 
+      aws-large = inputs.nixos-unstable.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ({ pkgs, config, lib, modulesPath, ... }: {
+
+            imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+            ec2.hvm = true;
+            ec2.efi = true;
+
+            nix = {
+              package = pkgs.nixUnstable;
+              extraOptions = "experimental-features = nix-command flakes";
+            };
+            nixpkgs.config.allowUnfree = true;
+
+            services.openssh.enable = true;
+
+            users = {
+              users.fetsorn = {
+                isNormalUser = true;
+                extraGroups = [ "wheel" ];
+              };
+              mutableUsers = false;
+            };
+
+            environment.systemPackages = with pkgs; [ ripgrep vim wget ];
+
+            system = {
+              stateVersion = "22.05";
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
+            };
+          })
+        ];
+      }; # aws-arm-simple
+
       sonicmaster = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
