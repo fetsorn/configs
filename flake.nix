@@ -1358,12 +1358,11 @@
             users = {
               users.fetsorn = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" "docker" ];
+                extraGroups = [ "wheel" ];
               };
               mutableUsers = true;
             };
 
-            virtualisation.docker.enable = true;
           })
         ];
       }; # linode-stars
@@ -1420,6 +1419,8 @@
               else
                 throw "Refusing to build from a dirty Git tree!";
             };
+
+            virtualisation.docker.enable = true;
           })
         ];
       }; # aws-arm-simple
