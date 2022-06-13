@@ -1390,6 +1390,18 @@
               mutableUsers = true;
             };
 
+            programs.git = {
+              enable = true;
+              config = {
+                init = { defaultBranch = "main"; };
+                pull = { rebase = false; };
+                user = {
+                  name = "fetsorn";
+                  email = "fetsorn@gmail.com";
+                };
+              };
+            };
+
             environment.systemPackages = with pkgs; [
               ripgrep
               vim
