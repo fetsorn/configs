@@ -1358,7 +1358,7 @@
             users = {
               users.fetsorn = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" "docker" ];
+                extraGroups = [ "wheel" ];
               };
               mutableUsers = true;
             };
@@ -1386,7 +1386,7 @@
             users = {
               users.fetsorn = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" ];
+                extraGroups = [ "wheel" "docker" ];
               };
               mutableUsers = true;
             };
