@@ -1362,6 +1362,8 @@
               };
               mutableUsers = true;
             };
+
+            virtualisation.docker.enable = true;
           })
         ];
       }; # linode-stars
