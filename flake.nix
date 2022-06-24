@@ -1060,6 +1060,10 @@
                 passwordFile = "/run/agenix/gitea-dbpass";
               };
               lfs.enable = true;
+              dump = {
+                enable = true;
+                interval = "hourly";
+              };
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
