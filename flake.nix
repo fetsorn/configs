@@ -1059,9 +1059,9 @@
                 passwordFile = "/run/agenix/gitea-dbpass";
               };
               lfs.enable = true;
-              dump = {
+              dump = { # /var/lib/gitea/dump
                 enable = true;
-                interval = "hourly";
+                interval = "monthly";
               };
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
