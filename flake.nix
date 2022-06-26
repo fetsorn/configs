@@ -1429,7 +1429,7 @@
               interfaces.eth0.useDHCP = true;
               firewall = {
                 enable = true;
-                allowedTCPPorts = [ 1234 5000 8000 80 443 3000 ];
+                allowedTCPPorts = [ 22 1234 5000 8000 80 443 3000 ];
               };
             };
 
