@@ -559,3 +559,5 @@
 
 (map! "C-c e" 'fetsorn-insert-leftrightarrow)
 
+
+(setq jiralib-url "https://consideritdone.atlassian.net")

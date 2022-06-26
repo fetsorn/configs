@@ -178,7 +178,6 @@
                 (pkgs-x86_64.agda.withPackages
                   [ pkgs-x86_64.agdaPackages.standard-library ])
                 coq
-                idris
                 # pkgs-x86_64.cargo
                 pkgs-x86_64.rust-bin.nightly.latest.default
               ];
