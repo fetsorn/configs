@@ -559,5 +559,25 @@
 
 (map! "C-c e" 'fetsorn-insert-leftrightarrow)
 
+(setq auth-sources '("~/.authinfo" macos-keychain-generic macos-keychain-internet "/Users/fetsorn/.emacs.d/.local/etc/authinfo.gpg" "~/.authinfo.gpg"))
 
-(setq jiralib-url "https://consideritdone.atlassian.net")
+(use-package org-jira
+  :demand t
+  :init
+  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
+  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
+
+(defun fetsorn-switch-jira-cidt ()
+  (interactive)
+  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
+  (setq jiralib-token '())
+  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
+
+(defun fetsorn-switch-jira-solurnkor ()
+  (interactive)
+  (setq jiralib-url "https://solurnkor.atlassian.net") ;; Redacted
+  (setq jiralib-token '())
+  (setq org-jira-working-dir "~/.org-jira/solurnkor"))
+
+(map! "C-c a" 'fetsorn-switch-jira-cidt)
+(map! "C-c b" 'fetsorn-switch-jira-solurnkor)

@@ -147,6 +147,15 @@
             };
 
             home = {
+              activation = {
+                myActivationAction =
+                  lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+                    $DRY_RUN_CMD [ ! -e $HOME/.local/share/password-store ] && \
+                        ln -s $VERBOSE_ARG \
+                        $HOME/mm/modes/secrets/password-store/ \
+                        $HOME/.local/share/password-store
+                  '';
+              };
               file = {
                 ".p10k.zsh".source = ./dotfiles/p10k.zsh;
                 ".doom.d/init.el".source = ./dotfiles/doom-init.el;
