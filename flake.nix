@@ -1399,9 +1399,12 @@
             };
 
             systemd = let
-              nft.f.w = "nft.fetsorn.website";
-              nft.git =
+              mint.f.w = "mint.fetsorn.website";
+              mint.git =
                 "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#candy-machine-ui";
+              store.f.w = "store.fetsorn.website";
+              store.git =
+                "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#storefront";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
@@ -1415,7 +1418,10 @@
                   ln -sfT $(nix build --json --no-link --tarball-ttl 0 "${sourceUrl}" | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
                 '';
               };
-            in { services.${nft.f.w} = mkService nft.f.w nft.git; };
+            in {
+              services.${mint.f.w} = mkService mint.f.w mint.git;
+              services.${store.f.w} = mkService store.f.w store.git;
+            };
 
             services.nginx = {
               enable = true;
