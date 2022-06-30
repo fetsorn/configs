@@ -1433,7 +1433,7 @@
               virtualHosts."store.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                root = "/var/www/stop.fetsorn.website";
+                root = "/var/www/store.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
