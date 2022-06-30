@@ -1412,7 +1412,7 @@
                 script = ''
                   set -ex
 
-                  ln -sfT $(nix build --no-write-lock-file --json --no-link --tarball-ttl 0 "${sourceUrl}" | ${pkgs.jq}/bin/jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
+                  ln -sfT $(nix build --json --no-link --tarball-ttl 0 "${sourceUrl}" | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
                 '';
               };
             in { services.${nft.f.w} = mkService nft.f.w nft.git; };
@@ -1426,7 +1426,7 @@
               virtualHosts."nft.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                root = "/var/www/nft.fetsorn.website/antea";
+                root = "/var/www/nft.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
