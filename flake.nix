@@ -1401,7 +1401,7 @@
             systemd = let
               nft.f.w = "nft.fetsorn.website";
               nft.git =
-                "git+https://source.fetsorn.website/fetsorn/candy-machine-ui#candy-machine-ui";
+                "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#candy-machine-ui";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
