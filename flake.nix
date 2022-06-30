@@ -1398,7 +1398,7 @@
                   chmod -R 755 node_modules
                 '';
                 buildPhase = ''
-                  printf "%s" "REACT_APP_CANDY_MACHINE_ID=<YOUR CANDY MACHINE PROGRAM ID>" >> .env
+                  printf "%s" "REACT_APP_CANDY_MACHINE_ID=5XXm2Sij4FmtMjhy7FbXDrWqfgY68jvR4LfdVgshUAVc" >> .env
                   printf "%s" "REACT_APP_SOLANA_NETWORK=devnet" >> .env
                   printf "%s" "REACT_APP_SOLANA_RPC_HOST=https://metaplex.devnet.rpcpool.com/" >> .env
                   printf "%s" "SKIP_PREFLIGHT_CHECK=true" >> .env
