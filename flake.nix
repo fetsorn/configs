@@ -1429,10 +1429,17 @@
               recommendedOptimisation = true;
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
-              virtualHosts."nft.fetsorn.website" = {
+              virtualHosts."mint.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                root = "/var/www/nft.fetsorn.website";
+                root = "/var/www/mint.fetsorn.website";
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."store.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root = "/var/www/stop.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
