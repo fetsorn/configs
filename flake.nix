@@ -1382,65 +1382,133 @@
       aws-large = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ({ pkgs, config, lib, modulesPath, ... }: {
+          ({ pkgs, config, lib, modulesPath, ... }:
+            let
+              candy-machine-ui = pkgs.mkYarnPackage rec {
+                name = "candy-machine-ui";
+                src = pkgs.fetchFromGitHub {
+                  owner = "metaplex-foundation";
+                  repo = "metaplex";
+                  rev = "e526e9ad";
+                  sha256 =
+                    "sha256-7D6LbkpqARMQApxhMVXxSv18rmRSlZeujkRf+CZ4N4s=";
+                } + "js/packages/candy-machine-ui";
+                configurePhase = ''
+                  cp -r $node_modules node_modules
+                  chmod -R 755 node_modules
+                '';
+                buildPhase = ''
+                  printf "%s" "REACT_APP_CANDY_MACHINE_ID=<YOUR CANDY MACHINE PROGRAM ID>" >> .env
+                  printf "%s" "REACT_APP_SOLANA_NETWORK=devnet" >> .env
+                  printf "%s" "REACT_APP_SOLANA_RPC_HOST=https://metaplex.devnet.rpcpool.com/" >> .env
+                  printf "%s" "SKIP_PREFLIGHT_CHECK=true" >> .env
 
-            imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
-            ec2.hvm = true;
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            services.openssh.enable = true;
-
-            users = {
-              users.fetsorn = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" "docker" ];
+                  NODE_ENV=development yarn run build
+                  cp -r build $out
+                '';
+                dontInstall = true;
+                distPhase = ''
+                  true
+                '';
               };
-              mutableUsers = true;
-            };
+            in {
 
-            programs.git = {
-              enable = true;
-              config = {
-                init = { defaultBranch = "main"; };
-                pull = { rebase = false; };
-                user = {
-                  name = "fetsorn";
-                  email = "fetsorn@gmail.com";
+              imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+              ec2.hvm = true;
+
+              nix = {
+                package = pkgs.nixUnstable;
+                extraOptions = "experimental-features = nix-command flakes";
+              };
+              nixpkgs.config.allowUnfree = true;
+
+              security.acme = {
+                acceptTerms = true;
+                defaults.email = "anton@fetsorn.website";
+              };
+
+              systemd = let
+                nft.f.w = "nft.fetsorn.website";
+                nft.git =
+                  "git+https://source.fetsorn.website/fetsorn/candy-machine-ui#candy-machine-ui";
+                mkService = webRoot: sourceUrl: {
+                  enable = true;
+                  description = webRoot;
+                  serviceConfig = { Type = "oneshot"; };
+                  startAt = "*:0/5";
+                  wantedBy = [ "multi-user.target" ];
+                  path = [ pkgs.nix pkgs.jq pkgs.git ];
+                  script = ''
+                    set -ex
+
+                    ln -sfT $(nix build --json --no-link --tarball-ttl 0 ${sourceUrl} | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
+                  '';
+                };
+              in { services.${nft.f.w} = mkService nft.f.w nft.git; };
+
+              services.nginx = {
+                enable = true;
+                recommendedGzipSettings = true;
+                recommendedOptimisation = true;
+                recommendedProxySettings = true;
+                recommendedTlsSettings = true;
+                virtualHosts."nft.fetsorn.website" = {
+                  enableACME = true;
+                  forceSSL = true;
+                  root = "/var/www/nft.fetsorn.website/antea";
+                  locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                  locations."/".tryFiles = "$uri /index.html";
                 };
               };
-            };
 
-            environment.systemPackages = with pkgs; [
-              ripgrep
-              vim
-              wget
-              git
-              rsync
-              tmux
-            ];
+              services.openssh.enable = true;
 
-            networking = {
-              firewall = {
-                enable = true;
-                allowedTCPPorts = [ 22 1234 5000 8000 80 443 3000 ];
+              users = {
+                users.fetsorn = {
+                  isNormalUser = true;
+                  extraGroups = [ "wheel" "docker" ];
+                };
+                mutableUsers = true;
               };
-            };
 
-            system = {
-              stateVersion = "22.05";
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-            };
+              programs.git = {
+                enable = true;
+                config = {
+                  init = { defaultBranch = "main"; };
+                  pull = { rebase = false; };
+                  user = {
+                    name = "fetsorn";
+                    email = "fetsorn@gmail.com";
+                  };
+                };
+              };
 
-            virtualisation.docker.enable = true;
-          })
+              environment.systemPackages = with pkgs; [
+                ripgrep
+                vim
+                wget
+                git
+                rsync
+                tmux
+              ];
+
+              networking = {
+                firewall = {
+                  enable = true;
+                  allowedTCPPorts = [ 22 1234 5000 8000 80 443 3000 ];
+                };
+              };
+
+              system = {
+                stateVersion = "22.05";
+                configurationRevision = if self ? rev then
+                  self.rev
+                else
+                  throw "Refusing to build from a dirty Git tree!";
+              };
+
+              virtualisation.docker.enable = true;
+            })
         ];
       }; # aws-arm-simple
 
