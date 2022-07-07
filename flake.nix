@@ -1440,6 +1440,7 @@
             };
 
             services.openssh.enable = true;
+            services.ipfs.enable = true;
 
             users = {
               users.fetsorn = {
