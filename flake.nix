@@ -1402,6 +1402,9 @@
               mint.f.w = "mint.fetsorn.website";
               mint.git =
                 "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#candy-machine-ui";
+              stake.f.w = "stake.fetsorn.website";
+              stake.git =
+                "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#cardinal-staking-ui";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
@@ -1415,7 +1418,10 @@
                   ln -sfT $(nix build --json --no-link --tarball-ttl 0 "${sourceUrl}" | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
                 '';
               };
-            in { services.${mint.f.w} = mkService mint.f.w mint.git; };
+            in {
+              services.${mint.f.w} = mkService mint.f.w mint.git;
+              services.${stake.f.w} = mkService stake.f.w stake.git;
+            };
 
             services.nginx = {
               enable = true;
@@ -1434,6 +1440,13 @@
                 enableACME = true;
                 forceSSL = true;
                 root = "/var/www/store.fetsorn.website";
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."stake.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root = "/var/www/stake.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
