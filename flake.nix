@@ -1500,7 +1500,10 @@
                 throw "Refusing to build from a dirty Git tree!";
             };
 
-            virtualisation.docker.enable = true;
+            virtualisation.docker = {
+              enable = true;
+              logDriver = "json-file";
+            };
           })
         ];
       }; # aws-arm-simple
