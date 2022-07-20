@@ -1405,8 +1405,8 @@
               stake.f.w = "stake.fetsorn.website";
               stake.git =
                 "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#cardinal-staking-ui";
-              trace.f.w = "trace.fetsorn.website";
-              trace.git =
+              logger.f.w = "logger.fetsorn.website";
+              logger.git =
                 "git+https://github.com/fetsorn/polywrap-react-logger?ref=new#polywrap-react-logger";
               mkService = webRoot: sourceUrl: {
                 enable = true;
@@ -1424,7 +1424,7 @@
             in {
               services.${mint.f.w} = mkService mint.f.w mint.git;
               services.${stake.f.w} = mkService stake.f.w stake.git;
-              services.${trace.f.w} = mkService trace.f.w trace.git;
+              services.${logger.f.w} = mkService logger.f.w logger.git;
             };
 
             services.nginx = {
@@ -1454,12 +1454,41 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
+              virtualHosts."logger.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root = "/var/www/logger.fetsorn.website";
+                locations."~ ^/$".tryFiles = "/index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
               virtualHosts."trace.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                root = "/var/www/trace.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/index.html";
-                locations."/".tryFiles = "$uri /index.html";
+                locations."/".proxyPass = "http://localhost:3301/";
+                locations."/".extraConfig = ''
+                  if ($request_method = 'OPTIONS') {
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+                     return 204;
+                  }
+                  if ($request_method = 'POST') {
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+                  }
+                  if ($request_method = 'GET') {
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+                  }
+                '';
               };
             };
 
