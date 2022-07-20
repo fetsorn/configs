@@ -1253,7 +1253,7 @@
 
             security.acme = {
               acceptTerms = true;
-              defaults.email = "anton@fetsorn.website";
+              defaults.email = "fetsorn@yandex.ru";
             };
 
             systemd = let
@@ -1266,6 +1266,9 @@
               genea.f.w = "genea.fetsorn.website";
               genea.git =
                 "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
+              logger.f.w = "logger.fetsorn.website";
+              logger.git =
+                "git+https://github.com/fetsorn/polywrap-react-logger?ref=new#polywrap-react-logger";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
@@ -1283,6 +1286,7 @@
               services.${antea.f.w} = mkService antea.f.w antea.git;
               services.${antea-dev.f.w} = mkService antea-dev.f.w antea-dev.git;
               services.${genea.f.w} = mkService genea.f.w genea.git;
+              services.${logger.f.w} = mkService logger.f.w logger.git;
             };
 
             services.nginx = {
@@ -1314,6 +1318,13 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".root = "/var/www/genea.fetsorn.website/";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."logger.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root = "/var/www/logger.fetsorn.website";
+                locations."~ ^/$".tryFiles = "/index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
             };
@@ -1454,13 +1465,13 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."logger.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/logger.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
+              # virtualHosts."logger.fetsorn.website" = {
+              #   enableACME = true;
+              #   forceSSL = true;
+              #   root = "/var/www/logger.fetsorn.website";
+              #   locations."~ ^/$".tryFiles = "/index.html";
+              #   locations."/".tryFiles = "$uri /index.html";
+              # };
               virtualHosts."trace.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
