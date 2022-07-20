@@ -1470,6 +1470,11 @@
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3301/";
               };
+              virtualHosts."otel.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".proxyPass = "http://localhost:4318/";
+              };
               virtualHosts."logger.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
