@@ -1457,7 +1457,12 @@
               virtualHosts."trace.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                root = "/var/www/stake.fetsorn.website";
+                locations."/".proxyPass = "http://localhost:3301/";
+              };
+              virtualHosts."logger.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root = "/var/www/logger.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
