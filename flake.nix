@@ -1454,13 +1454,13 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."mario.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/logger.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
+              #virtualHosts."mario.fetsorn.website" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  root = "/var/www/logger.fetsorn.website";
+              #  locations."~ ^/$".tryFiles = "/index.html";
+              #  locations."/".tryFiles = "$uri /index.html";
+              #};
               #virtualHosts."trace.fetsorn.website" = {
               #  enableACME = true;
               #  forceSSL = true;
