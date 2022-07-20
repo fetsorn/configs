@@ -1405,6 +1405,9 @@
               stake.f.w = "stake.fetsorn.website";
               stake.git =
                 "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#cardinal-staking-ui";
+              trace.f.w = "trace.fetsorn.website";
+              trace.git =
+                "git+https://github.com/fetsorn/polywrap-react-logger?ref=new#polywrap-react-logger";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
@@ -1421,6 +1424,7 @@
             in {
               services.${mint.f.w} = mkService mint.f.w mint.git;
               services.${stake.f.w} = mkService stake.f.w stake.git;
+              services.${trace.f.w} = mkService trace.f.w trace.git;
             };
 
             services.nginx = {
@@ -1448,6 +1452,13 @@
                 forceSSL = true;
                 root = "/var/www/stake.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."trace.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root = "/var/www/trace.fetsorn.website";
+                locations."~ ^/$".tryFiles = "/index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
             };
