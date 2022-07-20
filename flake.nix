@@ -1454,42 +1454,42 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."logger.fetsorn.website" = {
+              virtualHosts."mario.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
                 root = "/var/www/logger.fetsorn.website";
                 locations."~ ^/$".tryFiles = "/index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."trace.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".proxyPass = "http://localhost:3301/";
-                locations."/".extraConfig = ''
-                  if ($request_method = 'OPTIONS') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
-                     add_header 'Access-Control-Allow-Credentials' 'true' always;
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
-                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
-                     return 204;
-                  }
-                  if ($request_method = 'POST') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
-                     add_header 'Access-Control-Allow-Credentials' 'true' always;
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
-                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
-                  }
-                  if ($request_method = 'GET') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
-                     add_header 'Access-Control-Allow-Credentials' 'true' always;
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
-                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
-                  }
-                '';
-              };
+              #virtualHosts."trace.fetsorn.website" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".proxyPass = "http://localhost:3301/";
+              #  locations."/".extraConfig = ''
+              #    if ($request_method = 'OPTIONS') {
+              #       add_header 'Access-Control-Allow-Origin' $allow_origin always;
+              #       add_header 'Access-Control-Allow-Credentials' 'true' always;
+              #       add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+              #       add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+              #       add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+              #       return 204;
+              #    }
+              #    if ($request_method = 'POST') {
+              #       add_header 'Access-Control-Allow-Origin' $allow_origin always;
+              #       add_header 'Access-Control-Allow-Credentials' 'true' always;
+              #       add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+              #       add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+              #       add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+              #    }
+              #    if ($request_method = 'GET') {
+              #       add_header 'Access-Control-Allow-Origin' $allow_origin always;
+              #       add_header 'Access-Control-Allow-Credentials' 'true' always;
+              #       add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+              #       add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+              #       add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+              #    }
+              #  '';
+              #};
             };
 
             services.openssh.enable = true;
