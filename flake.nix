@@ -1435,7 +1435,7 @@
             in {
               services.${mint.f.w} = mkService mint.f.w mint.git;
               services.${stake.f.w} = mkService stake.f.w stake.git;
-              services.${logger.f.w} = mkService logger.f.w logger.git;
+              # services.${logger.f.w} = mkService logger.f.w logger.git;
             };
 
             services.nginx = {
@@ -1478,9 +1478,7 @@
               virtualHosts."logger.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                root = "/var/www/logger.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
+                locations."/".proxyPass = "http://localhost:3000/";
               };
             };
 
