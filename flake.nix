@@ -24,6 +24,10 @@
       url = "github:oxalica/rust-overlay";
       inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
     };
+    logger = {
+      url = "git+https://github.com/fetsorn/polywrap-react-logger?ref=new";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -1266,9 +1270,6 @@
               genea.f.w = "genea.fetsorn.website";
               genea.git =
                 "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
-              logger.f.w = "logger.fetsorn.website";
-              logger.git =
-                "git+https://github.com/fetsorn/polywrap-react-logger?ref=new#polywrap-react-logger";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
@@ -1286,7 +1287,6 @@
               services.${antea.f.w} = mkService antea.f.w antea.git;
               services.${antea-dev.f.w} = mkService antea-dev.f.w antea-dev.git;
               services.${genea.f.w} = mkService genea.f.w genea.git;
-              services.${logger.f.w} = mkService logger.f.w logger.git;
             };
 
             services.nginx = {
@@ -1318,13 +1318,6 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".root = "/var/www/genea.fetsorn.website/";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."logger.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/logger.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
             };
@@ -1416,9 +1409,6 @@
               stake.f.w = "stake.fetsorn.website";
               stake.git =
                 "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#cardinal-staking-ui";
-              logger.f.w = "logger.fetsorn.website";
-              logger.git =
-                "git+https://github.com/fetsorn/polywrap-react-logger?ref=new#polywrap-react-logger";
               mkService = webRoot: sourceUrl: {
                 enable = true;
                 description = webRoot;
@@ -1435,7 +1425,6 @@
             in {
               services.${mint.f.w} = mkService mint.f.w mint.git;
               services.${stake.f.w} = mkService stake.f.w stake.git;
-              # services.${logger.f.w} = mkService logger.f.w logger.git;
             };
 
             services.nginx = {
@@ -1478,7 +1467,10 @@
               virtualHosts."logger.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                locations."/".proxyPass = "http://localhost:3000/";
+                root =
+                  inputs.logger.packages.${pkgs.system}.polywrap-react-logger;
+                locations."~ ^/$".tryFiles = "/index.html";
+                locations."/".tryFiles = "$uri /index.html";
               };
             };
 
