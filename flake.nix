@@ -1469,7 +1469,6 @@
                 forceSSL = true;
                 root =
                   inputs.logger.packages.${pkgs.system}.polywrap-react-logger;
-                locations."~ ^/$".tryFiles = "/index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
             };
