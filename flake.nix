@@ -28,6 +28,10 @@
       url = "git+https://github.com/fetsorn/polywrap-react-logger?ref=new";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    websocket = {
+      url = "git+https://github.com/fetsorn/polywrap-react-websocket?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -1468,6 +1472,13 @@
                 forceSSL = true;
                 root =
                   inputs.logger.packages.${pkgs.system}.polywrap-react-logger;
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."ws.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root =
+                  inputs.websocket.packages.${pkgs.system}.polywrap-react-websocket;
                 locations."/".tryFiles = "$uri /index.html";
               };
             };
