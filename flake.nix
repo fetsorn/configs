@@ -29,7 +29,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     websocket = {
-      url = "git+https://github.com/fetsorn/polywrap-react-websocket?ref=main";
+      url =
+        "git+https://source.fetsorn.website/fetsorn/polywrap-react-websocket?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
