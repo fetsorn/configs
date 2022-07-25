@@ -74,3 +74,7 @@ fi
 export EXTEMPORE_RUNTIME="/Users/fetsorn/Downloads/extempore/"
 export EXTEMPORE_EXTENSIONS="/Users/fetsorn/mm/codes/extempore-extensions/"
 alias xtm-plus="cd $EXTEMPORE_RUNTIME;./extempore --frames 256 --run '$EXTEMPORE_EXTENSIONS'LOAD_ALL.xtm"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

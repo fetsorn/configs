@@ -32,16 +32,13 @@
 
   outputs = inputs@{ self, ... }: {
     homeConfigurations = {
-      darwin = inputs.home-manager.lib.homeManagerConfiguration {
-        stateVersion = "21.11";
-        system = "aarch64-darwin";
-        homeDirectory = "/Users/fetsorn";
-        username = "fetsorn";
-        configuration = { pkgs, lib, ... }:
-          let
+      darwin = inputs.home-manager.lib.homeManagerConfiguration rec {
+        pkgs = inputs.nixpkgs-unstable.legacyPackages."aarch64-darwin";
+        modules = [
+          (let
             pkgs-x86_64 = import inputs.nixpkgs-unstable {
               system = "x86_64-darwin";
-              overlays = [ inputs.rust-overlay.overlay ];
+              overlays = [ inputs.rust-overlay.overlays.default ];
             };
             llines = (with pkgs;
               stdenv.mkDerivation rec {
@@ -151,9 +148,12 @@
             };
 
             home = {
+              homeDirectory = "/Users/fetsorn";
+              username = "fetsorn";
+              stateVersion = "22.11";
               activation = {
-                myActivationAction =
-                  lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+                myActivationAction = inputs.home-manager.lib.hm.dag.entryAfter
+                  [ "writeBoundary" ] ''
                     $DRY_RUN_CMD [ ! -e $HOME/.local/share/password-store ] && \
                         ln -s $VERBOSE_ARG \
                         $HOME/mm/modes/secrets/password-store/ \
@@ -188,8 +188,6 @@
                   inherit (pkgs.texlive) scheme-small dvipng latexmk;
                 })
                 swiProlog
-                (pkgs-x86_64.agda.withPackages
-                  [ pkgs-x86_64.agdaPackages.standard-library ])
                 coq
                 # pkgs-x86_64.cargo
                 pkgs-x86_64.rust-bin.nightly.latest.default
@@ -231,8 +229,9 @@
                 initExtra = builtins.readFile ./dotfiles/zshrc;
               };
 
-            };
-          }; # configuration
+            }; # programs
+          }) # configuration
+        ]; # modules
       }; # darwin
 
       fetsorn = inputs.home-manager.lib.homeManagerConfiguration {
