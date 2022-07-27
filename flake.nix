@@ -24,8 +24,13 @@
       url = "github:oxalica/rust-overlay";
       inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
     };
-    logger = {
+    logger-bk1 = {
       url = "git+https://github.com/fetsorn/polywrap-react-logger?ref=new";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    logger = {
+      url =
+        "git+https://source.fetsorn.website/fetsorn/polywrap-react-logger?ref=object";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     websocket = {
@@ -1467,6 +1472,13 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:4318/";
+              };
+              virtualHosts."logger-bk1.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                root =
+                  inputs.logger-bk1.packages.${pkgs.system}.polywrap-react-logger;
+                locations."/".tryFiles = "$uri /index.html";
               };
               virtualHosts."logger.fetsorn.website" = {
                 enableACME = true;
