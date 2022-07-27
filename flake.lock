@@ -56,6 +56,23 @@
         "type": "github"
       }
     },
+    "exporter": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1658851346,
+        "narHash": "sha256-ThE3eZfUUX3lW1TqShzhVjbKvjzVHkAzj8WxKLYxBew=",
+        "ref": "dev",
+        "rev": "413192256f25b03a67e055f891fb9d8d261bd39e",
+        "revCount": 5,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/opentelemetry-console-exporter"
+      },
+      "original": {
+        "ref": "dev",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/opentelemetry-console-exporter"
+      }
+    },
     "fesite": {
       "inputs": {
         "mozilla": "mozilla",
@@ -124,13 +141,43 @@
         "type": "github"
       }
     },
+    "flake-utils_3": {
+      "locked": {
+        "lastModified": 1656065134,
+        "narHash": "sha256-oc6E6ByIw3oJaIyc67maaFcnjYOz1mMcOtHxbEf9NwQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "bee6a7250dd1b01844a2de7e02e4df7d8a0a206c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_4": {
+      "locked": {
+        "lastModified": 1656065134,
+        "narHash": "sha256-oc6E6ByIw3oJaIyc67maaFcnjYOz1mMcOtHxbEf9NwQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "bee6a7250dd1b01844a2de7e02e4df7d8a0a206c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "hardwarepi": {
       "locked": {
-        "lastModified": 1656933710,
-        "narHash": "sha256-SVG8EqY1OTJWBRY4hpct2ZR2Rk0L8hCFkug3m0ABoZE=",
+        "lastModified": 1658401027,
+        "narHash": "sha256-z/sDfzsFOoWNO9nZGfxDCNjHqXvSVZLDBDSgzr9qDXE=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "3bf48d3587d3f34f745a19ebc968b002ef5b5c5a",
+        "rev": "83009edccc2e24afe3d0165ed98b60ff7471a5f8",
         "type": "github"
       },
       "original": {
@@ -148,11 +195,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1657396086,
-        "narHash": "sha256-4cQ6hEuewWoFkTBlu211JGxPQQ1Zyli8oEq1cu7cVeA=",
+        "lastModified": 1658751516,
+        "narHash": "sha256-Y/3dHoTjbvYBtWd+TTBQJUIgDPO9d+Gqt05C5dyR7E4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c645cc9f82c7753450d1fa4d1bc73b64960a9d7a",
+        "rev": "dbed4c794d20d51027fc1107f063ec5be027dafc",
         "type": "github"
       },
       "original": {
@@ -169,11 +216,33 @@
         "polywrap": "polywrap"
       },
       "locked": {
-        "lastModified": 1658327584,
-        "narHash": "sha256-+ctqey4QAUvoMmtwPCMJ1URLLQEOfKF4ImRlP1Exq9c=",
+        "lastModified": 1658914184,
+        "narHash": "sha256-QSntndjS/368YwkeuVxLnodo6EWAu/YM8iuNI8bAV0M=",
+        "ref": "object",
+        "rev": "28b5935bf3a341accfb945f4c6bc1f155b87c8b8",
+        "revCount": 6,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-react-logger"
+      },
+      "original": {
+        "ref": "object",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-react-logger"
+      }
+    },
+    "logger-bk1": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "polywrap": "polywrap_2"
+      },
+      "locked": {
+        "lastModified": 1658445737,
+        "narHash": "sha256-CX3tP3RUCoVzez8ixSQbKjkuYn1262qoR9eeanbyjkQ=",
         "ref": "new",
-        "rev": "e5c34731f521bbf5c7948954bacef6985fa0108d",
-        "revCount": 2,
+        "rev": "23b121f351cb9e3efe9a2d83e17925fb9c2a0356",
+        "revCount": 4,
         "type": "git",
         "url": "https://github.com/fetsorn/polywrap-react-logger"
       },
@@ -186,6 +255,23 @@
     "monorepo": {
       "flake": false,
       "locked": {
+        "lastModified": 1658913443,
+        "narHash": "sha256-owQrV65Qpet+XB4JBjoh7EtcHNrzQy3Ju0V9LiC87fI=",
+        "ref": "fetsorn/tracing",
+        "rev": "88d6f7f11ef5e689cc39cb5050a9f75d0c70926a",
+        "revCount": 4740,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/monorepo"
+      },
+      "original": {
+        "ref": "fetsorn/tracing",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/monorepo"
+      }
+    },
+    "monorepo_2": {
+      "flake": false,
+      "locked": {
         "lastModified": 1658332321,
         "narHash": "sha256-wwHisXTX4C+QGYCG02A6yY7io0ia6KEHfkdoeQJgFXA=",
         "owner": "polywrap",
@@ -195,9 +281,26 @@
       },
       "original": {
         "owner": "polywrap",
-        "ref": "1048-tracing",
+        "ref": "origin-dev",
         "repo": "monorepo",
         "type": "github"
+      }
+    },
+    "monorepo_3": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1658880345,
+        "narHash": "sha256-d4Xfvfg24EoT0N0sT9+9R9tVymwM9zsPqVbA/PM3tNY=",
+        "ref": "fetsorn/575-websocket-plugin",
+        "rev": "7092c0a0578f5665843747c79a70b0d91b1d8cde",
+        "revCount": 4757,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/monorepo"
+      },
+      "original": {
+        "ref": "fetsorn/575-websocket-plugin",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/monorepo"
       }
     },
     "mozilla": {
@@ -218,11 +321,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1657447684,
-        "narHash": "sha256-FCP9AuU1q6PE3vOeM5SFf58f/UKPBAsoSGDUGamNBbo=",
+        "lastModified": 1658737577,
+        "narHash": "sha256-xosJ5nJT9HX+b6UWsSX6R+ap4AdZOCrl/r+IKFp2ASQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5f43d8b088d3771274bcfb69d3c7435b1121ac88",
+        "rev": "5a0e0d73b944157328d54c4ded1cf2f0146a86a5",
         "type": "github"
       },
       "original": {
@@ -279,13 +382,45 @@
         "type": "github"
       }
     },
-    "nixpkgs-unstable": {
+    "nixpkgs-nodejs_2": {
       "locked": {
-        "lastModified": 1657502824,
-        "narHash": "sha256-q/56TxABu/So0mqrCiOnl9mWHC10XinFtmOHy6UeStM=",
+        "lastModified": 1644265966,
+        "narHash": "sha256-aXtSYoeFSVG01MHbPAaI8LuVo3jtRwa+JywMurvGOOo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f904e3562aabca382d12f8471ca2330b3f82899a",
+        "rev": "6d02a514db95d3179f001a5a204595f17b89cb32",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6d02a514db95d3179f001a5a204595f17b89cb32",
+        "type": "github"
+      }
+    },
+    "nixpkgs-nodejs_3": {
+      "locked": {
+        "lastModified": 1644265966,
+        "narHash": "sha256-aXtSYoeFSVG01MHbPAaI8LuVo3jtRwa+JywMurvGOOo=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6d02a514db95d3179f001a5a204595f17b89cb32",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6d02a514db95d3179f001a5a204595f17b89cb32",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1658850041,
+        "narHash": "sha256-HA4koSVBPEERWSrH0LVBy28y2FGJnOeUmGDEyeQPmDY=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3bbb296d9a0088c314ce83038b896753bbe33acb",
         "type": "github"
       },
       "original": {
@@ -296,6 +431,22 @@
       }
     },
     "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1658822272,
+        "narHash": "sha256-M87AIbje5cNnAy9iP3uoufZFvxooqtJq2ZRXeUeBO44=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cc895a46b238e2fb09844583e4566f09060d0f81",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1656847440,
         "narHash": "sha256-9LRlUrdU+TNAAp393hqDaKnwBssLLkxpRQEAzLSC2pM=",
@@ -311,7 +462,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1642635915,
         "narHash": "sha256-vabPA32j81xBO5m3+qXndWp5aqepe+vu96Wkd9UnngM=",
@@ -326,12 +477,51 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1656847440,
+        "narHash": "sha256-9LRlUrdU+TNAAp393hqDaKnwBssLLkxpRQEAzLSC2pM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "d63774ae64431366be4d1f2aede50e52204c7d6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "polywrap": {
       "inputs": {
+        "exporter": "exporter",
         "monorepo": "monorepo",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-nodejs": "nixpkgs-nodejs",
         "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1658913709,
+        "narHash": "sha256-nrL6Kyv6ZXMASGfNBB+28mnf1CsGOJezQDIInUz1o3Y=",
+        "ref": "object",
+        "rev": "83c1cf954ab1af3a2d61975af43d0a0324d4b65b",
+        "revCount": 8,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-nix"
+      },
+      "original": {
+        "ref": "object",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-nix"
+      }
+    },
+    "polywrap_2": {
+      "inputs": {
+        "monorepo": "monorepo_2",
+        "nixpkgs": "nixpkgs_3",
+        "nixpkgs-nodejs": "nixpkgs-nodejs_2",
+        "rust-overlay": "rust-overlay_2"
       },
       "locked": {
         "lastModified": 1658306723,
@@ -347,6 +537,28 @@
         "type": "github"
       }
     },
+    "polywrap_3": {
+      "inputs": {
+        "monorepo": "monorepo_3",
+        "nixpkgs": "nixpkgs_5",
+        "nixpkgs-nodejs": "nixpkgs-nodejs_3",
+        "rust-overlay": "rust-overlay_4"
+      },
+      "locked": {
+        "lastModified": 1658767179,
+        "narHash": "sha256-uv2KfSb6DBPmO5kWmqaLoRUkuFV09IriX7fbf+SsLxc=",
+        "ref": "new",
+        "rev": "92608647cc325f3d898b3b2a7ad3302d8aebd7b7",
+        "revCount": 6,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-nix"
+      },
+      "original": {
+        "ref": "new",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-nix"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -355,10 +567,12 @@
         "hardwarepi": "hardwarepi",
         "home-manager": "home-manager",
         "logger": "logger",
+        "logger-bk1": "logger-bk1",
         "nixos-unstable": "nixos-unstable",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "rust-overlay": "rust-overlay_2",
-        "simple-nixos-mailserver": "simple-nixos-mailserver"
+        "rust-overlay": "rust-overlay_3",
+        "simple-nixos-mailserver": "simple-nixos-mailserver",
+        "websocket": "websocket"
       }
     },
     "rust-overlay": {
@@ -366,6 +580,29 @@
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "logger",
+          "polywrap",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1658890458,
+        "narHash": "sha256-czG3asDAqn2PG8HdjOG+6AEqJazkT/tLuuuScYVYYaA=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "c6264ea118f0f9f206329cf7ca4848f4162090b5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "logger-bk1",
           "polywrap",
           "nixpkgs"
         ]
@@ -384,19 +621,42 @@
         "type": "github"
       }
     },
-    "rust-overlay_2": {
+    "rust-overlay_3": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1657507721,
-        "narHash": "sha256-FtV5D35ikz7zvhBX66Bs3VKd/GDyIVA+WQzqkR1PS0E=",
+        "lastModified": 1658890458,
+        "narHash": "sha256-czG3asDAqn2PG8HdjOG+6AEqJazkT/tLuuuScYVYYaA=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "1a133f54a0229af8310879eac2c4a82c0576a0b9",
+        "rev": "c6264ea118f0f9f206329cf7ca4848f4162090b5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_4": {
+      "inputs": {
+        "flake-utils": "flake-utils_4",
+        "nixpkgs": [
+          "websocket",
+          "polywrap",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1656989406,
+        "narHash": "sha256-w2oW0C6qRUy/VsTKRFEM/7Xxb+nHM+QkVosA3fMRgBM=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "2be2b68fc248883b82d3c7bfa6e5c0caff68223d",
         "type": "github"
       },
       "original": {
@@ -408,7 +668,7 @@
     "simple-nixos-mailserver": {
       "inputs": {
         "blobs": "blobs",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "nixpkgs-22_05": "nixpkgs-22_05",
         "utils": "utils_3"
       },
@@ -470,6 +730,28 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "type": "github"
+      }
+    },
+    "websocket": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "polywrap": "polywrap_3"
+      },
+      "locked": {
+        "lastModified": 1658766846,
+        "narHash": "sha256-uC1bWLOgubEbAQtw35UGowEkpMUZJJ9V0i6zzozFDT0=",
+        "ref": "main",
+        "rev": "3ae8083fbc06d1a52b682117de6a1f6deb3211cc",
+        "revCount": 4,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-react-websocket"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/polywrap-react-websocket"
       }
     }
   },
