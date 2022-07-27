@@ -57,13 +57,19 @@
       }
     },
     "exporter": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": [
+          "logger",
+          "polywrap",
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1658851346,
-        "narHash": "sha256-ThE3eZfUUX3lW1TqShzhVjbKvjzVHkAzj8WxKLYxBew=",
+        "lastModified": 1658913885,
+        "narHash": "sha256-jpIEZ/9qc44CYKQcaps0d/9BeJzZoN/Zd4yCHz4GPQs=",
         "ref": "dev",
-        "rev": "413192256f25b03a67e055f891fb9d8d261bd39e",
-        "revCount": 5,
+        "rev": "4eb99ad9b66afb62d88c3e27df6881bf783b031f",
+        "revCount": 6,
         "type": "git",
         "url": "https://source.fetsorn.website/fetsorn/opentelemetry-console-exporter"
       },
@@ -195,11 +201,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1658751516,
-        "narHash": "sha256-Y/3dHoTjbvYBtWd+TTBQJUIgDPO9d+Gqt05C5dyR7E4=",
+        "lastModified": 1658924727,
+        "narHash": "sha256-Fhh9FK9CvuCLxG1WkWJPoendDeXKI4gHYTfezo1n2Zg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "dbed4c794d20d51027fc1107f063ec5be027dafc",
+        "rev": "0e2f7876d2f2ae98a67d89a8bef8c49332aae5af",
         "type": "github"
       },
       "original": {
@@ -216,11 +222,11 @@
         "polywrap": "polywrap"
       },
       "locked": {
-        "lastModified": 1658914184,
-        "narHash": "sha256-QSntndjS/368YwkeuVxLnodo6EWAu/YM8iuNI8bAV0M=",
+        "lastModified": 1658925661,
+        "narHash": "sha256-4ucz3tA3+Cy2e0ldev3UgTa8ADEweNO2//Vuv94VPX0=",
         "ref": "object",
-        "rev": "28b5935bf3a341accfb945f4c6bc1f155b87c8b8",
-        "revCount": 6,
+        "rev": "25751a851dc6838707daf578a87eacca5dfc8d1e",
+        "revCount": 7,
         "type": "git",
         "url": "https://source.fetsorn.website/fetsorn/polywrap-react-logger"
       },
@@ -432,11 +438,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1658822272,
-        "narHash": "sha256-M87AIbje5cNnAy9iP3uoufZFvxooqtJq2ZRXeUeBO44=",
+        "lastModified": 1658850041,
+        "narHash": "sha256-HA4koSVBPEERWSrH0LVBy28y2FGJnOeUmGDEyeQPmDY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "cc895a46b238e2fb09844583e4566f09060d0f81",
+        "rev": "3bbb296d9a0088c314ce83038b896753bbe33acb",
         "type": "github"
       },
       "original": {
@@ -502,11 +508,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1658913709,
-        "narHash": "sha256-nrL6Kyv6ZXMASGfNBB+28mnf1CsGOJezQDIInUz1o3Y=",
+        "lastModified": 1658925553,
+        "narHash": "sha256-1EdaVPjWgSiB3oisC0g28acTLoBoYXyRENb9sNwnVk8=",
         "ref": "object",
-        "rev": "83c1cf954ab1af3a2d61975af43d0a0324d4b65b",
-        "revCount": 8,
+        "rev": "37e33df2bdea65a918ba81621e4e4b3dfb663976",
+        "revCount": 12,
         "type": "git",
         "url": "https://source.fetsorn.website/fetsorn/polywrap-nix"
       },
