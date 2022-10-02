@@ -38,6 +38,10 @@
         "git+https://source.fetsorn.website/fetsorn/polywrap-react-websocket?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    qualia = {
+      url = "git+https://source.fetsorn.website/fetsorn/qualia?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -1173,6 +1177,13 @@
                 locations."/".extraConfig = ''
                   proxy_hide_header Upgrade;
                 '';
+              };
+              virtualHosts."qua.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                root = inputs.qualia.packages.webapp;
+                locations."~ ^/$".tryFiles = "/index.html";
+                locations."/".tryFiles = "$uri /index.html";
               };
             };
 
