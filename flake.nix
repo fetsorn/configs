@@ -1124,7 +1124,7 @@
               clientMaxBodySize = "100m";
               commonHttpConfig = ''
                 map $http_origin $allow_origin {
-                    ~^https?://(.*\.)?fetsorn.website(:\d+)?(/?)$ $http_origin;
+                    ~^https?://(.*\.)?(fetsorn.website|qualitativeself.org)(:\d+)?(/?)$ $http_origin;
                     default "";
                 }
               '';
