@@ -1167,9 +1167,12 @@
               virtualHosts."qua.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
-                root = inputs.qualia.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/index.html";
-                locations."/".tryFiles = "$uri /index.html";
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                # root = inputs.qualia.packages.${pkgs.system}.webapp;
+                #locations."~ ^/$".tryFiles = "/index.html";
+                #locations."/".tryFiles = "$uri /index.html";
               };
             };
 
