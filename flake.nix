@@ -50,6 +50,10 @@
               system = "x86_64-darwin";
               overlays = [ inputs.rust-overlay.overlays.default ];
             };
+            pkgs-aarch64 = import inputs.nixpkgs-unstable {
+              system = "aarch64-darwin";
+              overlays = [ inputs.rust-overlay.overlays.default ];
+            };
             llines = (with pkgs;
               stdenv.mkDerivation rec {
                 pname = "lifelines";
@@ -200,7 +204,7 @@
                 swiProlog
                 coq
                 # pkgs-x86_64.cargo
-                pkgs-x86_64.rust-bin.nightly.latest.default
+                pkgs-aarch64.rust-bin.nightly.latest.default
               ];
 
               sessionVariables = {
@@ -1088,12 +1092,16 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
+              extraConfig = ''
+                [repository]
+                DEFAULT_BRANCH = main
+              '';
             };
 
             services.nextcloud = {
               enable = true;
               hostName = "cloud.fetsorn.website";
-              package = pkgs.nextcloud23;
+              package = pkgs.nextcloud24;
               config = {
                 dbtype = "pgsql";
                 dbuser = "nextcloud";
@@ -1411,74 +1419,23 @@
               defaults.email = "fetsorn@gmail.com";
             };
 
-            systemd = let
-              mint.f.w = "mint.fetsorn.website";
-              mint.git =
-                "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#candy-machine-ui";
-              stake.f.w = "stake.fetsorn.website";
-              stake.git =
-                "git+https://source.fetsorn.website/fetsorn/candy-machine-ui?ref=main#cardinal-staking-ui";
-              mkService = webRoot: sourceUrl: {
-                enable = true;
-                description = webRoot;
-                serviceConfig = { Type = "oneshot"; };
-                startAt = "*:0/5";
-                wantedBy = [ "multi-user.target" ];
-                path = [ pkgs.nix pkgs.jq pkgs.git ];
-                script = ''
-                  set -ex
-
-                  ln -sfT $(nix build --json --no-link --tarball-ttl 0 "${sourceUrl}" | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
-                '';
-              };
-            in {
-              services.${mint.f.w} = mkService mint.f.w mint.git;
-              services.${stake.f.w} = mkService stake.f.w stake.git;
-            };
-
             services.nginx = {
               enable = true;
               recommendedGzipSettings = true;
               recommendedOptimisation = true;
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
-              virtualHosts."mint.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/mint.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."store.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/store.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."stake.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/stake.fetsorn.website";
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
               virtualHosts."trace.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                locations."/".proxyPass = "http://localhost:3301/";
+                locations."/".proxyPass =
+                  "http://localhost:3301/"; # ui, started from forked cli
               };
               virtualHosts."otel.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
-                locations."/".proxyPass = "http://localhost:4318/";
-              };
-              virtualHosts."logger-bk1.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root =
-                  inputs.logger-bk1.packages.${pkgs.system}.polywrap-react-logger;
-                locations."/".tryFiles = "$uri /index.html";
+                locations."/".proxyPass =
+                  "http://localhost:4318/"; # http endpoint, started from forked cli
               };
               virtualHosts."logger.fetsorn.website" = {
                 enableACME = true;

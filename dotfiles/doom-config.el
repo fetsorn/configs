@@ -581,3 +581,14 @@
 
 (map! "C-c a" 'fetsorn-switch-jira-cidt)
 (map! "C-c b" 'fetsorn-switch-jira-solurnkor)
+
+;; emacspeak
+(defun fetsorn-emacspeak-load ()
+  (interactive)
+  (setenv "DTK_PROGRAM" "mac")
+  (setq dtk-program "mac")
+  (add-to-list 'load-path "~/.emacs.d/emacspeak/lisp")
+  (load  "~/.emacs.d/emacspeak/lisp/emacspeak-setup.el"))
+
+
+(setq rustic-rustfmt-config-alist '(("edition" . "2021"))
