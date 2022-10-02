@@ -1092,10 +1092,7 @@
               domain = "source.fetsorn.website";
               rootUrl = "https://source.fetsorn.website/";
               httpPort = 3001;
-              extraConfig = ''
-                [repository]
-                DEFAULT_BRANCH = main
-              '';
+              settings = { repository = { DEFAULT_BRANCH = "main"; }; };
             };
 
             services.nextcloud = {
