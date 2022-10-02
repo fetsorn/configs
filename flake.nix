@@ -692,7 +692,7 @@
                     group = "nginx";
                     email = "me@fetsorn.website";
                     dnsProvider = "cloudflare";
-                    credentialsFile = "/run/secrets/acme-cf";
+                    credentialsFile = "/run/agenix/acme-cf";
                     extraDomainNames = [ "*.fetsorn.website" ];
                     extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
                   };
@@ -1054,7 +1054,7 @@
 
             security.acme = {
               acceptTerms = true;
-              defaults.email = "anton@fetsorn.website";
+              defaults.email = "fetsorn@gmail.com";
               certs."fetsorn.website" = {
                 group = "nginx";
                 dnsProvider = "cloudflare";
@@ -1062,11 +1062,11 @@
                 extraDomainNames = [ "*.fetsorn.website" ];
                 extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
               };
-              certs."qualified.self" = {
+              certs."qualifiedself.org" = {
                 group = "nginx";
                 dnsProvider = "cloudflare";
                 credentialsFile = "/run/agenix/acme-cf";
-                extraDomainNames = [ "*.fetsorn.website" ];
+                extraDomainNames = [ "*.qualifiedself.org" ];
                 extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
               };
             };
