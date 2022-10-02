@@ -1058,14 +1058,14 @@
               certs."fetsorn.website" = {
                 group = "nginx";
                 dnsProvider = "cloudflare";
-                credentialsFile = "/run/secrets/acme-cf";
+                credentialsFile = "/run/agenix/acme-cf";
                 extraDomainNames = [ "*.fetsorn.website" ];
                 extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
               };
               certs."qualified.self" = {
                 group = "nginx";
                 dnsProvider = "cloudflare";
-                credentialsFile = "/run/secrets/acme-cf";
+                credentialsFile = "/run/agenix/acme-cf";
                 extraDomainNames = [ "*.fetsorn.website" ];
                 extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
               };
