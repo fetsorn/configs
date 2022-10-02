@@ -10,7 +10,7 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF5AACenOg3Bk5ycML2qV8NHnwCRBVgBc+Szdw7hLjn/ root@nixos";
 in {
   "site.age".publicKeys = [ id_rsa_agenix ];
-  "acme-cf.age".publicKeys = [ id_rsa_agenix ];
+  "acme-cf.age".publicKeys = [ id_rsa_agenix linode_gitea ];
   "mail-anton.age".publicKeys = [ id_rsa_agenix linode_mail ];
   "mail-auth.age".publicKeys = [ id_rsa_agenix linode_mail ];
   "mail-git.age".publicKeys = [ id_rsa_agenix linode_mail ];
