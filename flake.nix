@@ -1055,10 +1055,28 @@
             security.acme = {
               acceptTerms = true;
               defaults.email = "anton@fetsorn.website";
+              certs."fetsorn.website" = {
+                group = "nginx";
+                dnsProvider = "cloudflare";
+                credentialsFile = "/run/secrets/acme-cf";
+                extraDomainNames = [ "*.fetsorn.website" ];
+                extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
+              };
+              certs."qualified.self" = {
+                group = "nginx";
+                dnsProvider = "cloudflare";
+                credentialsFile = "/run/secrets/acme-cf";
+                extraDomainNames = [ "*.fetsorn.website" ];
+                extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
+              };
             };
 
             age = {
               secrets = {
+                acme-cf = {
+                  file = ./secrets/acme-cf.age;
+                  owner = "fetsorn";
+                };
                 gitea-dbpass = {
                   file = ./secrets/gitea-dbpass.age;
                   owner = "fetsorn";
