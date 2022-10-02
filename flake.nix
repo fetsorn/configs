@@ -1171,7 +1171,7 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.qualia.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/index.html";
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
             };
