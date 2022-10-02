@@ -565,6 +565,27 @@
         "url": "https://source.fetsorn.website/fetsorn/polywrap-nix"
       }
     },
+    "qualia": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1664705770,
+        "narHash": "sha256-/ULLQdcapG8ZMprF1oEJktuzGyydRvmCJLKXbkBklD4=",
+        "ref": "main",
+        "rev": "161786b7ae12d2b642e6b60e72df1c0dace07b19",
+        "revCount": 153,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/qualia"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/qualia"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -576,6 +597,7 @@
         "logger-bk1": "logger-bk1",
         "nixos-unstable": "nixos-unstable",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "qualia": "qualia",
         "rust-overlay": "rust-overlay_3",
         "simple-nixos-mailserver": "simple-nixos-mailserver",
         "websocket": "websocket"
