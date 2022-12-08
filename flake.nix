@@ -1179,6 +1179,7 @@
                 forceSSL = true;
                 locations."/".extraConfig = ''
                   proxy_hide_header Upgrade;
+                  autoindex on;
                 '';
                 root = "/var/www/static.fetsorn.website";
               };
