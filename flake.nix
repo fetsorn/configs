@@ -194,7 +194,7 @@
                 swiProlog
                 coq
                 # pkgs-x86_64.cargo
-                pkgs-aarch64.rust-bin.nightly.latest.default
+                # pkgs-aarch64.rust-bin.nightly.latest.default
               ];
 
               sessionVariables = {
@@ -1173,6 +1173,14 @@
                 root = inputs.qualia.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."static.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = "/var/www/static.fetsorn.website";
               };
             };
 
