@@ -1085,20 +1085,20 @@
               settings = { repository = { DEFAULT_BRANCH = "main"; }; };
             };
 
-            services.nextcloud = {
-              enable = true;
-              hostName = "cloud.fetsorn.website";
-              package = pkgs.nextcloud25;
-              config = {
-                dbtype = "pgsql";
-                dbuser = "nextcloud";
-                dbhost =
-                  "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
-                dbname = "nextcloud";
-                adminpassFile = "/run/agenix/gitea-dbpass";
-                adminuser = "root";
-              };
-            };
+            # services.nextcloud = {
+            #   enable = true;
+            #   hostName = "cloud.fetsorn.website";
+            #   package = pkgs.nextcloud25;
+            #   config = {
+            #     dbtype = "pgsql";
+            #     dbuser = "nextcloud";
+            #     dbhost =
+            #       "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
+            #     dbname = "nextcloud";
+            #     adminpassFile = "/run/agenix/gitea-dbpass";
+            #     adminuser = "root";
+            #   };
+            # };
 
             services.postgresql = {
               enable = true;
@@ -1195,10 +1195,10 @@
               };
             };
 
-            systemd.services."nextcloud-setup" = {
-              requires = [ "postgresql.service" ];
-              after = [ "postgresql.service" ];
-            };
+            # systemd.services."nextcloud-setup" = {
+            #   requires = [ "postgresql.service" ];
+            #   after = [ "postgresql.service" ];
+            # };
 
             services.openssh = {
               enable = true;
