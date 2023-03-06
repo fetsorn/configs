@@ -138,7 +138,7 @@
 (setq org-agenda-files
       (quote ("~/mm/modes/agendas/gtd.org"
               "~/mm/modes/agendas/tbn.org"
-              "~/mm/yodes/axles/folks/anno.org"
+              "~/mm/yodes/repos/folks/anno.org"
               "~/mm/modes/agendas/org-pr.org")))
 ;; show agenda on startup
 (add-hook 'doom-init-ui-hook (lambda () (org-agenda nil "n")) 100)
@@ -590,5 +590,4 @@
   (add-to-list 'load-path "~/.emacs.d/emacspeak/lisp")
   (load  "~/.emacs.d/emacspeak/lisp/emacspeak-setup.el"))
 
-
-(setq rustic-rustfmt-config-alist '(("edition" . "2021"))
+(setq rustic-rustfmt-config-alist '(("edition" . "2021")))
