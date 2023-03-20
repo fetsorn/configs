@@ -148,7 +148,14 @@
 
             nix = {
               package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
+              settings = {
+                experimental-features = [ "nix-command" "flakes" ];
+                trusted-substituters =
+                  [ "https://cache.nixos.org https://nrdxp.cachix.org" ];
+                trusted-public-keys = [
+                  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nrdxp.cachix.org-1:Fc5PSqY2Jm1TrWfm88l6cvGWwz3s93c6IOifQWnhNW4="
+                ];
+              };
             };
 
             home = {
