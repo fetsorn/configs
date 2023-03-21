@@ -443,16 +443,18 @@
           ({ pkgs, config, lib, modulesPath, ... }: {
             nix = {
               package = pkgs.nixUnstable;
-              binaryCaches = [
-                "https://hydra.iohk.io"
-                "https://iohk.cachix.org"
-                "https://nix-community.cachix.org"
-              ];
-              binaryCachePublicKeys = [
-                "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-                "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-              ];
+              settings = {
+                trusted-substituters = [
+                  "https://hydra.iohk.io"
+                  "https://iohk.cachix.org"
+                  "https://nix-community.cachix.org"
+                ];
+                trusted-public-keys = [
+                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+                  "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+                  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                ];
+              };
               extraOptions = "experimental-features = nix-command flakes";
             };
 
@@ -614,7 +616,7 @@
                 isNormalUser = true;
                 extraGroups = [ "wheel" ];
               };
-              mutableUsers = false;
+              mutableUsers = true;
             };
 
             environment.systemPackages = with pkgs; [ ripgrep vim wget ];
@@ -651,19 +653,21 @@
               nix = {
                 package = pkgs.nixUnstable;
                 extraOptions = "experimental-features = nix-command flakes";
-                autoOptimiseStore = true;
-                useSandbox = true;
-                binaryCaches = [
-                  "https://hydra.iohk.io"
-                  "https://iohk.cachix.org"
-                  "https://nix-community.cachix.org"
-                ];
-                binaryCachePublicKeys = [
-                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                  "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-                  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-                ];
-                trustedUsers = [ "root" "fetsorn" ];
+                settings = {
+                  auto-optimise-store = true;
+                  sandbox = true;
+                  trusted-substituters = [
+                    "https://hydra.iohk.io"
+                    "https://iohk.cachix.org"
+                    "https://nix-community.cachix.org"
+                  ];
+                  trusted-public-keys = [
+                    "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+                    "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+                    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                  ];
+                  trusted-users = [ "root" "fetsorn" ];
+                };
               };
               nixpkgs.config.allowUnfree = true;
 
@@ -718,6 +722,7 @@
 
               users = {
                 groups.within = { };
+                mutableUsers = true;
                 users = {
                   fetsorn = {
                     isNormalUser = true;
@@ -725,9 +730,9 @@
                   };
 
                   fesite = {
+                    isNormalUser = true; # isSystemUser?
                     createHome = true;
                     description = "github.com/fetsorn/site";
-                    isSystemUser = true;
                     group = "within";
                     home = "/srv/within/fesite";
                     extraGroups = [ "keys" ];
@@ -843,7 +848,6 @@
                 mysql = {
                   enable = true;
                   package = pkgs.mariadb;
-                  bind = "127.0.0.1";
                 };
               };
 
@@ -971,7 +975,7 @@
             services = {
               openssh = {
                 enable = true;
-                permitRootLogin = "no";
+                settings.PermitRootLogin = "no";
               };
               roundcube = {
                 enable = true;
@@ -1223,7 +1227,7 @@
 
             services.openssh = {
               enable = true;
-              permitRootLogin = "no";
+              settings.PermitRootLogin = "no";
             };
 
             nix = {
@@ -1378,7 +1382,7 @@
 
             services.openssh = {
               enable = true;
-              permitRootLogin = "no";
+              settings.PermitRootLogin = "no";
             };
 
             nix = {
@@ -1571,12 +1575,18 @@
             nix = {
               package = pkgs.nixUnstable;
               extraOptions = "experimental-features = nix-command flakes";
-              binaryCaches =
-                [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
-              binaryCachePublicKeys = [
-                "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-              ];
+              settings = {
+                trusted-substituters = [
+                  "https://hydra.iohk.io"
+                  "https://iohk.cachix.org"
+                  "https://nix-community.cachix.org"
+                ];
+                trusted-public-keys = [
+                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+                  "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+                  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                ];
+              };
               maxJobs = lib.mkDefault 4;
             };
             nixpkgs.config.allowUnfree = true;
