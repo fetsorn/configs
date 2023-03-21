@@ -1196,7 +1196,6 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.elmsd.packages.${pkgs.system}.default;
-                locations."~ ^/$".tryFiles = "/Main.html";
                 locations."/".tryFiles = "$uri /Main.html";
               };
               virtualHosts."static.fetsorn.website" = {
