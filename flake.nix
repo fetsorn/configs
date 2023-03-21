@@ -28,6 +28,10 @@
       url = "git+https://source.fetsorn.website/fetsorn/qualia?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    elmsd = {
+      url = "git+https://source.fetsorn.website/fetsorn/elm-system-dynamics";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -1180,6 +1184,16 @@
                 root = inputs.qualia.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."sd.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.elmsd.packages.${pkgs.system}.default;
+                locations."~ ^/$".tryFiles = "/Main.html";
+                locations."/".tryFiles = "$uri /Main.html";
               };
               virtualHosts."static.fetsorn.website" = {
                 enableACME = true;
