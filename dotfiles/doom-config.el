@@ -591,3 +591,41 @@
   (load  "~/.emacs.d/emacspeak/lisp/emacspeak-setup.el"))
 
 (setq rustic-rustfmt-config-alist '(("edition" . "2021")))
+
+;;(defvar verse-mode-hook nil)
+;;(defvar verse-mode-map
+;;  (let ((map (make-keymap)))
+;;    (define-key map "\C-j" 'newline-and-indent)
+;;    map)
+;;  "Keymap for Verse major mode")
+;;(add-to-list 'auto-mode-alist '("\\.verse\\'" . verse-mode))
+;;
+;;(defvar verse-mode-syntax-table
+;;  (let ((st (make-syntax-table)))
+;;    (modify-syntax-entry ?_ "w" st)
+;;    st)
+;;  "Syntax table for verse-mode")
+;;
+;;(defun verse-mode ()
+;;  "Major mode for editing Workflow Process Description Language files"
+;;  (interactive)
+;;  (kill-all-local-variables)
+;;  (set-syntax-table verse-mode-syntax-table)
+;;  (use-local-map verse-mode-map)
+;;  (set (make-local-variable 'indent-line-function) 'verse-indent-line)
+;;  (setq major-mode 'verse-mode)
+;;  (setq mode-name "Verse")
+;;  (run-hooks 'verse-mode-hook))
+
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(verse-mode . ("~/mm/codes/verse-extension/bin/Mac/verse-lsp"))))
+
+;; (with-eval-after-load 'lsp-mode
+;;   (add-to-list 'lsp-language-id-configuration
+;;     '(verse-mode . "~/mm/codes/verse-extension/bin/Mac/verse-lsp"))
+
+;;   (lsp-register-client
+;;     (make-lsp-client :new-connection (lsp-stdio-connection "~/mm/codes/verse-extension/bin/Mac/verse-lsp")
+;;                      :activation-fn (lsp-activate-on "~/mm/codes/verse-extension/bin/Mac/verse-lsp")
+;;                      :server-id 'verse)))
