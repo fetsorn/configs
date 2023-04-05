@@ -87,11 +87,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1679389772,
-        "narHash": "sha256-+P0e/i11tr2dTSPCnqCQQAsuf5ZTvm2IOn1Vf87OfnI=",
+        "lastModified": 1680705085,
+        "narHash": "sha256-Rk/+ZXc3h7QUndQM/38EesfOFsUnV0918W29CaGd2CI=",
         "ref": "refs/heads/main",
-        "rev": "df679e3347e31d1dfb433cd48e7127f97c186ea7",
-        "revCount": 16,
+        "rev": "3f976a530302423add88ce33318dc87b567bd9be",
+        "revCount": 17,
         "type": "git",
         "url": "https://source.fetsorn.website/fetsorn/elm-system-dynamics"
       },
