@@ -32,6 +32,10 @@
       url = "git+https://source.fetsorn.website/fetsorn/elm-system-dynamics";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    devenv = {
+      url = "github:cachix/devenv/latest";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -154,10 +158,15 @@
               package = pkgs.nixUnstable;
               settings = {
                 experimental-features = [ "nix-command" "flakes" ];
-                trusted-substituters =
-                  [ "https://cache.nixos.org https://nrdxp.cachix.org" ];
+                trusted-substituters = [
+                  "https://cache.nixos.org"
+                  "https://nrdxp.cachix.org"
+                  "https://digitallyinduced.cachix.org"
+                ];
                 trusted-public-keys = [
-                  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nrdxp.cachix.org-1:Fc5PSqY2Jm1TrWfm88l6cvGWwz3s93c6IOifQWnhNW4="
+                  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+                  "nrdxp.cachix.org-1:Fc5PSqY2Jm1TrWfm88l6cvGWwz3s93c6IOifQWnhNW4="
+                  "digitallyinduced.cachix.org-1:y+wQvrnxQ+PdEsCt91rmvv39qRCYzEgGQaldK26hCKE="
                 ];
               };
             };
@@ -204,6 +213,10 @@
                 })
                 swiProlog
                 coq
+                inputs.devenv.packages.aarch64-darwin.devenv
+                ihp-new
+                direnv
+                cachix
                 # pkgs-x86_64.cargo
                 # pkgs-aarch64.rust-bin.nightly.latest.default
               ];

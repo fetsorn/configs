@@ -391,6 +391,11 @@
 
 (map! "C-c d" 'insert-random-uuid)
 
+(defun insert-random-sha256 ()
+  (interactive)
+  (insert (substring (embark-hash-sha256 (uuidgen-4)) 8)))
+
+(map! "C-c a" 'insert-random-sha256)
 
 (map! "C-c ESC ESC" 'vterm-send-escape)
 
@@ -488,99 +493,99 @@
 
 (setq enable-local-variables t)
 
-(defun fetsorn-insert-g ()
-  (interactive (insert-char 103 1 t)))
-
-(map! "C-c k" 'fetsorn-insert-g)
+;(defun fetsorn-insert-g ()
+;  (interactive (insert-char 103 1 t)))
+;
+;(map! "C-c k" 'fetsorn-insert-g)
 
 
 ;; Set our nickname & real-name as constant variables
-(setq
- erc-nick "fetsorn"     ; Our IRC nick
- erc-user-full-name "fetsorn") ; Our /whois name
+;(setq
+; erc-nick "fetsorn"     ; Our IRC nick
+; erc-user-full-name "fetsorn") ; Our /whois name
 
 ;; Define a function to connect to a server
-(defun erc-oftc ()
-  (lambda ()
-  (interactive)
-  (erc-tls :server "irc.oftc.net"
-           :port   "6697")))
+;(defun erc-oftc ()
+;  (lambda ()
+;  (interactive)
+;  (erc-tls :server "irc.oftc.net"
+;           :port   "6697")))
 
 ;; mu4e
-(after! mu4e
-  (setq sendmail-program (executable-find "msmtp")
-        send-mail-function #'smtpmail-send-it
-        message-sendmail-f-is-evil t
-        message-sendmail-extra-arguments '("--read-envelope-from")
-        message-send-mail-function #'message-send-mail-with-sendmail))
+;(after! mu4e
+;  (setq sendmail-program (executable-find "msmtp")
+;        send-mail-function #'smtpmail-send-it
+;        message-sendmail-f-is-evil t
+;        message-sendmail-extra-arguments '("--read-envelope-from")
+;        message-send-mail-function #'message-send-mail-with-sendmail))
+;
+;(set-email-account! "anton@fetsorn.website"
+;  '((mu4e-sent-folder       . "/anton/Sent")
+;    (mu4e-drafts-folder     . "/anton/Drafts")
+;    (mu4e-trash-folder      . "/anton/Junk")
+;    (mu4e-refile-folder     . "/anton/All")
+;    (smtpmail-smtp-user     . "anton@fetsorn.website")
+;    (mu4e-compose-signature . "---\nYours truly"))
+;  t)
+;(set-email-account! "git@fetsorn.website"
+;  '((mu4e-sent-folder       . "/git/Sent")
+;    (mu4e-drafts-folder     . "/git/Drafts")
+;    (mu4e-trash-folder      . "/git/Junk")
+;    (mu4e-refile-folder     . "/git/All")
+;    (smtpmail-smtp-user     . "git@fetsorn.website")
+;    (mu4e-compose-signature . "---\nYours truly"))
+;  t)
+;(set-email-account! "fetsorn@fetsorn.website"
+;  '((mu4e-sent-folder       . "/fetsorn/Sent")
+;    (mu4e-drafts-folder     . "/fetsorn/Drafts")
+;    (mu4e-trash-folder      . "/fetsorn/Junk")
+;    (mu4e-refile-folder     . "/fetsorn/All")
+;    (smtpmail-smtp-user     . "fetsorn@fetsorn.website")
+;    (mu4e-compose-signature . "---\nYours truly"))
+;  t)
+;(set-email-account! "auth@fetsorn.website"
+;  '((mu4e-sent-folder       . "/auth/Sent")
+;    (mu4e-drafts-folder     . "/auth/Drafts")
+;    (mu4e-trash-folder      . "/auth/Junk")
+;    (mu4e-refile-folder     . "/auth/All")
+;    (smtpmail-smtp-user     . "auth@fetsorn.website")
+;    (mu4e-compose-signature . "---\nYours truly"))
+;  t)
 
-(set-email-account! "anton@fetsorn.website"
-  '((mu4e-sent-folder       . "/anton/Sent")
-    (mu4e-drafts-folder     . "/anton/Drafts")
-    (mu4e-trash-folder      . "/anton/Junk")
-    (mu4e-refile-folder     . "/anton/All")
-    (smtpmail-smtp-user     . "anton@fetsorn.website")
-    (mu4e-compose-signature . "---\nYours truly"))
-  t)
-(set-email-account! "git@fetsorn.website"
-  '((mu4e-sent-folder       . "/git/Sent")
-    (mu4e-drafts-folder     . "/git/Drafts")
-    (mu4e-trash-folder      . "/git/Junk")
-    (mu4e-refile-folder     . "/git/All")
-    (smtpmail-smtp-user     . "git@fetsorn.website")
-    (mu4e-compose-signature . "---\nYours truly"))
-  t)
-(set-email-account! "fetsorn@fetsorn.website"
-  '((mu4e-sent-folder       . "/fetsorn/Sent")
-    (mu4e-drafts-folder     . "/fetsorn/Drafts")
-    (mu4e-trash-folder      . "/fetsorn/Junk")
-    (mu4e-refile-folder     . "/fetsorn/All")
-    (smtpmail-smtp-user     . "fetsorn@fetsorn.website")
-    (mu4e-compose-signature . "---\nYours truly"))
-  t)
-(set-email-account! "auth@fetsorn.website"
-  '((mu4e-sent-folder       . "/auth/Sent")
-    (mu4e-drafts-folder     . "/auth/Drafts")
-    (mu4e-trash-folder      . "/auth/Junk")
-    (mu4e-refile-folder     . "/auth/All")
-    (smtpmail-smtp-user     . "auth@fetsorn.website")
-    (mu4e-compose-signature . "---\nYours truly"))
-  t)
-
-(defun fetsorn-insert-rightarrow ()
-  (interactive)
-  (insert "\\Rightarrow"))
-
-(map! "C-c f" 'fetsorn-insert-rightarrow)
-
-(defun fetsorn-insert-leftrightarrow ()
-  (interactive)
-  (insert "\\Leftrightarrow"))
-
-(map! "C-c e" 'fetsorn-insert-leftrightarrow)
+;(defun fetsorn-insert-rightarrow ()
+;  (interactive)
+;  (insert "\\Rightarrow"))
+;
+;(map! "C-c f" 'fetsorn-insert-rightarrow)
+;
+;(defun fetsorn-insert-leftrightarrow ()
+;  (interactive)
+;  (insert "\\Leftrightarrow"))
+;
+;(map! "C-c e" 'fetsorn-insert-leftrightarrow)
 
 (setq auth-sources '("~/.authinfo" macos-keychain-generic macos-keychain-internet "/Users/fetsorn/.emacs.d/.local/etc/authinfo.gpg" "~/.authinfo.gpg"))
 
-(use-package org-jira
-  :demand t
-  :init
-  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
-  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
+;(use-package org-jira
+;  :demand t
+;  :init
+;  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
+;  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
+;
+;(defun fetsorn-switch-jira-cidt ()
+;  (interactive)
+;  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
+;  (setq jiralib-token '())
+;  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
 
-(defun fetsorn-switch-jira-cidt ()
-  (interactive)
-  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
-  (setq jiralib-token '())
-  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
+;(defun fetsorn-switch-jira-solurnkor ()
+;  (interactive)
+;  (setq jiralib-url "https://solurnkor.atlassian.net") ;; Redacted
+;  (setq jiralib-token '())
+;  (setq org-jira-working-dir "~/.org-jira/solurnkor"))
 
-(defun fetsorn-switch-jira-solurnkor ()
-  (interactive)
-  (setq jiralib-url "https://solurnkor.atlassian.net") ;; Redacted
-  (setq jiralib-token '())
-  (setq org-jira-working-dir "~/.org-jira/solurnkor"))
-
-(map! "C-c a" 'fetsorn-switch-jira-cidt)
-(map! "C-c b" 'fetsorn-switch-jira-solurnkor)
+;(map! "C-c a" 'fetsorn-switch-jira-cidt)
+;(map! "C-c b" 'fetsorn-switch-jira-solurnkor)
 
 ;; emacspeak
 (defun fetsorn-emacspeak-load ()
@@ -591,41 +596,3 @@
   (load  "~/.emacs.d/emacspeak/lisp/emacspeak-setup.el"))
 
 (setq rustic-rustfmt-config-alist '(("edition" . "2021")))
-
-;;(defvar verse-mode-hook nil)
-;;(defvar verse-mode-map
-;;  (let ((map (make-keymap)))
-;;    (define-key map "\C-j" 'newline-and-indent)
-;;    map)
-;;  "Keymap for Verse major mode")
-;;(add-to-list 'auto-mode-alist '("\\.verse\\'" . verse-mode))
-;;
-;;(defvar verse-mode-syntax-table
-;;  (let ((st (make-syntax-table)))
-;;    (modify-syntax-entry ?_ "w" st)
-;;    st)
-;;  "Syntax table for verse-mode")
-;;
-;;(defun verse-mode ()
-;;  "Major mode for editing Workflow Process Description Language files"
-;;  (interactive)
-;;  (kill-all-local-variables)
-;;  (set-syntax-table verse-mode-syntax-table)
-;;  (use-local-map verse-mode-map)
-;;  (set (make-local-variable 'indent-line-function) 'verse-indent-line)
-;;  (setq major-mode 'verse-mode)
-;;  (setq mode-name "Verse")
-;;  (run-hooks 'verse-mode-hook))
-
-;; (with-eval-after-load 'eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '(verse-mode . ("~/mm/codes/verse-extension/bin/Mac/verse-lsp"))))
-
-;; (with-eval-after-load 'lsp-mode
-;;   (add-to-list 'lsp-language-id-configuration
-;;     '(verse-mode . "~/mm/codes/verse-extension/bin/Mac/verse-lsp"))
-
-;;   (lsp-register-client
-;;     (make-lsp-client :new-connection (lsp-stdio-connection "~/mm/codes/verse-extension/bin/Mac/verse-lsp")
-;;                      :activation-fn (lsp-activate-on "~/mm/codes/verse-extension/bin/Mac/verse-lsp")
-;;                      :server-id 'verse)))

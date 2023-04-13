@@ -84,3 +84,5 @@ PATH="/Users/fetsorn/.local/share/solana/install/active_release/bin:$PATH"
 
 export DTK_PROGRAM=mac
 
+
+# eval "$(direnv hook zsh)"
