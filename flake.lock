@@ -239,6 +239,27 @@
         "type": "github"
       }
     },
+    "genea": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1681590504,
+        "narHash": "sha256-I5nwgJnkdwW9IhzGSgWYeolE6w9EOHp2lBKK90J25/Q=",
+        "ref": "main",
+        "rev": "7e887f5353f8e0ef135b7e185601478c1c70ebdf",
+        "revCount": 43,
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/genea"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://source.fetsorn.website/fetsorn/genea"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -555,6 +576,7 @@
         "devenv": "devenv",
         "elmsd": "elmsd",
         "fesite": "fesite",
+        "genea": "genea",
         "hardwarepi": "hardwarepi",
         "home-manager": "home-manager",
         "nixos-unstable": "nixos-unstable",

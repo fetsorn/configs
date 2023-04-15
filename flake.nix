@@ -1221,7 +1221,7 @@
                 locations."/".extraConfig = ''
                   proxy_hide_header Upgrade;
                 '';
-                root = inputs.genea.packages.${pkgs.system}.default;
+                root = inputs.genea.packages.${pkgs.system}.genea;
                 locations."/".tryFiles = "$uri /index.html";
               };
               virtualHosts."static.fetsorn.website" = {
