@@ -28,6 +28,10 @@
       url = "git+https://source.fetsorn.website/fetsorn/qualia?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    genea = {
+      url = "git+https://source.fetsorn.website/fetsorn/genea?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     elmsd = {
       url = "git+https://source.fetsorn.website/fetsorn/elm-system-dynamics";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -1211,6 +1215,15 @@
                 root = inputs.elmsd.packages.${pkgs.system}.default;
                 locations."/".tryFiles = "$uri /Main.html";
               };
+              virtualHosts."genea.fetsorn.website" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.genea.packages.${pkgs.system}.default;
+                locations."/".tryFiles = "$uri /index.html";
+              };
               virtualHosts."static.fetsorn.website" = {
                 enableACME = true;
                 forceSSL = true;
@@ -1274,174 +1287,6 @@
           })
         ];
       }; # linode-gitea
-
-      linode-stars = inputs.nixos-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          inputs.agenix.nixosModules.age
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
-
-            boot = {
-              initrd = {
-                availableKernelModules =
-                  [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
-                kernelModules = [ ];
-              };
-              extraModulePackages = [ ];
-              loader = {
-                timeout = 10;
-                grub = {
-                  enable = true;
-                  version = 2;
-                  extraConfig = ''
-                    serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
-                    terminal_input serial;
-                    terminal_input serial
-                  '';
-                  forceInstall = true;
-                  device = "nodev";
-                };
-              };
-              kernelModules = [ ];
-              kernelParams = [ "console=ttyS0,19200n8" ];
-            };
-
-            fileSystems."/" = {
-              device = "/dev/sda";
-              fsType = "ext4";
-            };
-
-            swapDevices = [{ device = "/dev/sdb"; }];
-
-            security.acme = {
-              acceptTerms = true;
-              defaults.email = "fetsorn@yandex.ru";
-            };
-
-            systemd = let
-              antea.f.w = "antea.fetsorn.website";
-              antea.git =
-                "git+https://source.fetsorn.website/fetsorn/csvs-ui#csvs-ui-frontend-remote";
-              antea-dev.f.w = "antea-dev.fetsorn.website";
-              antea-dev.git =
-                "git+https://source.fetsorn.website/fetsorn/csvs-ui?ref=dev#csvs-ui-frontend-remote";
-              genea.f.w = "genea.fetsorn.website";
-              genea.git =
-                "git+https://source.fetsorn.website/fetsorn/genea?ref=fetsorn";
-              mkService = webRoot: sourceUrl: {
-                enable = true;
-                description = webRoot;
-                serviceConfig = { Type = "oneshot"; };
-                startAt = "*:0/5";
-                wantedBy = [ "multi-user.target" ];
-                path = [ pkgs.nix pkgs.jq pkgs.git ];
-                script = ''
-                  set -ex
-
-                  ln -sfT $(nix build --json --no-link --tarball-ttl 0 ${sourceUrl} | jq -r '.[0]."outputs"."out"') /var/www/${webRoot}
-                '';
-              };
-            in {
-              services.${antea.f.w} = mkService antea.f.w antea.git;
-              services.${antea-dev.f.w} = mkService antea-dev.f.w antea-dev.git;
-              services.${genea.f.w} = mkService genea.f.w genea.git;
-            };
-
-            services.nginx = {
-              enable = true;
-              recommendedGzipSettings = true;
-              recommendedOptimisation = true;
-              recommendedProxySettings = true;
-              recommendedTlsSettings = true;
-              virtualHosts."stars.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                root = "/var/www/stars.fetsorn.website/antea";
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."antea.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".root = "/var/www/antea.fetsorn.website/";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."antea-dev.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".root = "/var/www/antea-dev.fetsorn.website/";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."genea.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".root = "/var/www/genea.fetsorn.website/";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-            };
-
-            networking = {
-              usePredictableInterfaceNames = false;
-              useDHCP = false;
-              interfaces.eth0.useDHCP = true;
-              firewall = {
-                enable = true;
-                allowedTCPPorts = [ 80 443 ];
-              };
-            };
-
-            services.openssh = {
-              enable = true;
-              settings.PermitRootLogin = "no";
-            };
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            system = {
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-              stateVersion = "21.11";
-            };
-
-            programs.git = {
-              enable = true;
-              config = {
-                init = { defaultBranch = "main"; };
-                pull = { rebase = false; };
-                user = {
-                  name = "fetsorn";
-                  email = "fetsorn@gmail.com";
-                };
-              };
-            };
-
-            environment.systemPackages = with pkgs; [
-              git
-              ripgrep
-              rsync
-              vim
-              wget
-            ];
-
-            users = {
-              users.fetsorn = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ];
-              };
-              mutableUsers = true;
-            };
-
-          })
-        ];
-      }; # linode-stars
 
       aws-large = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
