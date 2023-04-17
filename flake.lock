@@ -555,11 +555,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1681650230,
-        "narHash": "sha256-MJty5wfuOoiHwmV/5wnebw8dZEUNq18LEfNuwiVBh5Y=",
+        "lastModified": 1681707638,
+        "narHash": "sha256-o7iGweJrIbfmkZsZWmTQ8RxcS7aUnnxt7iWnAS3tkvc=",
         "ref": "main",
-        "rev": "7dc035a6b796ca1251c85732bcbb567c83523c93",
-        "revCount": 313,
+        "rev": "8d3d4287c04e080beea05452aa9acdade139aa8a",
+        "revCount": 314,
         "type": "git",
         "url": "https://source.fetsorn.website/fetsorn/qualia"
       },
