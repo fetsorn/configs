@@ -116,7 +116,7 @@
 ;; For company-mode users,
 (add-to-list 'company-backends 'hledger-company)
 
-(require 'flycheck-hledger)
+;; (require 'flycheck-hledger)
 
 
 ;; org-journal
@@ -393,7 +393,7 @@
 
 (defun insert-random-sha256 ()
   (interactive)
-  (insert (substring (embark-hash-sha256 (uuidgen-4)) 8)))
+  (insert (secure-hash 'sha256 (uuidgen-4))))
 
 (map! "C-c a" 'insert-random-sha256)
 
