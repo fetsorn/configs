@@ -393,7 +393,7 @@
 
 (defun insert-random-sha256 ()
   (interactive)
-  (insert (secure-hash 'sha256 (uuidgen-4))))
+  (insert (secure-hash 'sha256 (shell-command-to-string "uuidgen"))))
 
 (map! "C-c a" 'insert-random-sha256)
 

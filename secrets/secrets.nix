@@ -5,7 +5,7 @@ let
   linode_mail =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbxMYl5IfRznpvsBrmTIcC1WiLx/1H21NR0c3N2Ncrk root@nixos";
   linode_gitea =
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIvZyzP5OIZ1fOYvQLZQKqajlr8bRIGqy0+X3g/2bYEe root@nixos";
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEphRcQmFrHTzRjwVnoBPVkuQcHi1B1NB3qTlUI4m06O root@nixos";
   pi =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF5AACenOg3Bk5ycML2qV8NHnwCRBVgBc+Szdw7hLjn/ root@nixos";
 in {

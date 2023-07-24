@@ -84,3 +84,5 @@
 
 ;; (package! compat :pin "6f73eac")
 ;(package! compat :pin "c81ff6a")
+
+(package! mediawiki)

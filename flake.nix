@@ -4,11 +4,6 @@
   inputs = {
     nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    deploy-rs = { url = "github:serokell/deploy-rs"; };
-    fesite = {
-      url = "gitlab:/fetsorn/site/main";
-      inputs.nixpkgs.follows = "nixos-unstable";
-    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixos-unstable";
@@ -17,27 +12,16 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    hardwarepi.url = "github:nixos/nixos-hardware/master";
-    simple-nixos-mailserver.url =
-      "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
     };
-    qualia = {
-      url = "git+https://source.fetsorn.website/fetsorn/qualia?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     genea = {
-      url = "git+https://source.fetsorn.website/fetsorn/genea?ref=main";
+      url = "git+https://source.qualifiedself.org/fetsorn/genea?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     elmsd = {
-      url = "git+https://source.fetsorn.website/fetsorn/elm-system-dynamics";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    devenv = {
-      url = "github:cachix/devenv/latest";
+      url = "git+https://source.qualifiedself.org/fetsorn/elm-system-dynamics";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -109,55 +93,7 @@
 
               exit 0
             '';
-            maildir = "/Users/fetsorn/Maildir";
           in {
-            accounts.email = {
-              maildirBasePath = "${maildir}";
-              accounts = let
-                mailaccount = { name, primary ? false }: {
-                  address = "${name}@fetsorn.website";
-                  userName = "${name}@fetsorn.website";
-                  passwordCommand = "${pkgs.pass}/bin/pass mail-${name}";
-                  primary = primary;
-                  mu.enable = true;
-                  mbsync = {
-                    enable = true;
-                    create = "both";
-                    expunge = "both";
-                    patterns = [ "*" ];
-                    extraConfig.account = {
-                      CertificateFile = "${./secrets/ca-certificate}";
-                    };
-                  };
-                  imap = {
-                    host = "mail.fetsorn.website";
-                    port = 993;
-                    tls.enable = true;
-                  };
-                  realName = "fetsorn";
-                  msmtp = {
-                    enable = true;
-                    # openssl s_client -connect mail.fetsorn.website:587 -starttls smtp < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d'=' -f2
-                    tls.fingerprint =
-                      "D1:DC:4F:C2:43:BA:15:B8:3B:38:A3:80:C8:61:6F:8E:BE:D8:93:F4";
-                  };
-                  smtp = {
-                    host = "mail.fetsorn.website";
-                    port = 587;
-                    tls.useStartTls = true;
-                  };
-                };
-              in {
-                anton = mailaccount {
-                  name = "anton";
-                  primary = true;
-                };
-                auth = mailaccount { name = "auth"; };
-                git = mailaccount { name = "git"; };
-                fetsorn = mailaccount { name = "fetsorn"; };
-              };
-            };
-
             nix = {
               package = pkgs.nixUnstable;
               settings = {
@@ -212,15 +148,14 @@
                 tree
                 wget
                 zsh-powerlevel10k
-                (pkgs.texlive.combine {
-                  inherit (pkgs.texlive) scheme-small dvipng latexmk;
-                })
-                swiProlog
-                coq
-                inputs.devenv.packages.aarch64-darwin.devenv
-                ihp-new
-                direnv
-                cachix
+                #(pkgs.texlive.combine {
+                #  inherit (pkgs.texlive) scheme-small dvipng latexmk;
+                #})
+                #swiProlog
+                #coq
+                #ihp-new
+                #direnv
+                #cachix
                 # pkgs-x86_64.cargo
                 # pkgs-aarch64.rust-bin.nightly.latest.default
               ];
@@ -266,8 +201,8 @@
         ]; # modules
       }; # darwin
 
-      fetsorn = inputs.home-manager.lib.homeManagerConfiguration {
-        stateVersion = "21.11";
+      linux = inputs.home-manager.lib.homeManagerConfiguration {
+        stateVersion = "23.05";
         system = "x86_64-linux";
         homeDirectory = "/home/fetsorn";
         username = "fetsorn";
@@ -353,698 +288,7 @@
     }; # homeConfigurations
 
     nixosConfigurations = {
-      vm-arm = inputs.nixos-unstable.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          ({ pkgs, config, lib, modulesPath, ... }: {
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            boot = {
-              initrd = {
-                availableKernelModules =
-                  [ "ehci_pci" "xhci_pci" "usbhid" "sd_mod" "sr_mod" ];
-                kernelModules = [ ];
-              };
-              kernelModules = [ ];
-              extraModulePackages = [ ];
-              loader = {
-                systemd-boot.enable = true;
-                efi.canTouchEfiVariables = true;
-              };
-            };
-
-            swapDevices = [ ];
-
-            disabledModules = [ "virtualisation/parallels-guest.nix" ];
-            imports = [ ./parallels-unfree/parallels-guest.nix ];
-            hardware.parallels = {
-              enable = true;
-              package = (config.boot.kernelPackages.callPackage
-                ./parallels-unfree/prl-tools.nix { });
-            };
-
-            fileSystems = {
-              "/" = {
-                device =
-                  "/dev/disk/by-uuid/4653506c-3bff-4fbf-bdc6-af7e3f04721a";
-                fsType = "ext4";
-              };
-
-              "/boot" = {
-                device = "/dev/disk/by-uuid/3C32-639C";
-                fsType = "vfat";
-              };
-            };
-
-            environment.systemPackages = with pkgs; [
-              alacritty
-              bat
-              firefox
-              rofi
-              wget
-            ];
-
-            services = {
-              openssh.enable = true;
-              xserver = {
-                enable = true;
-                displayManager = {
-                  defaultSession = "none+xmonad";
-                  lightdm.enable = true;
-                  # lightdm.greeters.mini.enable = true;
-                };
-                windowManager.xmonad = {
-                  enable = true;
-                  enableContribAndExtras = true;
-                };
-              };
-            };
-
-            networking = {
-              useDHCP = false;
-              interfaces.eth0.useDHCP = true;
-              firewall = {
-                enable = true;
-                allowedTCPPorts = [ 3030 ];
-              };
-            };
-
-            users = {
-              mutableUsers = false;
-              users.fetsorn = {
-                isNormalUser = true;
-                password = "1234";
-                extraGroups = [ "wheel" ];
-              };
-            };
-
-            system = {
-              stateVersion = "21.11"; # Did you read the comment?
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-            };
-
-          })
-        ];
-      }; # vm-arm
-
-      vm-x86 = inputs.nixos-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({ pkgs, config, lib, modulesPath, ... }: {
-            nix = {
-              package = pkgs.nixUnstable;
-              settings = {
-                trusted-substituters = [
-                  "https://hydra.iohk.io"
-                  "https://iohk.cachix.org"
-                  "https://nix-community.cachix.org"
-                ];
-                trusted-public-keys = [
-                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                  "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-                  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-                ];
-              };
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-
-            boot = {
-              initrd = {
-                availableKernelModules = [
-                  "ehci_pci"
-                  "uhci_hcd"
-                  "ahci"
-                  "usb_storage"
-                  "usbhid"
-                  "sd_mod"
-                  "sr_mod"
-                ];
-                kernelModules = [ ];
-              };
-              kernelModules = [ "kvm-amd" ];
-              extraModulePackages = [ ];
-              loader = {
-                systemd-boot.enable = true;
-                efi.canTouchEfiVariables = true;
-              };
-            };
-
-            fileSystems = {
-              "/" = {
-                device =
-                  "/dev/disk/by-uuid/b907ec30-f267-4d35-8f61-2951a5203418";
-                fsType = "ext4";
-              };
-              "/boot" = {
-                device = "/dev/disk/by-uuid/2BCB-AF29";
-                fsType = "vfat";
-              };
-            };
-
-            swapDevices = [{
-              device = "/dev/disk/by-uuid/caac48dd-00c5-4cf7-b7f9-11561882e417";
-            }];
-
-            environment.systemPackages = with pkgs; [ vim wget ];
-
-            networking = {
-              useDHCP = false;
-              interfaces.enp0s7.useDHCP = true;
-            };
-
-            services.xserver = {
-              enable = true;
-              displayManager.defaultSession = "none+i3";
-              desktopManager.xterm.enable = false;
-              windowManager.i3 = {
-                enable = true;
-                extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
-              };
-            };
-
-            users = {
-              mutableUsers = false;
-              users.fetsorn = {
-                isNormalUser = true;
-                password = "1234";
-                extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-              };
-            };
-
-            system = {
-              stateVersion = "21.11"; # Did you read the comment?
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-            };
-
-          })
-        ];
-      }; # vm-x86
-
-      pi = inputs.nixos-unstable.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          inputs.agenix.nixosModules.age
-          inputs.hardwarepi.nixosModules.raspberry-pi-4
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            fileSystems = {
-              "/" = {
-                device = "/dev/disk/by-label/NIXOS_SD";
-                fsType = "ext4";
-                options = [ "noatime" ];
-              };
-            };
-
-            system = {
-              stateVersion = "21.11"; # Did you read the comment?
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-            };
-
-            environment.systemPackages = with pkgs; [
-              git
-              ntfs3g
-              rsync
-              tmux
-              vim
-            ];
-
-            services.openssh.enable = true;
-
-            networking = {
-              hostName = "pi";
-              firewall = {
-                enable = true;
-                allowedTCPPorts = [ 4000 3000 ];
-              };
-            };
-
-            users = {
-              mutableUsers = false;
-              users.nixos = {
-                isNormalUser = true;
-                password = "1234";
-                extraGroups = [ "wheel" ];
-              };
-            };
-
-            hardware.pulseaudio.enable = true;
-          })
-        ];
-      }; # pi
-
-      aws-arm-simple = inputs.nixos-unstable.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
-            ec2.hvm = true;
-            ec2.efi = true;
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            services.openssh.enable = true;
-
-            users = {
-              users.fetsorn = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ];
-              };
-              mutableUsers = true;
-            };
-
-            environment.systemPackages = with pkgs; [ ripgrep vim wget ];
-
-            system = {
-              stateVersion = "21.11";
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-            };
-          })
-        ];
-      }; # aws-arm-simple
-
-      aws-arm-fesite = inputs.nixos-unstable.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          inputs.agenix.nixosModules.age
-          ({ pkgs, config, lib, modulesPath, ... }:
-            let
-              overlays = [
-                (final: prev: {
-                  fesite = inputs.fesite.packages.aarch64-linux.fesite;
-                })
-              ];
-            in {
-              imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
-              ec2 = {
-                hvm = true;
-                efi = true;
-              };
-
-              nix = {
-                package = pkgs.nixUnstable;
-                extraOptions = "experimental-features = nix-command flakes";
-                settings = {
-                  auto-optimise-store = true;
-                  sandbox = true;
-                  trusted-substituters = [
-                    "https://hydra.iohk.io"
-                    "https://iohk.cachix.org"
-                    "https://nix-community.cachix.org"
-                  ];
-                  trusted-public-keys = [
-                    "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                    "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-                    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-                  ];
-                  trusted-users = [ "root" "fetsorn" ];
-                };
-              };
-              nixpkgs.config.allowUnfree = true;
-
-              system = {
-                configurationRevision = if self ? rev then
-                  self.rev
-                else
-                  throw "Refusing to build from a dirty Git tree!";
-                stateVersion = "21.11";
-              };
-
-              nixpkgs.overlays = overlays;
-
-              environment.systemPackages = with pkgs; [ fesite vim wget ];
-
-              age = {
-                secrets = {
-                  acme-cf = {
-                    file = ./secrets/acme-cf.age;
-                    owner = "fetsorn";
-                  };
-                  site = {
-                    file = ./secrets/site.age;
-                    path = "/srv/within/fesite/.env";
-                    owner = "fesite";
-                    group = "within";
-                    mode = "0400";
-                  };
-                };
-              };
-
-              security = {
-                acme = {
-                  defaults.email = "me@fetsorn.website";
-                  acceptTerms = true;
-                  certs."fetsorn.website" = {
-                    group = "nginx";
-                    email = "me@fetsorn.website";
-                    dnsProvider = "cloudflare";
-                    credentialsFile = "/run/agenix/acme-cf";
-                    extraDomainNames = [ "*.fetsorn.website" ];
-                    extraLegoFlags = [ "--dns.resolvers=8.8.8.8:53" ];
-                  };
-                };
-                pam.loginLimits = [{
-                  domain = "*";
-                  type = "soft";
-                  item = "nofile";
-                  value = "unlimited";
-                }];
-              };
-
-              users = {
-                groups.within = { };
-                mutableUsers = true;
-                users = {
-                  fetsorn = {
-                    isNormalUser = true;
-                    extraGroups = [ "wheel" ];
-                  };
-
-                  fesite = {
-                    isNormalUser = true; # isSystemUser?
-                    createHome = true;
-                    description = "github.com/fetsorn/site";
-                    group = "within";
-                    home = "/srv/within/fesite";
-                    extraGroups = [ "keys" ];
-                  };
-                };
-              };
-
-              systemd = {
-                services = {
-                  within-homedir-setup = {
-                    description = "Creates homedirs for /srv/within services";
-                    wantedBy = [ "multi-user.target" ];
-                    serviceConfig.Type = "oneshot";
-                    script = with pkgs; ''
-                      ${coreutils}/bin/mkdir -p /srv/within
-                      ${coreutils}/bin/chown root:within /srv/within
-                      ${coreutils}/bin/chmod 775 /srv/within
-                      ${coreutils}/bin/mkdir -p /srv/within/run
-                      ${coreutils}/bin/chown root:within /srv/within/run
-                      ${coreutils}/bin/chmod 770 /srv/within/run
-                    '';
-                  };
-                  nginx.serviceConfig.SupplementaryGroups = "within";
-                  fesite = {
-                    wantedBy = [ "multi-user.target" ];
-                    serviceConfig = {
-                      User = "fesite";
-                      Group = "within";
-                      Restart = "on-failure";
-                      WorkingDirectory = "/srv/within/fesite";
-                      RestartSec = "30s";
-                      Type = "notify";
-
-                      # Security
-                      CapabilityBoundingSet = "";
-                      DeviceAllow = [ ];
-                      NoNewPrivileges = "true";
-                      ProtectControlGroups = "true";
-                      ProtectClock = "true";
-                      PrivateDevices = "true";
-                      PrivateUsers = "true";
-                      ProtectHome = "true";
-                      ProtectHostname = "true";
-                      ProtectKernelLogs = "true";
-                      ProtectKernelModules = "true";
-                      ProtectKernelTunables = "true";
-                      ProtectSystem = "true";
-                      ProtectProc = "invisible";
-                      RemoveIPC = "true";
-                      RestrictSUIDSGID = "true";
-                      RestrictRealtime = "true";
-                      SystemCallArchitectures = "native";
-                      SystemCallFilter = [
-                        "~@reboot"
-                        "~@module"
-                        "~@mount"
-                        "~@swap"
-                        "~@resources"
-                        "~@cpu-emulation"
-                        "~@obsolete"
-                        "~@debug"
-                        "~@privileged"
-                      ];
-                      UMask = "007";
-                    };
-
-                    script = ''
-                      export $(cat /srv/within/fesite/.env | xargs)
-                      export SOCKPATH="/srv/within/run/fesite.sock"
-                      export PORT=32837
-                      export DOMAIN="fetsorn.website"
-                      cd ${pkgs.fesite}
-                      exec ${pkgs.fesite}/bin/fesite
-                    '';
-                  };
-                };
-                network.enable = true;
-              };
-
-              services = {
-                openssh.enable = true;
-
-                nginx = {
-                  enable = true;
-                  recommendedGzipSettings = true;
-                  recommendedOptimisation = true;
-                  recommendedProxySettings = true;
-                  recommendedTlsSettings = true;
-                  statusPage = true;
-                  enableReload = true;
-                  virtualHosts."fesite" = {
-                    serverName = "fetsorn.website";
-                    locations."/" = {
-                      proxyPass = "http://unix:/srv/within/run/fesite.sock";
-                      proxyWebsockets = true;
-                    };
-                    forceSSL = true;
-                    useACMEHost = "fetsorn.website";
-                    extraConfig = ''
-                      access_log /var/log/nginx/fesite.access.log;
-                    '';
-                  };
-                };
-                journald.extraConfig = ''
-                  SystemMaxUse=100M
-                  MaxFileSec=7day
-                '';
-                resolved = {
-                  enable = true;
-                  dnssec = "false";
-                };
-                lorri.enable = true;
-                mysql = {
-                  enable = true;
-                  package = pkgs.mariadb;
-                };
-              };
-
-              networking = {
-                hostName = "lufta";
-                usePredictableInterfaceNames = false;
-                firewall = {
-                  enable = true;
-                  allowedTCPPorts =
-                    [ 22 80 443 1965 6667 6697 8009 8000 8080 3030 ];
-                  allowedUDPPorts = [ 80 443 41641 51822 51820 ];
-
-                  allowedUDPPortRanges = [{
-                    from = 32768;
-                    to = 65535;
-                  }];
-                };
-              };
-            }) # configuration
-        ]; # modules
-      }; # aws-arm-fesite
-
-      linode-mail = inputs.nixos-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          inputs.agenix.nixosModules.age
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            imports = [
-              (modulesPath + "/profiles/qemu-guest.nix")
-              inputs.simple-nixos-mailserver.nixosModule
-            ];
-
-            boot = {
-              initrd = {
-                availableKernelModules =
-                  [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
-                kernelModules = [ ];
-              };
-              extraModulePackages = [ ];
-              loader = {
-                timeout = 10;
-                grub = {
-                  enable = true;
-                  version = 2;
-                  extraConfig = ''
-                    serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
-                    terminal_input serial;
-                    terminal_input serial
-                  '';
-                  forceInstall = true;
-                  device = "nodev";
-                };
-              };
-              kernelModules = [ ];
-              kernelParams = [ "console=ttyS0,19200n8" ];
-            };
-
-            fileSystems."/" = {
-              device = "/dev/sda";
-              fsType = "ext4";
-            };
-
-            swapDevices = [{ device = "/dev/sdb"; }];
-
-            security.acme = {
-              acceptTerms = true;
-              defaults.email = "anton@fetsorn.website";
-            };
-
-            age = {
-              secrets = {
-                mail-anton = {
-                  file = ./secrets/mail-anton.age;
-                  owner = "fetsorn";
-                };
-                mail-auth = {
-                  file = ./secrets/mail-auth.age;
-                  owner = "fetsorn";
-                };
-                mail-fetsorn = {
-                  file = ./secrets/mail-fetsorn.age;
-                  owner = "fetsorn";
-                };
-                mail-git = {
-                  file = ./secrets/mail-git.age;
-                  owner = "fetsorn";
-                };
-              };
-            };
-
-            mailserver = {
-              enable = true;
-              fqdn = "mail.fetsorn.website";
-              domains = [ "fetsorn.website" ];
-              # nix run nixpkgs#apacheHttpd -- -c htpasswd -nbB "" "super secret password"
-              loginAccounts = {
-                "anton@fetsorn.website" = {
-                  hashedPasswordFile = "/run/agenix/mail-anton";
-                };
-                "auth@fetsorn.website" = {
-                  hashedPasswordFile = "/run/agenix/mail-anton";
-                };
-                "fetsorn@fetsorn.website" = {
-                  hashedPasswordFile = "/run/agenix/mail-fetsorn";
-                };
-                "git@fetsorn.website" = {
-                  hashedPasswordFile = "/run/agenix/mail-git";
-                };
-              };
-              certificateScheme = 3;
-              virusScanning = false; # breaks otherwise for some reason
-            };
-
-            networking = {
-              usePredictableInterfaceNames = false;
-              useDHCP = false;
-              interfaces.eth0.useDHCP = true;
-              firewall = {
-                enable = true;
-                allowedTCPPorts = [ 80 443 ];
-              };
-            };
-
-            services = {
-              openssh = {
-                enable = true;
-                settings.PermitRootLogin = "no";
-              };
-              roundcube = {
-                enable = true;
-                hostName = "inbox.fetsorn.website";
-                extraConfig = ''
-                  # starttls needed for authentication, so the fqdn required to match
-                  # the certificate
-                  $config['smtp_server'] = "tls://${config.mailserver.fqdn}";
-                  $config['smtp_user'] = "%u";
-                  $config['smtp_pass'] = "%p";
-                '';
-              };
-              nginx.enable = true;
-            };
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            system = {
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-              stateVersion = "21.11";
-            };
-
-            environment.systemPackages = with pkgs; [
-              git
-              inetutils
-              mtr
-              ripgrep
-              rsync
-              sysstat
-              vim
-              wget
-            ];
-
-            users = {
-              users.fetsorn = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ];
-              };
-              mutableUsers = true;
-            };
-          })
-        ];
-      }; # linode-mail
-
-      linode-gitea = inputs.nixos-unstable.lib.nixosSystem {
+      linode = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           inputs.agenix.nixosModules.age
@@ -1111,26 +355,11 @@
                 enable = true;
                 interval = "monthly";
               };
-              domain = "source.fetsorn.website";
-              rootUrl = "https://source.fetsorn.website/";
+              domain = "source.qualifiedself.org";
+              rootUrl = "https://source.qualifiedself.org/";
               httpPort = 3001;
               settings = { repository = { DEFAULT_BRANCH = "main"; }; };
             };
-
-            # services.nextcloud = {
-            #   enable = true;
-            #   hostName = "cloud.fetsorn.website";
-            #   package = pkgs.nextcloud25;
-            #   config = {
-            #     dbtype = "pgsql";
-            #     dbuser = "nextcloud";
-            #     dbhost =
-            #       "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
-            #     dbname = "nextcloud";
-            #     adminpassFile = "/run/agenix/gitea-dbpass";
-            #     adminuser = "root";
-            #   };
-            # };
 
             services.postgresql = {
               enable = true;
@@ -1156,11 +385,11 @@
               clientMaxBodySize = "100m";
               commonHttpConfig = ''
                 map $http_origin $allow_origin {
-                    ~^https?://(.*\.)?(fetsorn.website|qualifiedself.org)(:\d+)?(/?)$ $http_origin;
+                    ~^https?://(.*\.)?(qualifiedself.org)(:\d+)?(/?)$ $http_origin;
                     default "";
                 }
               '';
-              virtualHosts."source.fetsorn.website" = {
+              virtualHosts."source.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".proxyPass = "http://localhost:3001/";
@@ -1189,13 +418,6 @@
                   }
                 '';
               };
-              virtualHosts."cloud.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-              };
               virtualHosts."qua.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
@@ -1206,7 +428,7 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."sd.fetsorn.website" = {
+              virtualHosts."sd.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".extraConfig = ''
@@ -1215,7 +437,7 @@
                 root = inputs.elmsd.packages.${pkgs.system}.default;
                 locations."/".tryFiles = "$uri /Main.html";
               };
-              virtualHosts."genea.fetsorn.website" = {
+              virtualHosts."genea.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".extraConfig = ''
@@ -1224,14 +446,14 @@
                 root = inputs.genea.packages.${pkgs.system}.genea;
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."static.fetsorn.website" = {
+              virtualHosts."static.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".extraConfig = ''
                   proxy_hide_header Upgrade;
                   autoindex on;
                 '';
-                root = "/var/www/static.fetsorn.website";
+                root = "/var/www/static.qualifiedself.org";
               };
             };
 
@@ -1266,7 +488,7 @@
                 self.rev
               else
                 throw "Refusing to build from a dirty Git tree!";
-              stateVersion = "21.11";
+              stateVersion = "23.05";
             };
 
             environment.systemPackages = with pkgs; [
@@ -1286,263 +508,7 @@
             };
           })
         ];
-      }; # linode-gitea
-
-      aws-large = inputs.nixos-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
-            ec2.hvm = true;
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            security.acme = {
-              acceptTerms = true;
-              defaults.email = "fetsorn@gmail.com";
-            };
-
-            services.nginx = {
-              enable = true;
-              recommendedGzipSettings = true;
-              recommendedOptimisation = true;
-              recommendedProxySettings = true;
-              recommendedTlsSettings = true;
-              virtualHosts."trace.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".proxyPass =
-                  "http://localhost:3301/"; # ui, started from forked cli
-              };
-              virtualHosts."otel.fetsorn.website" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".proxyPass =
-                  "http://localhost:4318/"; # http endpoint, started from forked cli
-              };
-            };
-
-            services.openssh.enable = true;
-            services.ipfs.enable = true;
-
-            users = {
-              users.fetsorn = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" "docker" ];
-              };
-              mutableUsers = true;
-            };
-
-            programs.git = {
-              enable = true;
-              config = {
-                init = { defaultBranch = "main"; };
-                pull = { rebase = false; };
-                user = {
-                  name = "fetsorn";
-                  email = "fetsorn@gmail.com";
-                };
-              };
-            };
-
-            environment.systemPackages = with pkgs; [
-              ripgrep
-              vim
-              wget
-              git
-              rsync
-              tmux
-            ];
-
-            networking = {
-              firewall = {
-                enable = true;
-                allowedTCPPorts =
-                  [ 22 1234 5000 8000 80 443 3000 9411 3301 4317 4318 ];
-              };
-            };
-
-            system = {
-              stateVersion = "22.05";
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-            };
-
-            virtualisation.docker = {
-              enable = true;
-              logDriver = "json-file";
-            };
-          })
-        ];
-      }; # aws-arm-simple
-
-      sonicmaster = inputs.nixos-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          inputs.home-manager.nixosModules.home-manager
-          ({ pkgs, config, lib, modulesPath, ... }: {
-
-            boot = {
-              initrd = {
-                availableKernelModules =
-                  [ "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
-                kernelModules = [ ];
-              };
-              kernelModules = [ "kvm-intel" ];
-              extraModulePackages = [ ];
-              loader = {
-                systemd-boot.enable = true;
-                efi.canTouchEfiVariables = true;
-                grub.useOSProber = true;
-              };
-            };
-
-            fileSystems = {
-              "/" = {
-                device =
-                  "/dev/disk/by-uuid/52e503cb-0e91-40e7-9c94-2d4b9e60e6d2";
-                fsType = "ext4";
-              };
-
-              "/boot" = {
-                device = "/dev/disk/by-uuid/C6BD-7AE8";
-                fsType = "vfat";
-              };
-            };
-
-            swapDevices = [{
-              device = "/dev/disk/by-uuid/2659bb64-6ca8-4b4a-b99f-524cf731021e";
-            }];
-
-            hardware = {
-              cpu.intel.updateMicrocode =
-                lib.mkDefault config.hardware.enableRedistributableFirmware;
-              pulseaudio.enable = true;
-            };
-
-            powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-
-            nix = {
-              package = pkgs.nixUnstable;
-              extraOptions = "experimental-features = nix-command flakes";
-              settings = {
-                trusted-substituters = [
-                  "https://hydra.iohk.io"
-                  "https://iohk.cachix.org"
-                  "https://nix-community.cachix.org"
-                ];
-                trusted-public-keys = [
-                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-                  "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-                  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-                ];
-              };
-              maxJobs = lib.mkDefault 4;
-            };
-            nixpkgs.config.allowUnfree = true;
-
-            system = {
-              configurationRevision = if self ? rev then
-                self.rev
-              else
-                throw "Refusing to build from a dirty Git tree!";
-              stateVersion = "21.11"; # Did you read the comment?
-            };
-
-            networking = {
-              hostName = "sonicmaster"; # Define your hostname.
-              wireless.enable =
-                true; # Enables wireless support via wpa_supplicant.
-              useDHCP = false;
-              interfaces.wlp1s0.useDHCP = true;
-            };
-
-            i18n.defaultLocale = "en_US.UTF-8";
-            console = {
-              font = "Lat2-Terminus16";
-              keyMap = "us";
-            };
-
-            time.timeZone = "Europe/Moscow";
-
-            environment.systemPackages = with pkgs; [ git ];
-
-            services = {
-              openssh.enable = true;
-              xserver = {
-                enable = true;
-                layout = "us,ru";
-                xkbOptions = "ctrl:swapcaps,grp:alt_shift_toggle";
-                libinput = {
-                  enable = true;
-                  mouse.leftHanded = true;
-                };
-                displayManager.defaultSession = "none+i3";
-                windowManager = {
-                  xmonad.enable = true;
-                  i3 = {
-                    enable = true;
-                    extraPackages = with pkgs; [
-                      dmenu
-                      i3status
-                      i3lock
-                      i3blocks
-                    ];
-                    package = pkgs.i3-gaps;
-                  };
-                };
-              };
-            };
-
-            sound.enable = true;
-
-            users = {
-              users = {
-                fetsorn = {
-                  isNormalUser = true;
-                  extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-                };
-
-                tapir = {
-                  isNormalUser = true;
-                  extraGroups = [ ];
-                };
-              };
-            };
-
-          })
-        ];
-      }; # sonicmaster
+      }; # linode
     }; # nixosConfigurations
-
-    deploy.nodes.aws = {
-      sshUser = "root";
-      hostname = "34.219.138.142";
-      sshOpts = [ "-i" "~/.ssh/nixos.pem" ];
-      profiles.system = {
-        user = "root";
-        path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos
-          self.nixosConfigurations.aws-arm-simple;
-      };
-    };
-
-    checks =
-      builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
-      inputs.deploy-rs.lib;
-
-    apps.aarch64-linux.deployApp = {
-      type = "app";
-      program =
-        "${inputs.deploy-rs.packages.aarch64-linux.deploy-rs}/bin/deploy";
-    };
-    defaultApp.aarch64-linux = self.apps.aarch64-linux.deployApp;
-
   }; # outputs
 }
