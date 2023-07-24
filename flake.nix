@@ -16,12 +16,16 @@
       url = "github:oxalica/rust-overlay";
       inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
     };
+    evenor = {
+      url = "git+https://source.qualifiedself.org/fetsorn/evenor?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     genea = {
       url = "git+https://source.qualifiedself.org/fetsorn/genea?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     elmsd = {
-      url = "git+https://source.qualifiedself.org/fetsorn/elm-system-dynamics";
+      url = "git+https://source.qualifiedself.org/fetsorn/elm-system-dynamics?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -307,7 +311,6 @@
                 timeout = 10;
                 grub = {
                   enable = true;
-                  version = 2;
                   extraConfig = ''
                     serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
                     terminal_input serial;
@@ -355,10 +358,14 @@
                 enable = true;
                 interval = "monthly";
               };
-              domain = "source.qualifiedself.org";
-              rootUrl = "https://source.qualifiedself.org/";
-              httpPort = 3001;
-              settings = { repository = { DEFAULT_BRANCH = "main"; }; };
+              settings = { 
+                repository = { DEFAULT_BRANCH = "main"; }; 
+                server = { 
+                  ROOT_URL = "https://source.qualifiedself.org/"; 
+                  HTTP_PORT = 3001;
+                  DOMAIN = "source.qualifiedself.org";
+                };
+              };
             };
 
             services.postgresql = {
@@ -424,7 +431,7 @@
                 locations."/".extraConfig = ''
                   proxy_hide_header Upgrade;
                 '';
-                root = inputs.qualia.packages.${pkgs.system}.webapp;
+                root = inputs.evenor.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
