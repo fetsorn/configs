@@ -20,6 +20,10 @@
       url = "git+https://source.qualifiedself.org/fetsorn/evenor?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    morio = {
+      url = "git+https://source.qualifiedself.org/fetsorn/morio?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     genea = {
       url = "git+https://source.qualifiedself.org/fetsorn/genea?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -432,6 +436,16 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.evenor.packages.${pkgs.system}.webapp;
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."morio.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.morio.packages.${pkgs.system}.webapp.override { defaultURL = "https://source.qualifiedself.org/fetsorn/antiphongordon"; };
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
