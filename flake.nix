@@ -29,7 +29,13 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     elmsd = {
-      url = "git+https://source.qualifiedself.org/fetsorn/elm-system-dynamics?ref=main";
+      url =
+        "git+https://source.qualifiedself.org/fetsorn/elm-system-dynamics?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    arcoiris = {
+      url =
+        "git+https://source.qualifiedself.org/fetsorn/arcoiris-demo?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -362,10 +368,10 @@
                 enable = true;
                 interval = "monthly";
               };
-              settings = { 
-                repository = { DEFAULT_BRANCH = "main"; }; 
-                server = { 
-                  ROOT_URL = "https://source.qualifiedself.org/"; 
+              settings = {
+                repository = { DEFAULT_BRANCH = "main"; };
+                server = {
+                  ROOT_URL = "https://source.qualifiedself.org/";
                   HTTP_PORT = 3001;
                   DOMAIN = "source.qualifiedself.org";
                 };
@@ -439,13 +445,26 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
+              virtualHosts."arcoiris.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.arcoiris.packages.${pkgs.system}.webapp;
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
               virtualHosts."morio.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".extraConfig = ''
                   proxy_hide_header Upgrade;
                 '';
-                root = inputs.morio.packages.${pkgs.system}.webapp.override { defaultURL = "https://source.qualifiedself.org/fetsorn/antiphongordon"; };
+                root = inputs.morio.packages.${pkgs.system}.webapp.override {
+                  defaultURL =
+                    "https://source.qualifiedself.org/fetsorn/antiphongordon";
+                };
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
