@@ -29,11 +29,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1693826997,
-        "narHash": "sha256-jtWM6dicsL4lqZHuQxoXuhJr6dNGE5Mh5FyqZ5FDDLs=",
+        "lastModified": 1693827619,
+        "narHash": "sha256-P3Vc6uxYAM3Q4xxYK7rgEI6eLV/twLNaiXiBjz1lPEY=",
         "ref": "main",
-        "rev": "6ea11154f9d9138a3132670f06d1cabce00a213b",
-        "revCount": 6,
+        "rev": "c8d16f43d1b95695249d2ab6e8c78a74176e0ea7",
+        "revCount": 7,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/arcoiris-demo"
       },
