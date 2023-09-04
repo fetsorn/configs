@@ -29,11 +29,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1693827619,
-        "narHash": "sha256-P3Vc6uxYAM3Q4xxYK7rgEI6eLV/twLNaiXiBjz1lPEY=",
+        "lastModified": 1693829043,
+        "narHash": "sha256-jXXZ3SVI28OmpuREesOwk58MWmLVqbL528sRmxO7cPo=",
         "ref": "main",
-        "rev": "c8d16f43d1b95695249d2ab6e8c78a74176e0ea7",
-        "revCount": 7,
+        "rev": "bb612e9df3a36c23100e624792a829f59cd2aa71",
+        "revCount": 8,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/arcoiris-demo"
       },
@@ -277,11 +277,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1693714546,
-        "narHash": "sha256-3EMJZeGSZT6pD1eNwI/6Yc0R4rxklNvJ2SDFcsCnjpM=",
+        "lastModified": 1693780807,
+        "narHash": "sha256-diV1X53HjSB3fIcDFieh9tGZkJ3vqJJQhTz89NbYw60=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d816b5ab44187a2dd84806630ce77a733724f95f",
+        "rev": "84ef5335abf541d8148433489e0cf79affae3f89",
         "type": "github"
       },
       "original": {
