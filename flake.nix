@@ -38,6 +38,10 @@
         "git+https://source.qualifiedself.org/fetsorn/arcoiris-demo?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    kasner = {
+      url = "github:fetsorn/kasner-demo?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -452,6 +456,16 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.arcoiris.packages.${pkgs.system}.webapp;
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."kasner.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.kasner.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
