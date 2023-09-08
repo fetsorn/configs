@@ -319,11 +319,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694188188,
-        "narHash": "sha256-nHY6EI52TIYzfjHOGR/26E6NYixt1yWqvwBWFz2aBtQ=",
+        "lastModified": 1694188811,
+        "narHash": "sha256-won5Fr8ADQalxpw6XoL/t9ulZh8e/V3r1k/bYFanhso=",
         "owner": "fetsorn",
         "repo": "quiz-demo",
-        "rev": "9b1baf645f529a775e5fe6cfd9786b96a3efb023",
+        "rev": "ebbac208af155fc9b839c61b208b4b1c963e0001",
         "type": "github"
       },
       "original": {
