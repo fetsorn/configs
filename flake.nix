@@ -42,6 +42,10 @@
       url = "github:fetsorn/kasner-demo?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    quiz = {
+      url = "github:fetsorn/quiz-demo?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -456,6 +460,16 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.arcoiris.packages.${pkgs.system}.webapp;
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."quiz.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.quiz.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
