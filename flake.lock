@@ -94,11 +94,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694966937,
-        "narHash": "sha256-zlGNGr0JREltF7TTQvlyJQMoJs1ncr8R7okgRtQcv64=",
+        "lastModified": 1694967694,
+        "narHash": "sha256-MU9ABPwFuOuLggd7r0asCWZYJUe6m1J47MVDwlRL4Ic=",
         "ref": "main",
-        "rev": "949e81e5d5fecc947037ccbd78f1d296544bd476",
-        "revCount": 359,
+        "rev": "decc4d4e705e321f3e02ec0f7f675651da3b3bb9",
+        "revCount": 360,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/evenor"
       },
