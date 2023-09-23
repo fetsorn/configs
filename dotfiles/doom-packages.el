@@ -69,7 +69,7 @@
 
 ;(package! fountain-mode)
 
-;(package! extempore-mode)
+(package! extempore-mode)
 
 ;; pin agda-mode to latest release instead of unstable
 ;; to match the nix release

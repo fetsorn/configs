@@ -224,7 +224,7 @@
       }; # darwin
 
       linux = inputs.home-manager.lib.homeManagerConfiguration {
-        stateVersion = "23.05";
+        stateVersion = "23.11";
         system = "x86_64-linux";
         homeDirectory = "/home/fetsorn";
         username = "fetsorn";
@@ -556,7 +556,7 @@
                 self.rev
               else
                 throw "Refusing to build from a dirty Git tree!";
-              stateVersion = "23.05";
+              stateVersion = "23.11";
             };
 
             environment.systemPackages = with pkgs; [
