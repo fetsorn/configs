@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694793763,
-        "narHash": "sha256-y6gTE1C9mIoSkymRYyzCmv62PFgy+hbZ5j8fuiQK5KI=",
+        "lastModified": 1695384796,
+        "narHash": "sha256-TYlE4B0ktPtlJJF9IFxTWrEeq+XKG8Ny0gc2FGEAdj0=",
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "572baca9b0c592f71982fca0790db4ce311e3c75",
+        "rev": "1f677b3e161d3bdbfd08a939e8f25de2568e0ef4",
         "type": "github"
       },
       "original": {
@@ -94,11 +94,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694967694,
-        "narHash": "sha256-MU9ABPwFuOuLggd7r0asCWZYJUe6m1J47MVDwlRL4Ic=",
+        "lastModified": 1695654843,
+        "narHash": "sha256-cbhbEoCZf9waBxyFqszgdWiG44HVvYnnvr9F3GRZmpM=",
         "ref": "main",
-        "rev": "decc4d4e705e321f3e02ec0f7f675651da3b3bb9",
-        "revCount": 360,
+        "rev": "37fbb8f1d39a0249fbb222018a4e6de90bda87b3",
+        "revCount": 363,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/evenor"
       },
@@ -190,11 +190,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694643239,
-        "narHash": "sha256-pv2k/5FvyirDE8g4TNehzwZ0T4UOMMmqWSQnM/luRtE=",
+        "lastModified": 1695550077,
+        "narHash": "sha256-xoxR/iY69/3lTnnZDP6gf3J46DUKPcf+Y1jH03tfZXE=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d9b88b43524db1591fb3d9410a21428198d75d49",
+        "rev": "a88df2fb101778bfd98a17556b3a2618c6c66091",
         "type": "github"
       },
       "original": {
@@ -266,11 +266,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1694767346,
-        "narHash": "sha256-5uH27SiVFUwsTsqC5rs3kS7pBoNhtoy9QfTP9BmknGk=",
+        "lastModified": 1695360818,
+        "narHash": "sha256-JlkN3R/SSoMTa+CasbxS1gq+GpGxXQlNZRUh9+LIy/0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ace5093e36ab1e95cb9463863491bee90d5a4183",
+        "rev": "e35dcc04a3853da485a396bdd332217d0ac9054f",
         "type": "github"
       },
       "original": {
@@ -298,11 +298,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1694948089,
-        "narHash": "sha256-d2B282GmQ9o8klc22/Rbbbj6r99EnELQpOQjWMyv0rU=",
+        "lastModified": 1695318763,
+        "narHash": "sha256-FHVPDRP2AfvsxAdc+AsgFJevMz5VBmnZglFUMlxBkcY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5148520bfab61f99fd25fb9ff7bfbb50dad3c9db",
+        "rev": "e12483116b3b51a185a33a272bf351e357ba9a99",
         "type": "github"
       },
       "original": {
@@ -357,11 +357,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694916722,
-        "narHash": "sha256-DBxuPOyhaHw3WY6s2KsaGyGrOkvmuiORC4DjIz8XTbM=",
+        "lastModified": 1695607919,
+        "narHash": "sha256-PU6yIbHXdm3W8bBlhO6aL+VIjK5UQCRnOvCqa1lYQ6M=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "9d34219b9788fb5cde6f5b5759211d606f5131ec",
+        "rev": "014e0035c262e5506f904829e6b925ee3cfdb55e",
         "type": "github"
       },
       "original": {
