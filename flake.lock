@@ -94,11 +94,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1695747534,
-        "narHash": "sha256-7UYJCPgNP+jlczDskNzxaJtUNFDdbw/e0HO/e0HXJ0w=",
+        "lastModified": 1695748401,
+        "narHash": "sha256-incLbE8RzuJrmFZ3s82n0TI9PnDsin8L00L5I+eKK4s=",
         "ref": "main",
-        "rev": "6935a547c4fd0ea9e6142f4e8c5a81427c4fa3b5",
-        "revCount": 364,
+        "rev": "af8f2695dd64d90bf6a733e29b8c46bd9c808dd8",
+        "revCount": 365,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/evenor"
       },
@@ -250,11 +250,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1695746952,
-        "narHash": "sha256-D1lX6KulqSn54DELl4DtPwCwl6Zpt/sWiSAVvw238z0=",
+        "lastModified": 1695749616,
+        "narHash": "sha256-cHsKYny94Wi73w7CxSDr+jKvjRqibeZzWI1CP5fD5yM=",
         "ref": "main",
-        "rev": "acb4c40a5cda4cb03db405daf67102c871a57e27",
-        "revCount": 8,
+        "rev": "fae77fd3b23b74fe22d194bb261f4895e7b992a3",
+        "revCount": 9,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/morio"
       },
