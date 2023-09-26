@@ -250,11 +250,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1695752129,
-        "narHash": "sha256-k+SAKmdZNxcOBHaG8lIsseEmNJA9wRM6TZ7z+YKG78E=",
+        "lastModified": 1695755747,
+        "narHash": "sha256-WYdURzsHg6ccmOfUMWuoIWsUXJIjWpFJP/ddyIBT5i8=",
         "ref": "main",
-        "rev": "26c4fb0d1da81849f5242f0afbc8374166723ab2",
-        "revCount": 10,
+        "rev": "8966a2aca1017e940081b9569593694d701d4850",
+        "revCount": 11,
         "type": "git",
         "url": "https://source.qualifiedself.org/fetsorn/morio"
       },
