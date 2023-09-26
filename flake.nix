@@ -203,9 +203,9 @@
 
               gpg.enable = true;
 
-              mbsync.enable = true;
-              msmtp.enable = true;
-              mu.enable = true;
+              # mbsync.enable = true;
+              # msmtp.enable = true;
+              # mu.enable = true;
 
               password-store.enable = true;
 
