@@ -721,9 +721,11 @@
 
               programs.git = {
                 enable = true;
-                userName = "fetsorn";
-                userEmail = "fetsorn@gmail.com";
-                extraConfig = {
+                config = {
+                  user = {
+                    name = "fetsorn";
+                    email = "fetsorn@gmail.com";
+                  };
                   init = { defaultBranch = "main"; };
                   pull = { rebase = false; };
                 };
