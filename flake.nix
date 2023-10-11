@@ -692,48 +692,41 @@
                 vim
                 wget
                 alacritty # gpu accelerated terminal
-                dbus-sway-environment
-                configure-gtk
-                wayland
-                xdg-utils # for opening default programs when clicking links
-                glib # gsettings
-                dracula-theme # gtk theme
-                gnome3.adwaita-icon-theme # default gnome cursors
-                swaylock
-                swayidle
-                grim # screenshot functionality
-                slurp # screenshot functionality
-                wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-                bemenu # wayland clone of dmenu
-                mako # notification system developed by swaywm maintainer
-                wdisplays # tool to configure displays
-                wayvnc
+                tigervnc
               ];
 
-              services.pipewire = {
+              environment.pathsToLink = [
+                "/libexec"
+              ]; # links /libexec from derivations to /run/current-system/sw
+
+              services.x2goserver.enable = true;
+
+              services.xserver = {
                 enable = true;
-                alsa.enable = true;
-                pulse.enable = true;
+
+                desktopManager = { xterm.enable = false; };
+
+                displayManager = { defaultSession = "none+i3"; };
+
+                windowManager.i3 = {
+                  enable = true;
+                  extraPackages = with pkgs; [
+                    dmenu # application launcher most people use
+                    i3status # gives you the default i3 status bar
+                    i3lock # default i3 screen locker
+                    i3blocks # if you are planning on using i3blocks over i3status
+                  ];
+                };
               };
 
-              # xdg-desktop-portal works by exposing a series of D-Bus interfaces
-              # known as portals under a well-known name
-              # (org.freedesktop.portal.Desktop) and object path
-              # (/org/freedesktop/portal/desktop).
-              # The portal interfaces include APIs for file access, opening URIs,
-              # printing and others.
-              services.dbus.enable = true;
-              xdg.portal = {
+              programs.git = {
                 enable = true;
-                wlr.enable = true;
-                # gtk portal needed to make gtk apps happy
-                extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-              };
-
-              # enable sway window manager
-              programs.sway = {
-                enable = true;
-                wrapperFeatures.gtk = true;
+                userName = "fetsorn";
+                userEmail = "fetsorn@gmail.com";
+                extraConfig = {
+                  init = { defaultBranch = "main"; };
+                  pull = { rebase = false; };
+                };
               };
 
               users = {
