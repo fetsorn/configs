@@ -525,6 +525,8 @@
               };
             };
 
+            hardware.opengl.enable = true;
+
             networking = {
               usePredictableInterfaceNames = false;
               useDHCP = false;
@@ -581,164 +583,132 @@
       antistixi = inputs.nixos-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          inputs.agenix.nixosModules.age
-          ({ pkgs, config, lib, modulesPath, ... }:
-            let
-              # bash script to let dbus know about important env variables and
-              # propagate them to relevent services run at the end of sway config
-              # see
-              # https://github.com/emersion/xdg-desktop-portal-wlr/wiki/"It-doesn't-work"-Troubleshooting-Checklist
-              # note: this is pretty much the same as  /etc/sway/config.d/nixos.conf but also restarts
-              # some user services to make sure they have the correct environment variables
-              dbus-sway-environment = pkgs.writeTextFile {
-                name = "dbus-sway-environment";
-                destination = "/bin/dbus-sway-environment";
-                executable = true;
+          ({ pkgs, config, lib, modulesPath, ... }: {
 
-                text = ''
-                  dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-                  systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-                  systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-                '';
-              };
+            imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-              # currently, there is some friction between sway and gtk:
-              # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
-              # the suggested way to set gtk settings is with gsettings
-              # for gsettings to work, we need to tell it where the schemas are
-              # using the XDG_DATA_DIR environment variable
-              # run at the end of sway config
-              configure-gtk = pkgs.writeTextFile {
-                name = "configure-gtk";
-                destination = "/bin/configure-gtk";
-                executable = true;
-                text = let
-                  schema = pkgs.gsettings-desktop-schemas;
-                  datadir = "${schema}/share/gsettings-schemas/${schema.name}";
-                in ''
-                  export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
-                  gnome_schema=org.gnome.desktop.interface
-                  gsettings set $gnome_schema gtk-theme 'Dracula'
-                '';
-              };
-            in {
-
-              imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
-
-              boot = {
-                initrd = {
-                  availableKernelModules =
-                    [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
-                  kernelModules = [ ];
-                };
-                extraModulePackages = [ ];
-                loader = {
-                  timeout = 10;
-                  grub = {
-                    enable = true;
-                    extraConfig = ''
-                      serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
-                      terminal_input serial;
-                      terminal_input serial
-                    '';
-                    forceInstall = true;
-                    device = "nodev";
-                  };
-                };
+            boot = {
+              initrd = {
+                availableKernelModules =
+                  [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
                 kernelModules = [ ];
-                kernelParams = [ "console=ttyS0,19200n8" ];
               };
-
-              fileSystems."/" = {
-                device = "/dev/sda";
-                fsType = "ext4";
-              };
-
-              swapDevices = [{ device = "/dev/sdb"; }];
-
-              networking = {
-                usePredictableInterfaceNames = false;
-                useDHCP = false;
-                interfaces.eth0.useDHCP = true;
-                firewall = {
+              extraModulePackages = [ ];
+              loader = {
+                timeout = 10;
+                grub = {
                   enable = true;
-                  allowedTCPPorts = [ 80 443 ];
+                  extraConfig = ''
+                    serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
+                    terminal_input serial;
+                    terminal_input serial
+                  '';
+                  forceInstall = true;
+                  device = "nodev";
                 };
               };
+              kernelModules = [ ];
+              kernelParams = [ "console=ttyS0,19200n8" ];
+            };
 
-              services.openssh = {
+            fileSystems."/" = {
+              device = "/dev/sda";
+              fsType = "ext4";
+            };
+
+            swapDevices = [{ device = "/dev/sdb"; }];
+
+            networking = {
+              usePredictableInterfaceNames = false;
+              useDHCP = false;
+              interfaces.eth0.useDHCP = true;
+              firewall = {
                 enable = true;
-                settings.PermitRootLogin = "no";
+                allowedTCPPorts = [ 80 443 ];
               };
+            };
 
-              nix = {
-                package = pkgs.nixUnstable;
-                extraOptions = "experimental-features = nix-command flakes";
-              };
-              nixpkgs.config.allowUnfree = true;
+            services.openssh = {
+              enable = true;
+              settings.PermitRootLogin = "no";
+            };
 
-              system = {
-                configurationRevision = if self ? rev then
-                  self.rev
-                else
-                  throw "Refusing to build from a dirty Git tree!";
-                stateVersion = "23.11";
-              };
+            nix = {
+              package = pkgs.nixUnstable;
+              extraOptions = "experimental-features = nix-command flakes";
+            };
+            nixpkgs.config.allowUnfree = true;
 
-              environment.systemPackages = with pkgs; [
-                git
-                ripgrep
-                rsync
-                vim
-                wget
-                alacritty # gpu accelerated terminal
-                tigervnc
-              ];
+            system = {
+              configurationRevision = if self ? rev then
+                self.rev
+              else
+                throw "Refusing to build from a dirty Git tree!";
+              stateVersion = "23.11";
+            };
 
-              environment.pathsToLink = [
-                "/libexec"
-              ]; # links /libexec from derivations to /run/current-system/sw
+            environment.systemPackages = with pkgs; [
+              git
+              ripgrep
+              rsync
+              vim
+              wget
+              alacritty # gpu accelerated terminal
+              turbovnc
+            ];
 
-              services.x2goserver.enable = true;
+            environment.pathsToLink = [
+              "/libexec"
+            ]; # links /libexec from derivations to /run/current-system/sw
 
-              services.xserver = {
+            services.xserver = {
+              enable = true;
+
+              desktopManager = { xterm.enable = false; };
+
+              displayManager = { defaultSession = "none+i3"; };
+
+              windowManager.i3 = {
                 enable = true;
-
-                desktopManager = { xterm.enable = false; };
-
-                displayManager = { defaultSession = "none+i3"; };
-
-                windowManager.i3 = {
-                  enable = true;
-                  extraPackages = with pkgs; [
-                    dmenu # application launcher most people use
-                    i3status # gives you the default i3 status bar
-                    i3lock # default i3 screen locker
-                    i3blocks # if you are planning on using i3blocks over i3status
-                  ];
-                };
+                extraPackages = with pkgs; [
+                  dmenu # application launcher most people use
+                  i3status # gives you the default i3 status bar
+                  i3lock # default i3 screen locker
+                  i3blocks # if you are planning on using i3blocks over i3status
+                ];
               };
+            };
 
-              programs.git = {
-                enable = true;
-                config = {
-                  user = {
-                    name = "fetsorn";
-                    email = "fetsorn@gmail.com";
-                  };
-                  init = { defaultBranch = "main"; };
-                  pull = { rebase = false; };
-                };
-              };
+            security.rtkit.enable = true;
 
-              users = {
-                users.fetsorn = {
-                  isNormalUser = true;
-                  extraGroups = [ "wheel" ];
+            services.pipewire = {
+              enable = true;
+              alsa.enable = true;
+              alsa.support32Bit = true;
+              pulse.enable = true;
+              jack.enable = true;
+            };
+
+            programs.git = {
+              enable = true;
+              config = {
+                user = {
+                  name = "fetsorn";
+                  email = "fetsorn@gmail.com";
                 };
-                mutableUsers = true;
+                init = { defaultBranch = "main"; };
+                pull = { rebase = false; };
               };
-            })
+            };
+
+            users = {
+              users.fetsorn = {
+                isNormalUser = true;
+                extraGroups = [ "wheel" ];
+              };
+              mutableUsers = true;
+            };
+          })
         ];
       }; # antistixi
     }; # nixosConfigurations
