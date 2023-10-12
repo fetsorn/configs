@@ -624,7 +624,7 @@
               interfaces.eth0.useDHCP = true;
               firewall = {
                 enable = true;
-                allowedTCPPorts = [ 80 443 ];
+                allowedTCPPorts = [ 80 443 7099 ];
               };
             };
 
