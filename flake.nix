@@ -43,6 +43,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     quiz = {
+      url =
+        "github:fetsorn/quiz-demo?ref=684c8e36d0f01175a1d15faa4f80b17cd80890f3";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    quiz-pw = {
       url = "github:fetsorn/quiz-demo?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
@@ -470,6 +475,16 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.quiz.packages.${pkgs.system}.webapp;
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."quiz-pw.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.quiz-pw.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
