@@ -80,7 +80,7 @@
 ;           :nonrecursive t)
 ;  :pin "442c76badc353d1b621243c43293106f60f7d746")
 
-;(package! org-jira)
+(package! org-jira)
 
 ;; (package! compat :pin "6f73eac")
 ;(package! compat :pin "c81ff6a")

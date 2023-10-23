@@ -566,26 +566,19 @@
 
 (setq auth-sources '("~/.authinfo" macos-keychain-generic macos-keychain-internet "/Users/fetsorn/.emacs.d/.local/etc/authinfo.gpg" "~/.authinfo.gpg"))
 
-;(use-package org-jira
-;  :demand t
-;  :init
-;  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
-;  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
+(use-package org-jira
+ :demand t
+ :init
+ (setq jiralib-url "https://norcivilianlabs.atlassian.net")
+ (setq org-jira-working-dir "~/mm/modes/agendas/.org-jira"))
+
+;(defun fetsorn-switch-jira ()
+;  (interactive)
+;  (setq jiralib-url "https://example.atlassian.net")
+;  (setq jiralib-token '())
+;  (setq org-jira-working-dir "/path/to/folder"))
 ;
-;(defun fetsorn-switch-jira-cidt ()
-;  (interactive)
-;  (setq jiralib-url "https://consideritdone.atlassian.net") ;; Redacted
-;  (setq jiralib-token '())
-;  (setq org-jira-working-dir "~/.org-jira/consideritdone"))
-
-;(defun fetsorn-switch-jira-solurnkor ()
-;  (interactive)
-;  (setq jiralib-url "https://solurnkor.atlassian.net") ;; Redacted
-;  (setq jiralib-token '())
-;  (setq org-jira-working-dir "~/.org-jira/solurnkor"))
-
-;(map! "C-c a" 'fetsorn-switch-jira-cidt)
-;(map! "C-c b" 'fetsorn-switch-jira-solurnkor)
+;(map! "C-c a" 'fetsorn-switch-jira)
 
 ;; emacspeak
 (defun fetsorn-emacspeak-load ()

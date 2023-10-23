@@ -328,6 +328,27 @@
       },
       "original": {
         "owner": "fetsorn",
+        "ref": "684c8e36d0f01175a1d15faa4f80b17cd80890f3",
+        "repo": "quiz-demo",
+        "type": "github"
+      }
+    },
+    "quiz-pw": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1696813702,
+        "narHash": "sha256-VSomRKiGSzu8TPr+dId6+Pf2ddyxxw9y1Rawvs32+4k=",
+        "owner": "fetsorn",
+        "repo": "quiz-demo",
+        "rev": "6543f98178735522195837c6d55d0b976df7d068",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fetsorn",
         "ref": "main",
         "repo": "quiz-demo",
         "type": "github"
@@ -346,6 +367,7 @@
         "nixos-unstable": "nixos-unstable",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "quiz": "quiz",
+        "quiz-pw": "quiz-pw",
         "rust-overlay": "rust-overlay"
       }
     },
