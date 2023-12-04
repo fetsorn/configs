@@ -361,6 +361,12 @@
 
             age = {
               secrets = {
+                mattermost-envfile = {
+                  file = ./secrets/mattermost-envfile.age;
+                  owner = "fetsorn";
+                  mode = "0444";
+                  group = "mattermost";
+                };
                 gitea-dbpass = {
                   file = ./secrets/gitea-dbpass.age;
                   owner = "fetsorn";
