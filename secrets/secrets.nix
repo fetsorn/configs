@@ -16,4 +16,5 @@ in {
   "mail-git.age".publicKeys = [ id_rsa_agenix linode_mail ];
   "mail-fetsorn.age".publicKeys = [ id_rsa_agenix linode_mail ];
   "gitea-dbpass.age".publicKeys = [ id_rsa_agenix linode_gitea pi ];
+  "mattermost-envfile.age".publicKeys = [ id_rsa_agenix linode_gitea ];
 }

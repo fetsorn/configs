@@ -552,6 +552,26 @@
               };
             };
 
+            services.mattermost = {
+              enable = true;
+
+              siteUrl = "https://kanban.norcivilianlabs.org";
+              listenAddress = "127.0.0.1:8065";
+
+              environmentFile = "/run/agenix/mattermost-envfile";
+
+              extraConfig = {
+                ServiceSettings = {
+                  EnableEmailInvitations = true;
+                  EnableOAuthServiceProvider = true;
+                  TrustedProxyIPHeader = [ "X-Forwarded-For" "X-Real-IP" ];
+                  AllowCorsFrom = "*";
+                };
+
+                FileSettings.Directory = "/var/lib/mattermost/files";
+              };
+            };
+
             # systemd.services."nextcloud-setup" = {
             #   requires = [ "postgresql.service" ];
             #   after = [ "postgresql.service" ];
