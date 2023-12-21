@@ -9,38 +9,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1695384796,
-        "narHash": "sha256-TYlE4B0ktPtlJJF9IFxTWrEeq+XKG8Ny0gc2FGEAdj0=",
+        "lastModified": 1703107199,
+        "narHash": "sha256-Xx9Kkoqye520mkEWTZx/sKQRJsIeWOuwoh568uwHpNg=",
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "1f677b3e161d3bdbfd08a939e8f25de2568e0ef4",
+        "rev": "17090d105af1b9f941109c1e12d6e3a596657f97",
         "type": "github"
       },
       "original": {
         "owner": "ryantm",
         "repo": "agenix",
         "type": "github"
-      }
-    },
-    "arcoiris": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1693829043,
-        "narHash": "sha256-jXXZ3SVI28OmpuREesOwk58MWmLVqbL528sRmxO7cPo=",
-        "ref": "main",
-        "rev": "bb612e9df3a36c23100e624792a829f59cd2aa71",
-        "revCount": 8,
-        "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/arcoiris-demo"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/arcoiris-demo"
       }
     },
     "darwin": {
@@ -79,12 +58,12 @@
         "rev": "3f976a530302423add88ce33318dc87b567bd9be",
         "revCount": 17,
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/elm-system-dynamics"
+        "url": "https://github.com/fetsorn/elm-system-dynamics.git"
       },
       "original": {
         "ref": "main",
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/elm-system-dynamics"
+        "url": "https://github.com/fetsorn/elm-system-dynamics.git"
       }
     },
     "evenor": {
@@ -94,18 +73,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1695748401,
-        "narHash": "sha256-incLbE8RzuJrmFZ3s82n0TI9PnDsin8L00L5I+eKK4s=",
+        "lastModified": 1698620747,
+        "narHash": "sha256-B7KerXW3a8NSCqNdTfxpNzLSf10b2n6t/2T3kOKph7I=",
         "ref": "main",
-        "rev": "af8f2695dd64d90bf6a733e29b8c46bd9c808dd8",
-        "revCount": 365,
+        "rev": "309689fe2fe270a69c457ce1be8e05704241af8d",
+        "revCount": 366,
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/evenor"
+        "url": "https://gitlab.com/norcivilian-labs/evenor"
       },
       "original": {
         "ref": "main",
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/evenor"
+        "url": "https://gitlab.com/norcivilian-labs/evenor"
       }
     },
     "flake-utils": {
@@ -150,16 +129,16 @@
       "locked": {
         "lastModified": 1681590504,
         "narHash": "sha256-I5nwgJnkdwW9IhzGSgWYeolE6w9EOHp2lBKK90J25/Q=",
-        "ref": "main",
+        "ref": "fetsorn",
         "rev": "7e887f5353f8e0ef135b7e185601478c1c70ebdf",
         "revCount": 43,
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/genea"
+        "url": "https://gitlab.com/norcivilian-labs/genea"
       },
       "original": {
-        "ref": "main",
+        "ref": "fetsorn",
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/genea"
+        "url": "https://gitlab.com/norcivilian-labs/genea"
       }
     },
     "home-manager": {
@@ -190,37 +169,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1695738267,
-        "narHash": "sha256-LTNAbTQ96xSj17xBfsFrFS9i56U2BMLpD0BduhrsVkU=",
+        "lastModified": 1703178811,
+        "narHash": "sha256-Orbqa8DvszYZ38XGWAs43hVs++czt2N6/Y0sFRLhJms=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "0f4e5b4999fd6a42ece5da8a3a2439a50e48e486",
+        "rev": "fb5ac0c870a1b3ffea70e02ab1720d991ce812ae",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "kasner": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1694126777,
-        "narHash": "sha256-w0u+120gZcFx7KC7av+Wtw6TLu3WNqtaXkft5IYz65A=",
-        "owner": "fetsorn",
-        "repo": "kasner-demo",
-        "rev": "d1901c561650363f35596d4471fad63823e74367",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fetsorn",
-        "ref": "main",
-        "repo": "kasner-demo",
         "type": "github"
       }
     },
@@ -256,21 +214,21 @@
         "rev": "e3ee5160f97178d4c5ff70fbe83117b6375a9798",
         "revCount": 12,
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/morio"
+        "url": "https://gitlab.com/norcivilian-labs/morio"
       },
       "original": {
         "ref": "main",
         "type": "git",
-        "url": "https://source.qualifiedself.org/fetsorn/morio"
+        "url": "https://gitlab.com/norcivilian-labs/morio"
       }
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1695360818,
-        "narHash": "sha256-JlkN3R/SSoMTa+CasbxS1gq+GpGxXQlNZRUh9+LIy/0=",
+        "lastModified": 1703013332,
+        "narHash": "sha256-+tFNwMvlXLbJZXiMHqYq77z/RfmpfpiI3yjL6o/Zo9M=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e35dcc04a3853da485a396bdd332217d0ac9054f",
+        "rev": "54aac082a4d9bb5bbc5c4e899603abfb76a3f6d6",
         "type": "github"
       },
       "original": {
@@ -298,11 +256,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1695318763,
-        "narHash": "sha256-FHVPDRP2AfvsxAdc+AsgFJevMz5VBmnZglFUMlxBkcY=",
+        "lastModified": 1703134684,
+        "narHash": "sha256-SQmng1EnBFLzS7WSRyPM9HgmZP2kLJcPAz+Ug/nug6o=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e12483116b3b51a185a33a272bf351e357ba9a99",
+        "rev": "d6863cbcbbb80e71cecfc03356db1cda38919523",
         "type": "github"
       },
       "original": {
@@ -333,41 +291,17 @@
         "type": "github"
       }
     },
-    "quiz-pw": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1696813702,
-        "narHash": "sha256-VSomRKiGSzu8TPr+dId6+Pf2ddyxxw9y1Rawvs32+4k=",
-        "owner": "fetsorn",
-        "repo": "quiz-demo",
-        "rev": "6543f98178735522195837c6d55d0b976df7d068",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fetsorn",
-        "ref": "main",
-        "repo": "quiz-demo",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "arcoiris": "arcoiris",
         "elmsd": "elmsd",
         "evenor": "evenor",
         "genea": "genea",
         "home-manager": "home-manager_2",
-        "kasner": "kasner",
         "morio": "morio",
         "nixos-unstable": "nixos-unstable",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "quiz": "quiz",
-        "quiz-pw": "quiz-pw",
         "rust-overlay": "rust-overlay"
       }
     },
@@ -379,11 +313,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1695694299,
-        "narHash": "sha256-0CucEiOZzOVHwmGDJKNXLj7aDYOqbRtqChp9nbGrh18=",
+        "lastModified": 1703124916,
+        "narHash": "sha256-LNAqNYcJf0iCm6jbzhzsQOC4F8SLyma5sckySn2Iffg=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "c89a55d2d91cf55234466934b25deeffa365188a",
+        "rev": "81cb529bd066cd3668f9aa88d2afa8fbbbcd1208",
         "type": "github"
       },
       "original": {
