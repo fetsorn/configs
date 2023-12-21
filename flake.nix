@@ -17,38 +17,24 @@
       inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
     };
     evenor = {
-      url = "git+https://source.qualifiedself.org/fetsorn/evenor?ref=main";
+      url = "git+https://gitlab.com/norcivilian-labs/evenor?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     morio = {
-      url = "git+https://source.qualifiedself.org/fetsorn/morio?ref=main";
+      url = "git+https://gitlab.com/norcivilian-labs/morio?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     genea = {
-      url = "git+https://source.qualifiedself.org/fetsorn/genea?ref=main";
+      url = "git+https://gitlab.com/norcivilian-labs/genea?ref=fetsorn";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     elmsd = {
-      url =
-        "git+https://source.qualifiedself.org/fetsorn/elm-system-dynamics?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    arcoiris = {
-      url =
-        "git+https://source.qualifiedself.org/fetsorn/arcoiris-demo?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    kasner = {
-      url = "github:fetsorn/kasner-demo?ref=main";
+      url = "git+https://github.com/fetsorn/elm-system-dynamics.git?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     quiz = {
       url =
         "github:fetsorn/quiz-demo?ref=684c8e36d0f01175a1d15faa4f80b17cd80890f3";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    quiz-pw = {
-      url = "github:fetsorn/quiz-demo?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -359,59 +345,6 @@
               defaults.email = "fetsorn@gmail.com";
             };
 
-            age = {
-              secrets = {
-                mattermost-envfile = {
-                  file = ./secrets/mattermost-envfile.age;
-                  owner = "fetsorn";
-                  mode = "0444";
-                  group = "mattermost";
-                };
-                gitea-dbpass = {
-                  file = ./secrets/gitea-dbpass.age;
-                  owner = "fetsorn";
-                  mode = "0444";
-                  group = "gitea";
-                };
-              };
-            };
-
-            services.gitea = {
-              enable = true;
-              database = {
-                type = "postgres";
-                passwordFile = "/run/agenix/gitea-dbpass";
-              };
-              lfs.enable = true;
-              dump = { # /var/lib/gitea/dump
-                enable = true;
-                interval = "monthly";
-              };
-              settings = {
-                repository = { DEFAULT_BRANCH = "main"; };
-                server = {
-                  ROOT_URL = "https://source.qualifiedself.org/";
-                  HTTP_PORT = 3001;
-                  DOMAIN = "source.qualifiedself.org";
-                };
-              };
-            };
-
-            services.postgresql = {
-              enable = true;
-              authentication = ''
-                local gitea all ident map=gitea-users
-              '';
-              identMap = ''
-                gitea-users gitea gitea
-              '';
-              ensureDatabases = [ "nextcloud" ];
-              ensureUsers = [{
-                name = "nextcloud";
-                ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
-              }];
-            };
-
             services.nginx = {
               enable = true;
               recommendedGzipSettings = true;
@@ -419,41 +352,6 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
-              commonHttpConfig = ''
-                map $http_origin $allow_origin {
-                    ~^https?://(.*\.)?(qualifiedself.org)(:\d+)?(/?)$ $http_origin;
-                    default "";
-                }
-              '';
-              virtualHosts."source.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".proxyPass = "http://localhost:3001/";
-                locations."/".extraConfig = ''
-                  if ($request_method = 'OPTIONS') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
-                     add_header 'Access-Control-Allow-Credentials' 'true' always;
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
-                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
-                     return 204;
-                  }
-                  if ($request_method = 'POST') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
-                     add_header 'Access-Control-Allow-Credentials' 'true' always;
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
-                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
-                  }
-                  if ($request_method = 'GET') {
-                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
-                     add_header 'Access-Control-Allow-Credentials' 'true' always;
-                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
-                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
-                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
-                  }
-                '';
-              };
               virtualHosts."qua.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
@@ -461,16 +359,6 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.evenor.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."arcoiris.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.arcoiris.packages.${pkgs.system}.webapp;
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
@@ -484,39 +372,19 @@
                 locations."~ ^/$".tryFiles = "/overview.html /index.html";
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."quiz-pw.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.quiz-pw.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."kasner.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.kasner.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."morio.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.morio.packages.${pkgs.system}.webapp.override {
-                  defaultURL =
-                    "https://source.qualifiedself.org/fetsorn/antiphongordon";
-                };
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
+              # virtualHosts."morio.qualifiedself.org" = {
+              #   enableACME = true;
+              #   forceSSL = true;
+              #   locations."/".extraConfig = ''
+              #     proxy_hide_header Upgrade;
+              #   '';
+              #   root = inputs.morio.packages.${pkgs.system}.webapp.override {
+              #     defaultURL =
+              #       "https://source.qualifiedself.org/fetsorn/antiphongordon";
+              #   };
+              #   locations."~ ^/$".tryFiles = "/overview.html /index.html";
+              #   locations."/".tryFiles = "$uri /index.html";
+              # };
               virtualHosts."sd.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
@@ -546,8 +414,6 @@
               };
             };
 
-            hardware.opengl.enable = true;
-
             networking = {
               usePredictableInterfaceNames = false;
               useDHCP = false;
@@ -557,31 +423,6 @@
                 allowedTCPPorts = [ 80 443 ];
               };
             };
-
-            services.mattermost = {
-              enable = true;
-
-              siteUrl = "https://kanban.norcivilianlabs.org";
-              listenAddress = "127.0.0.1:8065";
-
-              environmentFile = "/run/agenix/mattermost-envfile";
-
-              extraConfig = {
-                ServiceSettings = {
-                  EnableEmailInvitations = true;
-                  EnableOAuthServiceProvider = true;
-                  TrustedProxyIPHeader = [ "X-Forwarded-For" "X-Real-IP" ];
-                  AllowCorsFrom = "*";
-                };
-
-                FileSettings.Directory = "/var/lib/mattermost/files";
-              };
-            };
-
-            # systemd.services."nextcloud-setup" = {
-            #   requires = [ "postgresql.service" ];
-            #   after = [ "postgresql.service" ];
-            # };
 
             services.openssh = {
               enable = true;
@@ -608,6 +449,7 @@
               rsync
               vim
               wget
+              tmux
             ];
 
             users = {
