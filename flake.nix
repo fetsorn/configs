@@ -297,7 +297,7 @@
             };
           };
         }; # configuration
-      }; # fetsorn
+      }; # linux
     }; # homeConfigurations
 
     nixosConfigurations = {
