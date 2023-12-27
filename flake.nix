@@ -37,6 +37,10 @@
         "github:fetsorn/quiz-demo?ref=684c8e36d0f01175a1d15faa4f80b17cd80890f3";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    retina-tauri = {
+      url = "git+https://gitlab.com/norcivilian-labs/retina-tauri?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -401,6 +405,15 @@
                   proxy_hide_header Upgrade;
                 '';
                 root = inputs.genea.packages.${pkgs.system}.genea;
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."retina.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.retina-tauri.packages.${pkgs.system}.webapp;
                 locations."/".tryFiles = "$uri /index.html";
               };
               virtualHosts."static.qualifiedself.org" = {
