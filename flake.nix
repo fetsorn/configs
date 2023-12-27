@@ -407,7 +407,7 @@
                 root = inputs.genea.packages.${pkgs.system}.genea;
                 locations."/".tryFiles = "$uri /index.html";
               };
-              virtualHosts."retina.qualifiedself.org" = {
+              virtualHosts."retina.norcivilianlabs.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".extraConfig = ''
