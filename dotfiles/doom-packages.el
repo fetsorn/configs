@@ -52,7 +52,7 @@
 (package! multitran)
 
 (package! chinese-word-at-point)
-(package! youdao-dictionary)
+;(package! youdao-dictionary)
 
 (package! activity-watch-mode)
 

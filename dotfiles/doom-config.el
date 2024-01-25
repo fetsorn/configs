@@ -71,16 +71,16 @@
 (setq default-input-method "russian-computer")
 
 ;; Example Key binding
-(global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point)
-(global-set-key (kbd "C-c t") 'youdao-dictionary-search-at-point-tooltip)
-(global-set-key (kbd "C-c o") 'youdao-dictionary-play-voice-at-point)
-(global-set-key (kbd "C-c i") 'youdao-dictionary-search-from-input)
+;(global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point)
+;(global-set-key (kbd "C-c t") 'youdao-dictionary-search-at-point-tooltip)
+;(global-set-key (kbd "C-c o") 'youdao-dictionary-play-voice-at-point)
+;(global-set-key (kbd "C-c i") 'youdao-dictionary-search-from-input)
 
 ;; Set file path for saving search history
-(setq youdao-dictionary-search-history-file "~/.doom.d/.youdao")
+;(setq youdao-dictionary-search-history-file "~/.doom.d/.youdao")
 
 ;; Enable Chinese word segmentation support (支持中文分词)
-(setq youdao-dictionary-use-chinese-word-segmentation t)
+;(setq youdao-dictionary-use-chinese-word-segmentation t)
 
 (defun fetsorn-hanzi2pinyin-at-point (number)       ; Interactive version.
   "Multiply NUMBER by seven."
@@ -114,7 +114,7 @@
 (setq ledger-master-file "~/mm/modes/ledgers/2021.journal")
 ;;; Auto-completion for account names
 ;; For company-mode users,
-(add-to-list 'company-backends 'hledger-company)
+;; (add-to-list 'company-backends 'hledger-company)
 
 ;; (require 'flycheck-hledger)
 
