@@ -340,11 +340,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1706884277,
-        "narHash": "sha256-SB2v+Zr1FfUIu483QSdNP8aiQbQg/L6zt4j68tqkwag=",
+        "lastModified": 1707329543,
+        "narHash": "sha256-XZFTzNOxv63VDhNkiw3x5PBHjYS/xMufw0+jMofeDa4=",
         "ref": "main",
-        "rev": "c5533b8d497b6c8dd2c7d03b72b374de5a9a268f",
-        "revCount": 44,
+        "rev": "0e24804852c5c523ecc77c56f613403df9030434",
+        "revCount": 47,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/retina-tauri"
       },
