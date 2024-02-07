@@ -147,11 +147,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1681202837,
-        "narHash": "sha256-H+Rh19JDwRtpVPAWp64F+rlEtxUWBAQW28eAi3SRSzg=",
+        "lastModified": 1705309234,
+        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "cfacdce06f30d2b68473a46042957675eebb3401",
+        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
         "type": "github"
       },
       "original": {
@@ -167,11 +167,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1681590504,
-        "narHash": "sha256-I5nwgJnkdwW9IhzGSgWYeolE6w9EOHp2lBKK90J25/Q=",
+        "lastModified": 1707315751,
+        "narHash": "sha256-gYTnqg68MRAxN/bonEd64wpgotG4rDGu+FIPDvFXkjA=",
         "ref": "fetsorn",
-        "rev": "7e887f5353f8e0ef135b7e185601478c1c70ebdf",
-        "revCount": 43,
+        "rev": "25381966bd790412267671af51a63276fb56de34",
+        "revCount": 45,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/genea"
       },
@@ -209,11 +209,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1706134977,
-        "narHash": "sha256-KwNb1Li3K6vuVwZ77tFjZ89AWBo7AiCs9t0Cens4BsM=",
+        "lastModified": 1707175763,
+        "narHash": "sha256-0MKHC6tQ4KEuM5rui6DjKZ/VNiSANB4E+DJ/+wPS1PU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6359d40f6ec0b72a38e02b333f343c3d4929ec10",
+        "rev": "f99eace7c167b8a6a0871849493b1c613d0f1b80",
         "type": "github"
       },
       "original": {
@@ -264,11 +264,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1705856552,
-        "narHash": "sha256-JXfnuEf5Yd6bhMs/uvM67/joxYKoysyE3M2k6T3eWbg=",
+        "lastModified": 1707092692,
+        "narHash": "sha256-ZbHsm+mGk/izkWtT4xwwqz38fdlwu7nUUKXTOmm4SyE=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "612f97239e2cc474c13c9dafa0df378058c5ad8d",
+        "rev": "faf912b086576fd1a15fca610166c98d47bc667e",
         "type": "github"
       },
       "original": {
@@ -296,11 +296,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1706006310,
-        "narHash": "sha256-nDPz0fj0IFcDhSTlXBU2aixcnGs2Jm4Zcuoj0QtmiXQ=",
+        "lastModified": 1707205916,
+        "narHash": "sha256-fmRJilYGlB7VCt3XsdYxrA0u8e/K84O5xYucerUY0iM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "b43bb235efeab5324c5e486882ef46749188eee2",
+        "rev": "8cc79aa39bbc6eaedaf286ae655b224c71e02907",
         "type": "github"
       },
       "original": {
@@ -340,11 +340,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1706105883,
-        "narHash": "sha256-lZ0czR+Y5jl9sAKS6tOqw4pjwOScwfqMOdkaWjY6/5c=",
+        "lastModified": 1706884277,
+        "narHash": "sha256-SB2v+Zr1FfUIu483QSdNP8aiQbQg/L6zt4j68tqkwag=",
         "ref": "main",
-        "rev": "9e6688a9670534fa6b4042dabdea6ce99af81751",
-        "revCount": 31,
+        "rev": "c5533b8d497b6c8dd2c7d03b72b374de5a9a268f",
+        "revCount": 44,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/retina-tauri"
       },
@@ -399,11 +399,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1706149103,
-        "narHash": "sha256-Me28A0tAb1EzZIozfi31+hnsQIaYU0HXaMPWCe+zByc=",
+        "lastModified": 1707271822,
+        "narHash": "sha256-/DZsoPH5GBzOpVEGz5PgJ7vh8Q6TcrJq5u8FcBjqAfI=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "493cc67d5e9f1b298241b8d92aa06883296acc3f",
+        "rev": "7a94fe7690d2bdfe1aab475382a505e14dc114a6",
         "type": "github"
       },
       "original": {
