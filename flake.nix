@@ -442,6 +442,10 @@
               settings.PermitRootLogin = "no";
             };
 
+            services.avahi = {
+              enable = true;
+            };
+
             nix = {
               package = pkgs.nixUnstable;
               extraOptions = "experimental-features = nix-command flakes";
