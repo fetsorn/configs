@@ -468,7 +468,7 @@
             users = {
               users.fetsorn = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" ];
+                extraGroups = [ "wheel" "audio" ];
               };
               mutableUsers = true;
             };
