@@ -444,11 +444,15 @@
 
             services.avahi = {
               enable = true;
-              nssmdns = true;
+              nssmdns4 = true;
               publish = {
                 enable = true;
                 domain = true;
               };
+              extraConfig = ''
+              [publish]
+              disable-user-service-publishing=no
+              '';
             };
 
             nix = {
