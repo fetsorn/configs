@@ -356,16 +356,16 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
-              virtualHosts."qua.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.evenor.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
+              #virtualHosts."qua.qualifiedself.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #  '';
+              #  root = inputs.evenor.packages.${pkgs.system}.webapp;
+              #  locations."~ ^/$".tryFiles = "/overview.html /index.html";
+              #  locations."/".tryFiles = "$uri /index.html";
+              #};
               virtualHosts."quiz.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
@@ -433,7 +433,8 @@
               interfaces.eth0.useDHCP = true;
               firewall = {
                 enable = true;
-                allowedTCPPorts = [ 80 443 5004 7099 ];
+                allowedTCPPorts = [ 80 443 5004 5005 7099 ];
+                allowedUDPPorts = [ 5004 5005 7099 ];
               };
             };
 
@@ -452,6 +453,25 @@
               };
             };
 
+            security.rtkit.enable = true;
+
+            #sound.enable = true;
+            #hardware.pulseaudio.enable = true;
+
+            #services.jack = {
+            #  jackd.enable = true;
+            #  # support ALSA only programs via ALSA JACK PCM plugin
+            #  alsa.enable = false;
+            #  # support ALSA only programs via loopback device (supports programs like Steam)
+            #  loopback = {
+            #    enable = true;
+            #    # buffering parameters for dmix device to work with ALSA only semi-professional sound programs
+            #    #dmixConfig = ''
+            #    #  period_size 2048
+            #    #'';
+            #  };
+            #};
+
             services.pipewire = {
               enable = true;
               audio.enable = true;
@@ -460,6 +480,24 @@
               pulse.enable = true;
               jack.enable = true;
               wireplumber.enable = true;
+            };
+
+            services.xserver = {
+              enable = true;
+
+              desktopManager = { xterm.enable = false; };
+
+              displayManager = { defaultSession = "none+i3"; };
+
+              windowManager.i3 = {
+                enable = true;
+                extraPackages = with pkgs; [
+                  dmenu # application launcher most people use
+                  i3status # gives you the default i3 status bar
+                  i3lock # default i3 screen locker
+                  i3blocks # if you are planning on using i3blocks over i3status
+                ];
+              };
             };
 
             nix = {
@@ -481,8 +519,10 @@
               ripgrep
               rsync
               vim
+              alacritty
               wget
               tmux
+              obs-studio
             ];
 
             users = {
