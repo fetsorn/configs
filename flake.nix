@@ -448,11 +448,8 @@
               publish = {
                 enable = true;
                 domain = true;
+                userServices = true;
               };
-              extraConfig = ''
-              [publish]
-              disable-user-service-publishing=no
-              '';
             };
 
             nix = {
