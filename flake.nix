@@ -434,7 +434,7 @@
               firewall = {
                 enable = true;
                 allowedTCPPorts = [ 80 443 7099 ];
-                allowedUDPPorts = [ 5004 5005 5353 7099 ];
+                allowedUDPPorts = [ 5004 5005 5353 7099 25535 ];
               };
             };
 
