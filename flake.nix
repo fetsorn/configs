@@ -433,8 +433,8 @@
               interfaces.eth0.useDHCP = true;
               firewall = {
                 enable = true;
-                allowedTCPPorts = [ 80 443 5004 5005 7099 ];
-                allowedUDPPorts = [ 5004 5005 7099 ];
+                allowedTCPPorts = [ 80 443 7099 ];
+                allowedUDPPorts = [ 5004 5005 5353 7099 ];
               };
             };
 
@@ -500,6 +500,8 @@
               };
             };
 
+            virtualisation.docker.enable = true;
+
             nix = {
               package = pkgs.nixUnstable;
               extraOptions = "experimental-features = nix-command flakes";
@@ -528,7 +530,7 @@
             users = {
               users.fetsorn = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" "audio" "avahi" ];
+                extraGroups = [ "wheel" "audio" "avahi" "docker" ];
               };
               mutableUsers = true;
             };
