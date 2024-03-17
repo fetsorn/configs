@@ -532,6 +532,10 @@
                 isNormalUser = true;
                 extraGroups = [ "wheel" "audio" "avahi" "docker" ];
               };
+              users.drjunja = {
+                isNormalUser = true;
+                extraGroups = [ "docker" ];
+              };
               mutableUsers = true;
             };
           })
