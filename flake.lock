@@ -366,7 +366,8 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "quiz": "quiz",
         "retina-tauri": "retina-tauri",
-        "rust-overlay": "rust-overlay_2"
+        "rust-overlay": "rust-overlay_2",
+        "taiji": "taiji"
       }
     },
     "rust-overlay": {
@@ -455,6 +456,27 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "taiji": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1711028022,
+        "narHash": "sha256-kOK60nvuwSDyDOTDHwBMaIB3OngyuKddhpaiEOnXHeA=",
+        "ref": "main",
+        "rev": "d38328bed6f822328e4f1fd880c24214392e4372",
+        "revCount": 2,
+        "type": "git",
+        "url": "https://gitlab.com/norcivilian-labs/taiji"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://gitlab.com/norcivilian-labs/taiji"
       }
     }
   },

@@ -41,6 +41,10 @@
       url = "git+https://gitlab.com/norcivilian-labs/retina-tauri?ref=main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    taiji = {
+      url = "git+https://gitlab.com/norcivilian-labs/taiji?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -408,6 +412,15 @@
                 locations."/".tryFiles = "$uri /index.html";
               };
               virtualHosts."retina.norcivilianlabs.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.retina-tauri.packages.${pkgs.system}.webapp;
+                locations."/".tryFiles = "$uri /index.html";
+              };
+              virtualHosts."taiji.norcivilianlabs.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/".extraConfig = ''
