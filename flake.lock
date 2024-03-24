@@ -26,16 +26,37 @@
     "crane": {
       "inputs": {
         "nixpkgs": [
+          "evenor",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1710003968,
+        "narHash": "sha256-g8+K+mLiNG5uch35Oy9oDQBAmGSkCcqrd0Jjme7xiG0=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "10484f86201bb94bd61ecc5335b1496794fedb78",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "crane_2": {
+      "inputs": {
+        "nixpkgs": [
           "retina-tauri",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1703439018,
-        "narHash": "sha256-VT+06ft/x3eMZ1MJxWzQP3zXFGcrxGo5VR2rB7t88hs=",
+        "lastModified": 1710003968,
+        "narHash": "sha256-g8+K+mLiNG5uch35Oy9oDQBAmGSkCcqrd0Jjme7xiG0=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "afdcd41180e3dfe4dac46b5ee396e3b12ccc967a",
+        "rev": "10484f86201bb94bd61ecc5335b1496794fedb78",
         "type": "github"
       },
       "original": {
@@ -90,16 +111,18 @@
     },
     "evenor": {
       "inputs": {
+        "crane": "crane",
+        "fenix": "fenix",
         "nixpkgs": [
           "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1705587346,
-        "narHash": "sha256-bWSFA41vZYOKDOosqV/vW9tvzYDWb/AHQ1yP92WFYGU=",
+        "lastModified": 1710233129,
+        "narHash": "sha256-6MTG09P4qQSwGvbk+HwHjphmdUXE1x+BaTHF+O2aB/c=",
         "ref": "main",
-        "rev": "3ed881f8237f19c534552fde47a99d2a71308ce2",
-        "revCount": 407,
+        "rev": "e0672ec2fceb7c6e7718d183b41f0ae5fca9bc38",
+        "revCount": 416,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/evenor"
       },
@@ -107,6 +130,50 @@
         "ref": "main",
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/evenor"
+      }
+    },
+    "fenix": {
+      "inputs": {
+        "nixpkgs": [
+          "evenor",
+          "nixpkgs"
+        ],
+        "rust-analyzer-src": "rust-analyzer-src"
+      },
+      "locked": {
+        "lastModified": 1710224545,
+        "narHash": "sha256-MPWVGujXzLd+Q/1M252ZoPMubHhlfaQqhSaJXphDAdE=",
+        "owner": "nix-community",
+        "repo": "fenix",
+        "rev": "12222a90a7e02443f822e679055858d786e7324f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "fenix",
+        "type": "github"
+      }
+    },
+    "fenix_2": {
+      "inputs": {
+        "nixpkgs": [
+          "retina-tauri",
+          "nixpkgs"
+        ],
+        "rust-analyzer-src": "rust-analyzer-src_2"
+      },
+      "locked": {
+        "lastModified": 1710224545,
+        "narHash": "sha256-MPWVGujXzLd+Q/1M252ZoPMubHhlfaQqhSaJXphDAdE=",
+        "owner": "nix-community",
+        "repo": "fenix",
+        "rev": "12222a90a7e02443f822e679055858d786e7324f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "fenix",
+        "type": "github"
       }
     },
     "flake-utils": {
@@ -129,24 +196,6 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1681202837,
-        "narHash": "sha256-H+Rh19JDwRtpVPAWp64F+rlEtxUWBAQW28eAi3SRSzg=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "cfacdce06f30d2b68473a46042957675eebb3401",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_3": {
-      "inputs": {
-        "systems": "systems_3"
-      },
-      "locked": {
         "lastModified": 1705309234,
         "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
         "owner": "numtide",
@@ -167,11 +216,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1707315751,
-        "narHash": "sha256-gYTnqg68MRAxN/bonEd64wpgotG4rDGu+FIPDvFXkjA=",
+        "lastModified": 1710757541,
+        "narHash": "sha256-twuRZrEVjXLzgLI+g+0dnlp6Sbn4axXW7sI+a+Qevc8=",
         "ref": "fetsorn",
-        "rev": "25381966bd790412267671af51a63276fb56de34",
-        "revCount": 45,
+        "rev": "7a3d7baa0ec6c4a53098ea39bb47b7a6801945dc",
+        "revCount": 58,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/genea"
       },
@@ -209,11 +258,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1707919853,
-        "narHash": "sha256-qxmBGDzutuJ/tsX4gp+Mr7fjxOZBbeT9ixhS5o4iFOw=",
+        "lastModified": 1711133180,
+        "narHash": "sha256-WJOahf+6115+GMl3wUfURu8fszuNeJLv9qAWFQl3Vmo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "043ba285c6dc20f36441d48525402bcb9743c498",
+        "rev": "1c2c5e4cabba4c43504ef0f8cc3f3dfa284e2dbb",
         "type": "github"
       },
       "original": {
@@ -264,11 +313,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1707956935,
-        "narHash": "sha256-ZL2TrjVsiFNKOYwYQozpbvQSwvtV/3Me7Zwhmdsfyu4=",
+        "lastModified": 1711163522,
+        "narHash": "sha256-YN/Ciidm+A0fmJPWlHBGvVkcarYWSC+s3NTPk/P+q3c=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a4d4fe8c5002202493e87ec8dbc91335ff55552c",
+        "rev": "44d0940ea560dee511026a53f0e2e2cde489b4d4",
         "type": "github"
       },
       "original": {
@@ -296,11 +345,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1707939175,
-        "narHash": "sha256-D1xan0lgxbmXDyzVqXTiSYHLmAMrMRdD+alKzEO/p3w=",
+        "lastModified": 1711231723,
+        "narHash": "sha256-dARJQ8AJOv6U+sdRePkbcVyVbXJTi1tReCrkkOeusiA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f7e8132daca31b1e3859ac0fb49741754375ac3d",
+        "rev": "e1d501922fd7351da4200e1275dfcf5faaad1220",
         "type": "github"
       },
       "original": {
@@ -333,18 +382,18 @@
     },
     "retina-tauri": {
       "inputs": {
-        "crane": "crane",
+        "crane": "crane_2",
+        "fenix": "fenix_2",
         "nixpkgs": [
           "nixpkgs-unstable"
-        ],
-        "rust-overlay": "rust-overlay"
+        ]
       },
       "locked": {
-        "lastModified": 1707329543,
-        "narHash": "sha256-XZFTzNOxv63VDhNkiw3x5PBHjYS/xMufw0+jMofeDa4=",
+        "lastModified": 1711037613,
+        "narHash": "sha256-QyjEpNWgulLOWsbedbajdKYLpFdnENdEYQCfYRTMTNg=",
         "ref": "main",
-        "rev": "0e24804852c5c523ecc77c56f613403df9030434",
-        "revCount": 47,
+        "rev": "e62eaa4f58b592634b3fb67124aa53a86e0acfff",
+        "revCount": 71,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/retina-tauri"
       },
@@ -366,45 +415,57 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "quiz": "quiz",
         "retina-tauri": "retina-tauri",
-        "rust-overlay": "rust-overlay_2",
+        "rust-overlay": "rust-overlay",
         "taiji": "taiji"
+      }
+    },
+    "rust-analyzer-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1710167852,
+        "narHash": "sha256-SxUgXoPi5+Y6oBNoUt6cNd8HwV2H2JUGNydsp0cgB2M=",
+        "owner": "rust-lang",
+        "repo": "rust-analyzer",
+        "rev": "03d2d9016d171c400f0891c867ea0aca9ec4f972",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rust-lang",
+        "ref": "nightly",
+        "repo": "rust-analyzer",
+        "type": "github"
+      }
+    },
+    "rust-analyzer-src_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1710167852,
+        "narHash": "sha256-SxUgXoPi5+Y6oBNoUt6cNd8HwV2H2JUGNydsp0cgB2M=",
+        "owner": "rust-lang",
+        "repo": "rust-analyzer",
+        "rev": "03d2d9016d171c400f0891c867ea0aca9ec4f972",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rust-lang",
+        "ref": "nightly",
+        "repo": "rust-analyzer",
+        "type": "github"
       }
     },
     "rust-overlay": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "nixpkgs": [
-          "retina-tauri",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1703470538,
-        "narHash": "sha256-NVFMSr99F0TIqVWBwDqMH6lWoM4PVyzMtI+CPGRIscg=",
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "rev": "f2b937756343365f9b1ba66ec7a1ca489aef745c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "rust-overlay_2": {
-      "inputs": {
-        "flake-utils": "flake-utils_3",
-        "nixpkgs": [
           "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1707963067,
-        "narHash": "sha256-1vmNGzAIenei+keS8vIUNYVkEGwEwF+3FR7/bXU/r18=",
+        "lastModified": 1711246447,
+        "narHash": "sha256-g9TOluObcOEKewFo2fR4cn51Y/jSKhRRo4QZckHLop0=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "23f224428779539eb4dc13f6a77c97ffe4680d74",
+        "rev": "dcc802a6ec4e9cc6a1c8c393327f0c42666f22e4",
         "type": "github"
       },
       "original": {
@@ -443,21 +504,6 @@
         "type": "github"
       }
     },
-    "systems_3": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
     "taiji": {
       "inputs": {
         "nixpkgs": [
@@ -465,11 +511,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711028022,
-        "narHash": "sha256-kOK60nvuwSDyDOTDHwBMaIB3OngyuKddhpaiEOnXHeA=",
+        "lastModified": 1711272916,
+        "narHash": "sha256-o6Kh9eTYBuzfPqaDz0X8i7mThJ2C6/I9eWc5Z4gV+nw=",
         "ref": "main",
-        "rev": "d38328bed6f822328e4f1fd880c24214392e4372",
-        "revCount": 2,
+        "rev": "51aa7a5ce81e708bcfdc53c30614f5b546d3bfd7",
+        "revCount": 6,
         "type": "git",
         "url": "https://gitlab.com/norcivilian-labs/taiji"
       },
