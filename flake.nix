@@ -440,6 +440,8 @@
               };
             };
 
+            services.tailscale.enable = true;
+
             networking = {
               usePredictableInterfaceNames = false;
               useDHCP = false;
