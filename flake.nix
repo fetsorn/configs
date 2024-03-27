@@ -370,79 +370,80 @@
               #  locations."~ ^/$".tryFiles = "/overview.html /index.html";
               #  locations."/".tryFiles = "$uri /index.html";
               #};
-              virtualHosts."quiz.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.quiz.packages.${pkgs.system}.webapp;
-                locations."~ ^/$".tryFiles = "/overview.html /index.html";
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              # virtualHosts."morio.qualifiedself.org" = {
-              #   enableACME = true;
-              #   forceSSL = true;
-              #   locations."/".extraConfig = ''
-              #     proxy_hide_header Upgrade;
-              #   '';
-              #   root = inputs.morio.packages.${pkgs.system}.webapp.override {
-              #     defaultURL =
-              #       "https://source.qualifiedself.org/fetsorn/antiphongordon";
-              #   };
-              #   locations."~ ^/$".tryFiles = "/overview.html /index.html";
-              #   locations."/".tryFiles = "$uri /index.html";
-              # };
-              virtualHosts."sd.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.elmsd.packages.${pkgs.system}.default;
-                locations."/".tryFiles = "$uri /Main.html";
-              };
-              virtualHosts."genea.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.genea.packages.${pkgs.system}.genea;
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."retina.norcivilianlabs.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.retina-tauri.packages.${pkgs.system}.webapp;
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."taiji.norcivilianlabs.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                '';
-                root = inputs.retina-tauri.packages.${pkgs.system}.webapp;
-                locations."/".tryFiles = "$uri /index.html";
-              };
-              virtualHosts."static.qualifiedself.org" = {
-                enableACME = true;
-                forceSSL = true;
-                locations."/".extraConfig = ''
-                  proxy_hide_header Upgrade;
-                  autoindex on;
-                '';
-                root = "/var/www/static.qualifiedself.org";
-              };
+              #virtualHosts."quiz.qualifiedself.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #  '';
+              #  root = inputs.quiz.packages.${pkgs.system}.webapp;
+              #  locations."~ ^/$".tryFiles = "/overview.html /index.html";
+              #  locations."/".tryFiles = "$uri /index.html";
+              #};
+              ## virtualHosts."morio.qualifiedself.org" = {
+              ##   enableACME = true;
+              ##   forceSSL = true;
+              ##   locations."/".extraConfig = ''
+              ##     proxy_hide_header Upgrade;
+              ##   '';
+              ##   root = inputs.morio.packages.${pkgs.system}.webapp.override {
+              ##     defaultURL =
+              ##       "https://source.qualifiedself.org/fetsorn/antiphongordon";
+              ##   };
+              ##   locations."~ ^/$".tryFiles = "/overview.html /index.html";
+              ##   locations."/".tryFiles = "$uri /index.html";
+              ## };
+              #virtualHosts."sd.qualifiedself.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #  '';
+              #  root = inputs.elmsd.packages.${pkgs.system}.default;
+              #  locations."/".tryFiles = "$uri /Main.html";
+              #};
+              #virtualHosts."genea.qualifiedself.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #  '';
+              #  root = inputs.genea.packages.${pkgs.system}.genea;
+              #  locations."/".tryFiles = "$uri /index.html";
+              #};
+              #virtualHosts."retina.norcivilianlabs.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #  '';
+              #  root = inputs.retina-tauri.packages.${pkgs.system}.webapp;
+              #  locations."/".tryFiles = "$uri /index.html";
+              #};
+              #virtualHosts."taiji.norcivilianlabs.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #  '';
+              #  root = inputs.retina-tauri.packages.${pkgs.system}.webapp;
+              #  locations."/".tryFiles = "$uri /index.html";
+              #};
+              #virtualHosts."static.qualifiedself.org" = {
+              #  enableACME = true;
+              #  forceSSL = true;
+              #  locations."/".extraConfig = ''
+              #    proxy_hide_header Upgrade;
+              #    autoindex on;
+              #  '';
+              #  root = "/var/www/static.qualifiedself.org";
+              #};
               virtualHosts."bling.norcivilianlabs.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/" = {
                 proxyPass = "http://127.0.0.1:7099";
+        proxyWebsockets = true; # needed if you need to use WebSocket
                   extraConfig = ''
                   proxy_hide_header Upgrade;
                   autoindex on;
@@ -450,8 +451,6 @@
 };
               };
             };
-
-            services.tailscale.enable = true;
 
             networking = {
               usePredictableInterfaceNames = false;
