@@ -438,6 +438,17 @@
                 '';
                 root = "/var/www/static.qualifiedself.org";
               };
+              virtualHosts."bling.norcivilianlabs.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/" = {
+                proxyPass = "http://127.0.0.1:7099";
+                  extraConfig = ''
+                  proxy_hide_header Upgrade;
+                  autoindex on;
+                '';
+};
+              };
             };
 
             services.tailscale.enable = true;
