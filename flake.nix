@@ -17,7 +17,7 @@
       inputs = { nixpkgs.follows = "nixpkgs-unstable"; };
     };
     evenor = {
-      url = "git+https://gitlab.com/norcivilian-labs/evenor?ref=main";
+      url = "git+https://gitlab.com/norcivilian-labs/evenor?ref=mobile";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     morio = {
@@ -360,16 +360,16 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
-              #virtualHosts."qua.qualifiedself.org" = {
-              #  enableACME = true;
-              #  forceSSL = true;
-              #  locations."/".extraConfig = ''
-              #    proxy_hide_header Upgrade;
-              #  '';
-              #  root = inputs.evenor.packages.${pkgs.system}.webapp;
-              #  locations."~ ^/$".tryFiles = "/overview.html /index.html";
-              #  locations."/".tryFiles = "$uri /index.html";
-              #};
+              virtualHosts."qua.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".extraConfig = ''
+                  proxy_hide_header Upgrade;
+                '';
+                root = inputs.evenor.packages.${pkgs.system}.webapp;
+                locations."~ ^/$".tryFiles = "/overview.html /index.html";
+                locations."/".tryFiles = "$uri /index.html";
+              };
               #virtualHosts."quiz.qualifiedself.org" = {
               #  enableACME = true;
               #  forceSSL = true;
@@ -560,6 +560,10 @@
               users.drjunja = {
                 isNormalUser = true;
                 extraGroups = [ "docker" ];
+              };
+              users.enkhe = {
+                isNormalUser = true;
+                extraGroups = [ ];
               };
               mutableUsers = true;
             };
