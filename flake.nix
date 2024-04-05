@@ -438,12 +438,12 @@
               #  '';
               #  root = "/var/www/static.qualifiedself.org";
               #};
-              virtualHosts."bling.norcivilianlabs.org" = {
+              virtualHosts."retina.norcivilianlabs.org" = {
                 enableACME = true;
                 forceSSL = true;
                 locations."/" = {
-                proxyPass = "http://127.0.0.1:7099";
-        proxyWebsockets = true; # needed if you need to use WebSocket
+                proxyPass = "http://127.0.0.1:1420";
+        #proxyWebsockets = true; # needed if you need to use WebSocket
                   extraConfig = ''
                   proxy_hide_header Upgrade;
                   autoindex on;
