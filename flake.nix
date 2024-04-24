@@ -353,6 +353,48 @@
               defaults.email = "fetsorn@gmail.com";
             };
 
+            age = {
+              secrets = {
+                gitea-dbpass = {
+                  file = ./secrets/gitea-dbpass.age;
+                  owner = "fetsorn";
+                  mode = "0444";
+                  group = "gitea";
+                };
+              };
+            };
+
+            services.gitea = {
+              enable = true;
+              database = {
+                type = "postgres";
+                passwordFile = "/run/agenix/gitea-dbpass";
+              };
+              lfs.enable = true;
+              dump = { # /var/lib/gitea/dump
+                enable = true;
+                interval = "monthly";
+              };
+              settings = {
+                repository = { DEFAULT_BRANCH = "main"; };
+                server = {
+                  ROOT_URL = "https://source.qualifiedself.org/";
+                  HTTP_PORT = 3001;
+                  DOMAIN = "source.qualifiedself.org";
+                };
+              };
+            };
+
+            services.postgresql = {
+              enable = true;
+              authentication = ''
+                local gitea all ident map=gitea-users
+              '';
+              identMap = ''
+                gitea-users gitea gitea
+              '';
+            };
+
             services.nginx = {
               enable = true;
               recommendedGzipSettings = true;
@@ -360,6 +402,41 @@
               recommendedProxySettings = true;
               recommendedTlsSettings = true;
               clientMaxBodySize = "100m";
+              commonHttpConfig = ''
+                map $http_origin $allow_origin {
+                    ~^https?://(.*\.)?(qualifiedself.org)(:\d+)?(/?)$ $http_origin;
+                    default "";
+                }
+              '';
+              virtualHosts."source.qualifiedself.org" = {
+                enableACME = true;
+                forceSSL = true;
+                locations."/".proxyPass = "http://localhost:3001/";
+                locations."/".extraConfig = ''
+                  if ($request_method = 'OPTIONS') {
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+                     return 204;
+                  }
+                  if ($request_method = 'POST') {
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+                  }
+                  if ($request_method = 'GET') {
+                     add_header 'Access-Control-Allow-Origin' $allow_origin always;
+                     add_header 'Access-Control-Allow-Credentials' 'true' always;
+                     add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS' always;
+                     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,x-authorization' always;
+                     add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+                  }
+                '';
+              };
               virtualHosts."qua.qualifiedself.org" = {
                 enableACME = true;
                 forceSSL = true;
@@ -442,13 +519,13 @@
                 enableACME = true;
                 forceSSL = true;
                 locations."/" = {
-                proxyPass = "http://127.0.0.1:1420";
-        #proxyWebsockets = true; # needed if you need to use WebSocket
+                  proxyPass = "http://127.0.0.1:1420";
+                  #proxyWebsockets = true; # needed if you need to use WebSocket
                   extraConfig = ''
-                  proxy_hide_header Upgrade;
-                  autoindex on;
-                '';
-};
+                    proxy_hide_header Upgrade;
+                    autoindex on;
+                  '';
+                };
               };
             };
 
